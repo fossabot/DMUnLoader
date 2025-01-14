@@ -11,15 +11,20 @@ let package = Package(
             name: "DMErrorHandling",
             targets: ["DMErrorHandling"]),
     ],
-    dependencies: [],
+    dependencies: [
+        .package(url: "https://github.com/GayleDunham/SwiftLintPlugin.git", branch: "main")
+    ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
         .target(
-            name: "DMErrorHandling"),
+            name: "DMErrorHandling",
+            plugins: [ .plugin(name: "SwiftLintBuildTool", package: "SwiftLintPlugin") ]
+        ),
         .testTarget(
             name: "DMErrorHandlingTests",
-            dependencies: ["DMErrorHandling"]
+            dependencies: ["DMErrorHandling"],
+            plugins: [ .plugin(name: "SwiftLintBuildTool", package: "SwiftLintPlugin") ]
         ),
     ]
 )
