@@ -3,13 +3,15 @@
 
 import PackageDescription
 
-let package = Package(
+// swiftlint:disable:next explicit_type_interface prefixed_toplevel_constant
+internal let package = Package(
     name: "DMErrorHandling",
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
             name: "DMErrorHandling",
-            targets: ["DMErrorHandling"]),
+            targets: ["DMErrorHandling"]
+        ),
     ],
     dependencies: [
         .package(url: "https://github.com/GayleDunham/SwiftLintPlugin.git", branch: "main")

@@ -1,8 +1,9 @@
 import XCTest
+
 @testable import DMErrorHandling
 
-final class DMErrorHandlingTests: XCTestCase {
-    func testExample() throws {
+internal final class DMErrorHandlingTests: XCTestCase {
+    internal func testExample() throws {
         // XCTest Documentation
         // https://developer.apple.com/documentation/xctest
 
