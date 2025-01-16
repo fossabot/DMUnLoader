@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2FC9A6EF2D382C5E00A8763D /* DMErrorHandling in Frameworks */ = {isa = PBXBuildFile; productRef = 2FC9A6EE2D382C5E00A8763D /* DMErrorHandling */; };
+		2FC9A6F22D38317C00A8763D /* DMErrorHandling in Frameworks */ = {isa = PBXBuildFile; productRef = 2FC9A6F12D38317C00A8763D /* DMErrorHandling */; };
+		2FC9A6F52D3831E800A8763D /* DMErrorHandling in Frameworks */ = {isa = PBXBuildFile; productRef = 2FC9A6F42D3831E800A8763D /* DMErrorHandling */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,7 +57,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2FC9A6EF2D382C5E00A8763D /* DMErrorHandling in Frameworks */,
+				2FC9A6F22D38317C00A8763D /* DMErrorHandling in Frameworks */,
+				2FC9A6F52D3831E800A8763D /* DMErrorHandling in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -117,7 +119,8 @@
 			);
 			name = DMErrorHandlingSPMExample;
 			packageProductDependencies = (
-				2FC9A6EE2D382C5E00A8763D /* DMErrorHandling */,
+				2FC9A6F12D38317C00A8763D /* DMErrorHandling */,
+				2FC9A6F42D3831E800A8763D /* DMErrorHandling */,
 			);
 			productName = DMErrorHandlingSPMExample;
 			productReference = 2F9A4B782D3677E60046FDE6 /* DMErrorHandlingSPMExample.app */;
@@ -202,7 +205,7 @@
 			mainGroup = 2F9A4B6F2D3677E60046FDE6;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				2FC9A6ED2D382C5E00A8763D /* XCLocalSwiftPackageReference "../../DMErrorHandling" */,
+				2FC9A6F32D3831E800A8763D /* XCLocalSwiftPackageReference "../../DMErrorHandling" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 2F9A4B792D3677E60046FDE6 /* Products */;
@@ -569,14 +572,18 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		2FC9A6ED2D382C5E00A8763D /* XCLocalSwiftPackageReference "../../DMErrorHandling" */ = {
+		2FC9A6F32D3831E800A8763D /* XCLocalSwiftPackageReference "../../DMErrorHandling" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = ../../DMErrorHandling;
 		};
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		2FC9A6EE2D382C5E00A8763D /* DMErrorHandling */ = {
+		2FC9A6F12D38317C00A8763D /* DMErrorHandling */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = DMErrorHandling;
+		};
+		2FC9A6F42D3831E800A8763D /* DMErrorHandling */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = DMErrorHandling;
 		};

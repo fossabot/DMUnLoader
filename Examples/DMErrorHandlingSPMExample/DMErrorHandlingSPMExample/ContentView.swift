@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-//import DMErrrorHandling
+import DMErrorHandling
 
 struct ContentView: View {
     var body: some View {
