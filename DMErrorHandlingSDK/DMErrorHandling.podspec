@@ -12,10 +12,10 @@ TODO: Add long description of the pod here.
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'Nikolay Dementiev' => 'nikolas.dementiev@gmail.com' }
   s.ios.deployment_target = "15.0"
-  s.osx.deployment_target = "10.13"
-  s.tvos.deployment_target = "12.0"
-  s.watchos.deployment_target = "4.0"
-  s.visionos.deployment_target = "1.0"
+  #s.osx.deployment_target = "10.13"
+  #s.tvos.deployment_target = "12.0"
+  s.watchos.deployment_target = "7.0"
+  #s.visionos.deployment_target = "1.0"
   
   s.source           = { :git => 'https://github.com/nikolay-dementiev/DMErrorHandling.git', :tag => "v#{s.version}" }
   s.ios.deployment_target = '15.0'

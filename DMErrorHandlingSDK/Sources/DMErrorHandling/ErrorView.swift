@@ -10,10 +10,10 @@ import SwiftUI
 public struct ErrorView: View {
     let error: Error
     let onRetry: (() -> Void)?
-
+    
     public var body: some View {
         VStack {
-//            Image(.error)
+            //Image(.error)
             Text("An error has occured")
             Text(error.localizedDescription)
             Button("Retry") { onRetry?() }
@@ -23,5 +23,5 @@ public struct ErrorView: View {
 
 #Preview {
     ErrorView(error: DMAppError.custom(errorDescription: "Some error Test"),
-              onRetry: nil )
+              onRetry: nil)
 }
