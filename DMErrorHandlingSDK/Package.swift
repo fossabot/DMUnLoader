@@ -33,7 +33,10 @@ let package = Package(
         .target(
             name: "DMErrorHandling",
             path: "Sources",
-            exclude: ["Deprecated"],
+            exclude: [
+                "Deprecated"
+                     /*,"Sources/DMErrorHandling/Helpers/Extensions"*/
+            ],
             plugins: [ .plugin(name: "SwiftLintBuildTool", package: "SwiftLintPlugin") ]
         ),
         .testTarget(
