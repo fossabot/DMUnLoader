@@ -17,11 +17,13 @@ public protocol LoadingViewScene {
 
 ///This extension provide default implementation of `View` as loading indicatior by itself
 public extension LoadingViewScene where Self: View {
-    static func getSettingsProvider() -> DMLoadingViewSettings {
-        DMLoadingDefaultViewSettings()
-    }
-    
     func getLoadingView() -> AnyView {
         AnyView(self)
+    }
+}
+
+public extension LoadingViewScene {
+    static func getSettingsProvider() -> DMLoadingViewSettings {
+        DMLoadingDefaultViewSettings()
     }
 }
