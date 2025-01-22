@@ -1,5 +1,5 @@
 PODS:
-  - DMErrorHandling (0.1.4)
+  - DMErrorHandling (0.1.8)
 
 DEPENDENCIES:
   - DMErrorHandling (from `../../`)
@@ -9,8 +9,8 @@ EXTERNAL SOURCES:
     :path: "../../"
 
 SPEC CHECKSUMS:
-  DMErrorHandling: 1c60c97151c07184edcc0822ada5b049f11d1b8b
+  DMErrorHandling: 560d0cd1057cca5703c58393b50563193e40596d
 
-PODFILE CHECKSUM: df8bcbd9705964bca9f7ec4a5747e0976c8a1304
+PODFILE CHECKSUM: 21c971ab23bb21c37e802c785a619b45c5830ee1
 
 COCOAPODS: 1.16.2

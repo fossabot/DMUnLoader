@@ -13,10 +13,42 @@ import SwiftUI
 //    case success(Value)
 //}
 
-public enum LoadableType {
+public enum LoadableType: Hashable, RawRepresentable {
+    public typealias RawValue = String
+    
     case loading
     case failure(error: Error, onRetry: (() -> Void)? = nil)
     case success(Any) //TODO: need to wrap into some protocol to omit caseting from Any
+    case none
+    
+    public var rawValue: RawValue {
+        let rawValueForReturn: RawValue
+        switch self {
+        case .loading:
+            rawValueForReturn = "Loading"
+        case .failure(let error, _):
+            rawValueForReturn = "Error: \(error)"
+        case .success(let message):
+            rawValueForReturn = "Success: \(message)"
+        case .none:
+            rawValueForReturn = "None"
+        }
+        
+        return rawValueForReturn
+    }
+    
+    public init?(rawValue: RawValue) {
+        nil
+    }
+    
+    public static func == (lhs: LoadableType,
+                           rhs: LoadableType) -> Bool {
+        lhs.hashValue == rhs.hashValue
+    }
+    
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(rawValue)
+    }
 }
 
 //public struct LoadableView<T, U: View>: View {
@@ -27,27 +59,29 @@ public enum LoadableType {
 
 //DMProgressLoadingView<Content>: View, LoadingViewScene where Content: View
 
-public struct LoadableView: View {
+
+/*
+public struct LoadableView<Content: View>: View {
+    //static let shared: LoadableView = LoadableView()
+    
     //public struct LoadableView<T>: View {
-    let type: LoadableType
+    @Binding internal var type: LoadableType
 //    @ViewBuilder let onSuccess: (Any) -> Void
 //    let onSuccess: (Any) -> Void
     
 //    let onRetry: (() -> Void)?
     
-//    let content: () -> Content
+    private let content: () -> Content
     
     public let loadingViewScene: LoadingViewScene = DMNativeProgressView()
     
     //    @State private var isLoading: Bool = true
     
     //@MainActor
-    public init(type: LoadableType) {
-        self.type = type
-    }
-    
-    public init() {
-        self.type = .loading
+    public init(type: Binding<LoadableType>,
+                @ViewBuilder content: @escaping () -> Content) {
+        self._type = type
+        self.content = content
     }
     
     public var body: some View {
@@ -60,10 +94,9 @@ public struct LoadableView: View {
              }.navigationBarTitle(Text("A List"), displayMode: .large)
              }
              */
-            Color(.clear)
+            self.content()
                 .disabled(isLoading)
                 .blur(radius: isLoading ? 3 : 0)
-                .ignoresSafeArea()
             
             switch type {
             case .loading:
@@ -79,12 +112,17 @@ public struct LoadableView: View {
         
     }
 }
+ */
 
-#Preview {
-//    LoadableView<Loadable<Float>>(element: .loading)
-//    let successBlock: (Any) -> Void = { _ in print("success") }
-//    
-//    LoadableView(element: .loading,
-//                 onSuccess: successBlock)
-    LoadableView(type: .loading)
-}
+//#Preview {
+////    LoadableView<Loadable<Float>>(element: .loading)
+////    let successBlock: (Any) -> Void = { _ in print("success") }
+////    
+////    LoadableView(element: .loading,
+////                 onSuccess: successBlock)
+//    LoadableView(type: .loading) {
+//        List(["1", "2", "3", "4", "5"], id: \.self) { row in
+//            Text(row)
+//        }.navigationBarTitle(Text("A List"), displayMode: .large)
+//    }
+//}

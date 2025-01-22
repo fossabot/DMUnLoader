@@ -25,6 +25,8 @@ public enum AlertViewStatus: RawRepresentable {
             rawValueForReturn = .loadaingSuccessed
         case .loadable(.failure):
             rawValueForReturn = .loadaingFailured
+        case .loadable(.none):
+            rawValueForReturn = .none
         }
         
         return rawValueForReturn
@@ -38,7 +40,8 @@ public enum AlertViewStatus: RawRepresentable {
         case unknown,
              loadaingInProcess,
              loadaingSuccessed,
-             loadaingFailured
+             loadaingFailured,
+             none
     }
 }
 
