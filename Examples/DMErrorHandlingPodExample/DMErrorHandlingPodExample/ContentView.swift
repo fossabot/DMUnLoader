@@ -96,59 +96,119 @@ import DMErrorHandling
 //                       trailing: 0))
 //    }
 //}
+
+//struct ContentView: View {
+//    @State private var loadableState: LoadableType = .none
+//
+//    var body: some View {
+//        VStack {
+//            Text("Основний вміст")
+//            
+//            Button("Показати завантаження") {
+//                showLoading()
+//            }
+//            
+//            Button("Симулювати помилку") {
+//                showFailure()
+//            }
+//            
+//            Button("Симулювати успіх") {
+//                showSuccess()
+//            }
+//            
+//            Button("Приховати завантаження") {
+//                hideLoading()
+//            }
+//        }
+//        .loadingOverlay(loadableState: $loadableState)
+//    }
+//
+//    private func showLoading() {
+//        loadableState = .loading
+//        Task {
+//            await simulateTask()
+//        }
+//    }
+//
+//    private func showFailure() {
+//        loadableState = .failure(error: NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "Не вдалося завантажити дані."]), onRetry: {
+//            showLoading()
+//        })
+//    }
+//
+//    private func showSuccess() {
+//        loadableState = .success("Дані успішно завантажено!")
+//    }
+//
+//    private func hideLoading() {
+//        loadableState = .none
+//    }
+//
+//    private func simulateTask() async {
+//        try? await Task.sleep(for: .seconds(3))
+//        await MainActor.run {
+//            showSuccess()
+//        }
+//    }
+//}
+
 struct ContentView: View {
-    @State private var loadableState: LoadableType = .none
+    @EnvironmentObject var loadingManager: LoadingManager
 
     var body: some View {
         VStack {
             Text("Основний вміст")
-            
+                .padding()
+
             Button("Показати завантаження") {
-                showLoading()
+                startLoadingAction()
             }
             
             Button("Симулювати помилку") {
-                showFailure()
+                let error = NSError(domain: "Завантаження", code: 404, userInfo: [NSLocalizedDescriptionKey: "Не вдалося завантажити дані."])
+                loadingManager.showFailure(error) {
+                    startLoadingAction()
+                }
             }
-            
+
             Button("Симулювати успіх") {
-                showSuccess()
+                loadingManager.showSuccess("Дані успішно завантажено!")
             }
-            
+
             Button("Приховати завантаження") {
-                hideLoading()
+                loadingManager.hide()
             }
         }
-        .loadingOverlay(loadableState: $loadableState)
+        
+        //#2
+//        .autoLoading(loadingManager)
     }
-
-    private func showLoading() {
-        loadableState = .loading
+    
+    private func startLoadingAction() {
+        loadingManager.showLoading()
         Task {
             await simulateTask()
         }
     }
 
-    private func showFailure() {
-        loadableState = .failure(error: NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "Не вдалося завантажити дані."]), onRetry: {
-            showLoading()
-        })
-    }
-
-    private func showSuccess() {
-        loadableState = .success("Дані успішно завантажено!")
-    }
-
-    private func hideLoading() {
-        loadableState = .none
-    }
-
     private func simulateTask() async {
-        try? await Task.sleep(for: .seconds(3))
+        try? await Task.sleep(for: .seconds(6))
         await MainActor.run {
-            showSuccess()
+            loadingManager.showSuccess("Успішно завершено!")
+            
+//            Task {
+//                await handleCompletion()
+//            }
         }
     }
+    
+//    private func handleCompletion() async {
+//            try? await Task.sleep(for: .seconds(5))
+//            await MainActor.run {
+//                print("Минуло 5 секунд після завершення операції")
+//                // Додай тут потрібний метод
+//            }
+//        }
 }
 
 #Preview {

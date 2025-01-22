@@ -6,12 +6,20 @@
 //
 
 import SwiftUI
+import DMErrorHandling
 
 @main
 struct DMErrorHandlingPodExampleApp: App {
+//    @StateObject private var loadingManager = LoadingManager()
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            RootLoadingView {
+                ContentView()
+            }
+//            #2
+//            ContentView()
+//                .environmentObject(loadingManager)
         }
     }
 }
