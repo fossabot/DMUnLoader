@@ -9,9 +9,11 @@ import SwiftUI
 
 ///This protocol provide various loadingView that can uses for LoadingView
 ///check for detail: https://stackoverflow.com/a/65585090/6643923
-//@MainActor
+
 public protocol LoadingViewScene {
     static func getSettingsProvider() -> DMLoadingViewSettings
+    
+    //TODO: Get rid of `AnyView` -> wrap it somehow
     func getLoadingView() -> AnyView
 }
 

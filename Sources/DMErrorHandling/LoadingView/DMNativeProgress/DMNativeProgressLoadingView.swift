@@ -43,7 +43,7 @@ public struct DMLoadingDefaultViewSettings: DMLoadingViewSettings {
     public let loadingContainerCornerRadius: CGFloat
     public let loadingContainerCornerOpacity: Double
     
-    public init(loadingText: String = "Loading...",
+    public init(loadingText: String = "Loading... Loading... Loading... Loading... Loading... Loading... Loading... Loading... Loading... Loading...",
                 loadingTextAlignment: TextAlignment = .center,
                 loadingTextForegroundColor: Color = .black,
                 loadingTextFont: Font = .body,
@@ -87,7 +87,7 @@ internal struct DMNativeProgressView: View, LoadingViewScene {
     }
     
     internal var body: some View {
-        GeometryReader { geometry in
+//        GeometryReader { geometry in
             ZStack(alignment: .center) {
                 
                 VStack {
@@ -102,20 +102,20 @@ internal struct DMNativeProgressView: View, LoadingViewScene {
                         .progressViewStyle(.circular) // .linear
                         .tint(settingsProvider.progressIndicatorTintColor)
                 }
-                .frame(minWidth: geometry.size.width / 3,
-                       maxWidth: geometry.size.width / 2,
-                       minHeight: geometry.size.height / 7,
-                       maxHeight: geometry.size.height / 5
-                )
-                .background(settingsProvider.loadingContainerBackgroundView)
+//                .frame(minWidth: geometry.size.width / 3,
+//                       maxWidth: geometry.size.width / 2,
+//                       minHeight: geometry.size.height / 7,
+//                       maxHeight: geometry.size.height / 5
+//                )
+//                .background(settingsProvider.loadingContainerBackgroundView)
                 .foregroundColor(settingsProvider.loadingContainerForegroundColor)
-                .cornerRadius(settingsProvider.loadingContainerCornerRadius)
-                .opacity(settingsProvider.loadingContainerCornerOpacity)
+//                .cornerRadius(settingsProvider.loadingContainerCornerRadius)
+//                .opacity(settingsProvider.loadingContainerCornerOpacity)
                 
             }
-            .frame(maxWidth: .infinity,
-                   maxHeight: .infinity)
-        }
+//            .frame(maxWidth: .infinity,
+//                   maxHeight: .infinity)
+//        }
     }
 }
 

@@ -166,9 +166,10 @@ struct ContentView: View {
             
             Button("Симулювати помилку") {
                 let error = NSError(domain: "Завантаження", code: 404, userInfo: [NSLocalizedDescriptionKey: "Не вдалося завантажити дані."])
-                loadingManager.showFailure(error) {
+                loadingManager.showFailure(error,
+                                           onRetry: {
                     startLoadingAction()
-                }
+                })
             }
 
             Button("Симулювати успіх") {
@@ -195,22 +196,10 @@ struct ContentView: View {
         try? await Task.sleep(for: .seconds(6))
         await MainActor.run {
             loadingManager.showSuccess("Успішно завершено!")
-            
-//            Task {
-//                await handleCompletion()
-//            }
         }
     }
-    
-//    private func handleCompletion() async {
-//            try? await Task.sleep(for: .seconds(5))
-//            await MainActor.run {
-//                print("Минуло 5 секунд після завершення операції")
-//                // Додай тут потрібний метод
-//            }
-//        }
 }
 
-#Preview {
-    ContentView()
-}
+//#Preview {
+//    ContentView()
+//}

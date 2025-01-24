@@ -18,7 +18,7 @@ public enum LoadableType: Hashable, RawRepresentable {
     
     case loading
     case failure(error: Error, onRetry: (() -> Void)? = nil)
-    case success(Any) //TODO: need to wrap into some protocol to omit caseting from Any
+    case success(Any) //TODO: need to wrap into some protocol to omit casting from Any
     case none
     
     public var rawValue: RawValue {

@@ -4,7 +4,7 @@ def shared_pods_for_testing
 #  pod 'Nimble', '~> 11.2.1'
 end
 
-platform :ios, '15.0'
+platform :ios, '16.0'
 
 target 'DMErrorHandlingPodExample' do
   use_frameworks!

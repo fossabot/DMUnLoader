@@ -1,7 +1,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'DMErrorHandling'
-  s.version          = '0.1.8'
+  s.version          = '0.1.10'
   s.summary          = 'Error handling SDK'
   s.description      = <<-DESC
   
