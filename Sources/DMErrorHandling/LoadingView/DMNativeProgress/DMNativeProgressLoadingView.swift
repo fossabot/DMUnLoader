@@ -20,41 +20,37 @@ public protocol DMLoadingViewSettings {
     var progressIndicatorSize: ControlSize { get }
     var progressIndicatorTintColor: Color? { get }
     
-    var loadingContainerBackgroundView: AnyView { get }
     var loadingContainerForegroundColor: Color { get }
-    var loadingContainerCornerRadius: CGFloat { get }
-    var loadingContainerCornerOpacity: Double { get }
+    
+    var deviceParameters: DeviceParameters { get }
 }
 
 //default implementation of settings
-public struct DMLoadingDefaultViewSettings: DMLoadingViewSettings {
-    public let loadingText: String
-    public let loadingTextAlignment: TextAlignment
-    public let loadingTextForegroundColor: Color
-    public let loadingTextFont: Font
-    public let loadingTextLineLimit: Int?
-    public let loadingTextLinePadding: EdgeInsets
+internal struct DMLoadingDefaultViewSettings: DMLoadingViewSettings {
+    internal let loadingText: String
+    internal let loadingTextAlignment: TextAlignment
+    internal let loadingTextForegroundColor: Color
+    internal let loadingTextFont: Font
+    internal let loadingTextLineLimit: Int?
+    internal let loadingTextLinePadding: EdgeInsets
     
-    public let progressIndicatorSize: ControlSize
-    public let progressIndicatorTintColor: Color?
+    internal let progressIndicatorSize: ControlSize
+    internal let progressIndicatorTintColor: Color?
     
-    public let loadingContainerBackgroundView: AnyView
-    public let loadingContainerForegroundColor: Color
-    public let loadingContainerCornerRadius: CGFloat
-    public let loadingContainerCornerOpacity: Double
+    internal let loadingContainerForegroundColor: Color
     
-    public init(loadingText: String = "Loading... Loading... Loading... Loading... Loading... Loading... Loading... Loading... Loading... Loading...",
+    internal var deviceParameters: DeviceParameters
+    
+    public init(loadingText: String = "Loading...",
                 loadingTextAlignment: TextAlignment = .center,
-                loadingTextForegroundColor: Color = .black,
+                loadingTextForegroundColor: Color = .white,
                 loadingTextFont: Font = .body,
                 loadingTextLineLimit: Int? = 3,
                 loadingTextLinePadding: EdgeInsets? = nil, //can't use extension's init due to it's has `internal` access lewel
                 progressIndicatorSize: ControlSize = .large,
-                progressIndicatorTintColor: Color? = nil,
-                loadingContainerBackgroundView: AnyView = AnyView(Color.secondary.colorInvert()),
+                progressIndicatorTintColor: Color? = .white,
                 loadingContainerForegroundColor: Color = Color.primary,
-                loadingContainerCornerRadius: CGFloat = 20,
-                loadingContainerCornerOpacity: Double = 1) {
+                deviceParameters: DeviceParameters = DMDeviceParameters()) {
         
         self.loadingText = loadingText
         self.loadingTextAlignment = loadingTextAlignment
@@ -67,10 +63,9 @@ public struct DMLoadingDefaultViewSettings: DMLoadingViewSettings {
         self.progressIndicatorSize = progressIndicatorSize
         self.progressIndicatorTintColor = progressIndicatorTintColor
         
-        self.loadingContainerBackgroundView = loadingContainerBackgroundView
         self.loadingContainerForegroundColor = loadingContainerForegroundColor
-        self.loadingContainerCornerRadius = loadingContainerCornerRadius
-        self.loadingContainerCornerOpacity = loadingContainerCornerOpacity
+        
+        self.deviceParameters = deviceParameters
     }
 }
 
@@ -87,35 +82,34 @@ internal struct DMNativeProgressView: View, LoadingViewScene {
     }
     
     internal var body: some View {
-//        GeometryReader { geometry in
-            ZStack(alignment: .center) {
-                
-                VStack {
-                    Text(settingsProvider.loadingText)
-                        .multilineTextAlignment(.center)
-                        .foregroundColor(settingsProvider.loadingTextForegroundColor)
-                        .font(settingsProvider.loadingTextFont)
-                        .lineLimit(settingsProvider.loadingTextLineLimit)
-                        .padding(settingsProvider.loadingTextLinePadding)
-                    ProgressView()
-                        .controlSize(settingsProvider.progressIndicatorSize)
-                        .progressViewStyle(.circular) // .linear
-                        .tint(settingsProvider.progressIndicatorTintColor)
-                }
-//                .frame(minWidth: geometry.size.width / 3,
-//                       maxWidth: geometry.size.width / 2,
-//                       minHeight: geometry.size.height / 7,
-//                       maxHeight: geometry.size.height / 5
-//                )
-//                .background(settingsProvider.loadingContainerBackgroundView)
-                .foregroundColor(settingsProvider.loadingContainerForegroundColor)
-//                .cornerRadius(settingsProvider.loadingContainerCornerRadius)
-//                .opacity(settingsProvider.loadingContainerCornerOpacity)
-                
+        let geometry = type(of: settingsProvider.deviceParameters).deviceScreenSize
+        ZStack(alignment: .center) {
+            
+            let minSize = min(geometry.width - 20,
+                              geometry.height - 20,
+                              30)
+            VStack {
+                Text(settingsProvider.loadingText)
+                    .multilineTextAlignment(.center)
+                    .foregroundColor(settingsProvider.loadingTextForegroundColor)
+                    .font(settingsProvider.loadingTextFont)
+                    .lineLimit(settingsProvider.loadingTextLineLimit)
+                    .padding(settingsProvider.loadingTextLinePadding)
+                ProgressView()
+                    .controlSize(settingsProvider.progressIndicatorSize)
+                    .progressViewStyle(.circular) // .linear
+                    .tint(settingsProvider.progressIndicatorTintColor)
+                    .layoutPriority(1)
             }
-//            .frame(maxWidth: .infinity,
-//                   maxHeight: .infinity)
-//        }
+            .frame(minWidth: minSize,
+                   maxWidth: geometry.width / 2,
+                   minHeight: minSize,
+                   maxHeight: geometry.height / 2)
+            .fixedSize()
+            .foregroundColor(settingsProvider.loadingContainerForegroundColor)
+//            .debugLog("VStack")
+        }
+        //.debugLog("ZStack")
     }
 }
 

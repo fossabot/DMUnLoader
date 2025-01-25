@@ -16,8 +16,7 @@ import WatchKit
 /// which this SDK support
 /// e.g. iOS, watchOS,...
 ///
-@MainActor
-internal protocol DeviceParameters {
+public protocol DeviceParameters {
     static var deviceScreenSize: CGSize { get }
 }
 
@@ -26,7 +25,7 @@ internal protocol DeviceParameters {
 /// which this SDK support
 /// e.g. iOS, watchOS,...
 ///
-@MainActor internal struct DMDeviceParameters: DeviceParameters {
+internal struct DMDeviceParameters: DeviceParameters {
     
     static var deviceScreenSize: CGSize = {
         let deviceSize: CGSize

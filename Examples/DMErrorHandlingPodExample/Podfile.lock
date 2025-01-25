@@ -1,5 +1,5 @@
 PODS:
-  - DMErrorHandling (0.1.10)
+  - DMErrorHandling (0.1.11)
 
 DEPENDENCIES:
   - DMErrorHandling (from `../../`)
@@ -9,7 +9,7 @@ EXTERNAL SOURCES:
     :path: "../../"
 
 SPEC CHECKSUMS:
-  DMErrorHandling: 47d0a6c34f73fe4854900659488dce35022e5568
+  DMErrorHandling: f0a31dbb6b94cf964d69caff108cdbc57dbd634a
 
 PODFILE CHECKSUM: c564a3d0ae0eefaa01c6d57dc9edd1ef34add901
 
