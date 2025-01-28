@@ -29,4 +29,33 @@ internal extension View {
     func debugLog(_ name: String) -> some View {
         DebugLayout(name: name) { self }
     }
+    
+    /*
+    func debugType() -> Self {
+        let type = Mirror(reflecting: self).subjectType
+        print(type)
+        return self
+    }
+     */
+    
+    func printOutput(_ value: Any) -> Self {
+        print(value)
+        return self
+    }
+    
+    func debugAction(_ closure: () -> Void) -> Self {
+#if DEBUG
+        closure()
+#endif
+        
+        return self
+    }
+    
+//    func _printChanges() -> some View {
+//#if DEBUG
+//        let _ = Self._printChanges()
+//#endif
+//        return EmptyView()
+//    }
 }
+

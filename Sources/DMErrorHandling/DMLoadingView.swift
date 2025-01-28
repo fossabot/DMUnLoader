@@ -31,7 +31,8 @@ internal struct DMLoadingView<Provider: DMLoadingViewProvider>: View {
                             loadingManager.provider.getLoadingView()
                         case .failure(let error, let onRetry):
                             loadingManager.provider.getErrorView(error: error,
-                                                                 onRetry: onRetry)
+                                                                 onRetry: onRetry,
+                                                                 onClose: loadingManager.hide)
                         case .success(let object):
                             loadingManager.provider.getSuccessView(message: object)
                         case .none:

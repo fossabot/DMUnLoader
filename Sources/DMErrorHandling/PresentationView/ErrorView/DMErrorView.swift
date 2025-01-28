@@ -26,6 +26,9 @@ internal struct DMErrorDefaultViewSettings: DMErrorViewSettings {
     }
 }
 
+//TODO: adopt all for accesssability
+//https://developer.apple.com/videos/play/wwdc2021/10119
+//https://developer.apple.com/videos/play/wwdc2019/238
 
 internal struct DMErrorView: View, DMErrorViewScene {
     
@@ -33,8 +36,9 @@ internal struct DMErrorView: View, DMErrorViewScene {
     
     internal let error: Error
     internal let onRetry: (() -> Void)?
+    internal let onClose: () -> Void
     
-    @Environment(\.presentationMode) private var presentationMode
+    //@Environment(\.presentationMode) private var presentationMode
 
     
     /// provides an initializer for instance.
@@ -43,13 +47,16 @@ internal struct DMErrorView: View, DMErrorViewScene {
     /// `Self.getSettingsProvider()` by `LoadingViewScene` protocol responsibility
     internal init(settingsProvider: DMErrorViewSettings = Self.getSettingsProvider(),
                   error: Error,
-                  onRetry: (() -> Void)? = nil) {
+                  onRetry: (() -> Void)? = nil,
+                  onClose: @escaping () -> Void) {
         self.settingsProvider = settingsProvider
         self.error = error
         self.onRetry = onRetry
+        self.onClose = onClose
     }
     
     internal var body: some View {
+        
         VStack {
             settingsProvider.errorImage
                 .resizable()
@@ -67,24 +74,24 @@ internal struct DMErrorView: View, DMErrorViewScene {
                 .multilineTextAlignment(.center)
             
             HStack {
+                //TODO: connect CloseButtonView and check layout
+                /*
                 CloseButtonView {
                     self.presentationMode.wrappedValue.dismiss()
-                }
+                }*/
+                Button("Close", action: onClose)
                 .padding()
                 .background(Color.white)
                 .cornerRadius(8)
-                
+
                 //TODO: obtain all variables from `settingsProvider`
                 if let onRetry = onRetry {
-                    Button("Retry") {
-                        onRetry()
-                    }
+                    Button("Retry", action: onRetry)
                     .padding()
                     .background(Color.white)
                     .cornerRadius(8)
                 }
             }
-            
         }
     }
 }

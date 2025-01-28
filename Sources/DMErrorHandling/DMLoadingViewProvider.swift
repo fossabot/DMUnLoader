@@ -16,7 +16,9 @@ public protocol DMLoadingViewProvider {
     @MainActor
     func getLoadingView() -> LoadingViewType
     @MainActor
-    func getErrorView(error: Error, onRetry: (() -> Void)?) -> ErrorViewType
+    func getErrorView(error: Error,
+                      onRetry: (() -> Void)?,
+                      onClose: @escaping () -> Void) -> ErrorViewType
     @MainActor
     func getSuccessView(message: Any) -> SuccessViewType
 }
@@ -33,8 +35,12 @@ public struct DefaultDMLoadingViewProvider: DMLoadingViewProvider {
     }
     
     @MainActor
-    public func getErrorView(error: Error, onRetry: (() -> Void)?) -> some View {
-        DMErrorView(error: error, onRetry: onRetry)
+    public func getErrorView(error: Error,
+                             onRetry: (() -> Void)?,
+                             onClose: @escaping () -> Void) -> some View {
+        DMErrorView(error: error,
+                    onRetry: onRetry,
+                    onClose: onClose)
     }
     
     @MainActor
