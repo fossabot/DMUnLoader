@@ -27,7 +27,7 @@ internal struct DMErrorDefaultViewSettings: DMErrorViewSettings {
 }
 
 
-internal struct ErrorView: View, ErrorViewScene {
+internal struct DMErrorView: View, DMErrorViewScene {
     
     internal let settingsProvider: DMErrorViewSettings
     
@@ -50,12 +50,6 @@ internal struct ErrorView: View, ErrorViewScene {
     }
     
     internal var body: some View {
-        //        VStack {
-        //            //Image(.error)
-        //            Text("An error has occured")
-        //            Text(error.localizedDescription)
-        //            Button("Retry") { onRetry?() }
-        //        }
         VStack {
             settingsProvider.errorImage
                 .resizable()

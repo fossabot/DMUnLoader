@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  DMLoadableType.swift
 //  DMErrorHandling
 //
 //  Created by Nikolay Dementiev on 16.01.2025.
@@ -13,7 +13,7 @@ import SwiftUI
 //    case success(Value)
 //}
 
-public enum LoadableType: Hashable, RawRepresentable {
+public enum DMLoadableType: Hashable, RawRepresentable {
     public typealias RawValue = String
     
     case loading
@@ -41,8 +41,8 @@ public enum LoadableType: Hashable, RawRepresentable {
         nil
     }
     
-    public static func == (lhs: LoadableType,
-                           rhs: LoadableType) -> Bool {
+    public static func == (lhs: DMLoadableType,
+                           rhs: DMLoadableType) -> Bool {
         lhs.hashValue == rhs.hashValue
     }
     

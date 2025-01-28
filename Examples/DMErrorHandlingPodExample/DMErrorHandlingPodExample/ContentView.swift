@@ -152,8 +152,8 @@ import DMErrorHandling
 //    }
 //}
 
-struct ContentView<Provider: LoadingViewProvider>: View {
-    @EnvironmentObject var loadingManager: LoadingManager<Provider>
+struct ContentView<Provider: DMLoadingViewProvider>: View {
+    @EnvironmentObject var loadingManager: DMLoadingManager<Provider>
     
     private let provider: Provider
     

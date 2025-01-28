@@ -1,5 +1,5 @@
 //
-//  LoadingManager.swift
+//  DMLoadingManager.swift
 //  DMErrorHandling
 //
 //  Created by Nikolay Dementiev on 24.01.2025.
@@ -8,11 +8,11 @@
 import Foundation
 import Combine
 
-public protocol LoadingManagerSettings {
+public protocol DMLoadingManagerSettings {
     var autoHideDelay: Duration { get }
 }
 
-internal struct LoadingManagerDefaultSettings: LoadingManagerSettings {
+internal struct DMLoadingManagerDefaultSettings: DMLoadingManagerSettings {
     let autoHideDelay: Duration
     
     internal init(autoHideDelay: Duration = .seconds(2)) {
@@ -22,18 +22,18 @@ internal struct LoadingManagerDefaultSettings: LoadingManagerSettings {
 
 /// ViewModel to save loading state
 //TODO: make LoadingManager as @Sendable
-public final class LoadingManager<Provider: LoadingViewProvider>: ObservableObject {
-    public let settings: LoadingManagerSettings
+public final class DMLoadingManager<Provider: DMLoadingViewProvider>: ObservableObject {
+    public let settings: DMLoadingManagerSettings
     public let provider: Provider
     
-    @Published internal(set) public var loadableState: LoadableType = .none
+    @Published internal(set) public var loadableState: DMLoadableType = .none
     private var inactivityTimerCancellable: AnyCancellable?
     
-    public init(loadableState: LoadableType = .none,
-                settings: LoadingManagerSettings? = nil,
-                provider: Provider = DefaultLoadingViewProvider()) {
+    public init(loadableState: DMLoadableType = .none,
+                settings: DMLoadingManagerSettings? = nil,
+                provider: Provider = DefaultDMLoadingViewProvider()) {
         self.loadableState = loadableState
-        self.settings = settings ?? LoadingManagerDefaultSettings()
+        self.settings = settings ?? DMLoadingManagerDefaultSettings()
         self.provider = provider
     }
     
@@ -69,11 +69,11 @@ public final class LoadingManager<Provider: LoadingViewProvider>: ObservableObje
     // Start inactivity timer
     private func startInactivityTimer() {
         stopInactivityTimer()
-        let interval: TimeInterval = settings.autoHideDelay.timeInterval
-        inactivityTimerCancellable = Timer.publish(every: interval, on: .main, in: .common)
+        inactivityTimerCancellable = Timer.publish(every: settings.autoHideDelay.timeInterval,
+                                                   on: .main,
+                                                   in: .common)
             .autoconnect()
             .sink { [weak self] _ in
-                print(#function + ": hide: Close form after `\(interval)` second(/s) of inactivity")
                 self?.hide()
             }
     }

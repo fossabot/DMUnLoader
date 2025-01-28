@@ -14,7 +14,7 @@ struct DMErrorHandlingPodExampleApp: App {
     
     var body: some Scene {
         WindowGroup {
-            RootLoadingView { provider in
+            DMRootLoadingView { provider in
                 ContentView(provider: provider)
             }
         }

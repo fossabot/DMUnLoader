@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-// Протокол для налаштування LoadingView
-public protocol LoadingViewProvider {
+/// Protocol for configuring LoadingView
+public protocol DMLoadingViewProvider {
     associatedtype LoadingViewType: View
     associatedtype ErrorViewType: View
     associatedtype SuccessViewType: View
@@ -21,24 +21,24 @@ public protocol LoadingViewProvider {
     func getSuccessView(message: Any) -> SuccessViewType
 }
 
-// Реалізація провайдера за замовчуванням
-public struct DefaultLoadingViewProvider: LoadingViewProvider {
+/// Default provider implementation
+public struct DefaultDMLoadingViewProvider: DMLoadingViewProvider {
     public init() {
         
     }
     
     @MainActor
     public func getLoadingView() -> some View {
-        DMNativeProgressView()
+        DMProgressView()
     }
     
     @MainActor
     public func getErrorView(error: Error, onRetry: (() -> Void)?) -> some View {
-        ErrorView(error: error, onRetry: onRetry)
+        DMErrorView(error: error, onRetry: onRetry)
     }
     
     @MainActor
     public func getSuccessView(message: Any) -> some View {
-        SuccessView(assosiatedObject: message)
+        DMSuccessView(assosiatedObject: message)
     }
 }

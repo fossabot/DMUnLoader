@@ -1,5 +1,5 @@
 //
-//  SwiftUIView.swift
+//  DMSuccessView.swift
 //  DMErrorHandling
 //
 //  Created by Nikolay Dementiev on 28.01.2025.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-internal struct SuccessView: View {
+internal struct DMSuccessView: View {
     let assosiatedObject: Any?
     
     var body: some View {

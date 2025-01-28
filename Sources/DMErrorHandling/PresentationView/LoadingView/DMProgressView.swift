@@ -71,7 +71,7 @@ internal struct DMLoadingDefaultViewSettings: DMLoadingViewSettings {
     }
 }
 
-internal struct DMNativeProgressView: View, LoadingViewScene {
+internal struct DMProgressView: View, DMLoadingViewScene {
     
     internal let settingsProvider: DMLoadingViewSettings
     
