@@ -8,9 +8,13 @@
 import SwiftUI
 
 public extension View {
-    func autoLoading<Provider: DMLoadingViewProvider>(_ loadingManager: DMLoadingManager<Provider>) -> some View {
+    
+    func autoLoading(manager loadingManager: DMLoadingManager,
+                     providerViews provider: BaseDMLoadingViewProvider) -> some View {
         self
             .environmentObject(loadingManager)
-            .modifier(DMLoadingModifier(loadingManager: loadingManager))
+            .environmentObject(provider)
+            .modifier(DMLoadingModifier(loadingManager: loadingManager,
+                                        settingsProvider: provider))
     }
 }
