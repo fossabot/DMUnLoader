@@ -11,8 +11,8 @@ import DMErrorHandling
 // loading with default setting
 struct ContentViewDefaultSettings: View {
     var body: some View {
-        DMRootLoadingView {
-            LoadingContentView()
+        DMRootLoadingView { provider in
+            LoadingContentView(provider: provider)
         }
     }
 }
@@ -21,12 +21,12 @@ struct ContentViewDefaultSettings: View {
 struct ContentViewCustomSettings: View {
     
     var body: some View {
-        DMRootLoadingView(provider: CustomDMLoadingViewProvider()) {
-            LoadingContentView()
+        DMRootLoadingView(provider: CustomDMLoadingViewProvider()) { provider in
+            LoadingContentView(provider: provider)
         }
     }
     
-    private final class CustomDMLoadingViewProvider: BaseDMLoadingViewProvider {
+    private struct CustomDMLoadingViewProvider: DMLoadingViewProvider {
         @MainActor
         public func getLoadingView() -> some View {
             VStack {

@@ -8,8 +8,14 @@
 import SwiftUI
 import DMErrorHandling
 
-internal struct LoadingContentView: View {
-    @EnvironmentObject var loadingManager: DMLoadingManager
+internal struct LoadingContentView<Provider: DMLoadingViewProvider>: View {
+    @EnvironmentObject var loadingManager: DMLoadingManager<Provider>
+    
+    private let provider: Provider
+    
+    public init(provider: Provider) {
+        self.provider = provider
+    }
     
     var body: some View {
         VStack {

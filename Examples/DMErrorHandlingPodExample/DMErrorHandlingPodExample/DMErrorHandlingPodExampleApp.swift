@@ -20,12 +20,12 @@ struct DMErrorHandlingPodExampleApp: App {
             TabView {
                 ContentViewDefaultSettings()
                     .tabItem {
-                        Label("Default SDK setings", systemImage: "gearshape")
+                        Label("Default", systemImage: "gearshape")
                     }
                 
                 ContentViewCustomSettings()
                     .tabItem {
-                        Label("Custom App Settings", systemImage: "pencil")
+                        Label("Custom", systemImage: "pencil")
                     }
             }
         }

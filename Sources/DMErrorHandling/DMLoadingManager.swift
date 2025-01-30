@@ -22,16 +22,19 @@ internal struct DMLoadingManagerDefaultSettings: DMLoadingManagerSettings {
 
 /// ViewModel to save loading state
 //TODO: make LoadingManager as @Sendable
-public final class DMLoadingManager: ObservableObject {
+public final class DMLoadingManager<Provider: DMLoadingViewProvider>: ObservableObject {
     public let settings: DMLoadingManagerSettings
+    public let provider: Provider
     
     @Published internal(set) public var loadableState: DMLoadableType = .none
     private var inactivityTimerCancellable: AnyCancellable?
     
     public init(loadableState: DMLoadableType = .none,
-                settings: DMLoadingManagerSettings? = nil) {
+                settings: DMLoadingManagerSettings? = nil,
+                provider: Provider = DefaultDMLoadingViewProvider()) {
         self.loadableState = loadableState
         self.settings = settings ?? DMLoadingManagerDefaultSettings()
+        self.provider = provider
     }
     
     public func showLoading() {
