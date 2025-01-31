@@ -9,7 +9,9 @@ import SwiftUICore
 
 /// Modifier to add LoadingView to any View
 public struct DMLoadingModifier<Provider: DMLoadingViewProvider>: ViewModifier {
-    @ObservedObject internal var loadingManager: DMLoadingManager<Provider>
+    @ObservedObject internal var loadingManager: DMLoadingManager
+//    @Binding internal var provider: Provider
+    internal var provider: Provider
     
     public func body(content: Content) -> some View {
         ZStack {
@@ -17,7 +19,7 @@ public struct DMLoadingModifier<Provider: DMLoadingViewProvider>: ViewModifier {
                 .blur(radius: loadingManager.loadableState == .none ? 0 : 2)
                 .disabled(loadingManager.loadableState != .none)
             
-            DMLoadingView(loadingManager: loadingManager)
+            DMLoadingView(loadingManager: loadingManager, provider: provider)
         }
     }
 }

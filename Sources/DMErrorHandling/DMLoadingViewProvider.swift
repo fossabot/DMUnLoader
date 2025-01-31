@@ -8,7 +8,7 @@
 import SwiftUI
 
 /// Protocol for configuring LoadingView
-public protocol DMLoadingViewProvider {
+public protocol DMLoadingViewProvider: ObservableObject {
     associatedtype LoadingViewType: View
     associatedtype ErrorViewType: View
     associatedtype SuccessViewType: View
@@ -45,7 +45,7 @@ public extension DMLoadingViewProvider {
 }
 
 /// Default provider implementation
-public struct DefaultDMLoadingViewProvider: DMLoadingViewProvider {
+public final class DefaultDMLoadingViewProvider: DMLoadingViewProvider {
     public init() {
         
     }

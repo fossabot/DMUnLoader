@@ -6,16 +6,20 @@
 //
 
 import SwiftUI
+import DMErrorHandling
 
 @main
 struct DMErrorHandlingPodExampleApp: App {
     var body: some Scene {
         WindowGroup {
-            MainTabView()
+            DMRootLoadingView { _, _ in
+                MainTabView()
+            }
         }
     }
     
     private struct MainTabView: View {
+//        @StateObject private var provider = CustomDMLoadingViewProvider()
         var body: some View {
             TabView {
                 ContentViewDefaultSettings()
