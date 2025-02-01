@@ -16,8 +16,19 @@ public extension View {
             .modifier(DMLoadingModifier(loadingManager: loadingManager, provider: provider))
     }
     
-    internal func rootLoading() -> some View {
+    internal func subscribeToGloabalLoadingManagers(localManager localLoadingManager: DMLoadingManager,
+                                                    globalManager globalLoadingManager: GlobalLoadingStateManager?) {
+        guard let globalLoadingManager else {
+            print("@Environment(\\.gloabalLoadingManager) doesn't contains any values")
+            return
+        }
+        
+        globalLoadingManager.subscribeToLoadingManagers(localLoadingManager)
+    }
+    
+    internal func rootLoading(globalManager globalLoadingManager: GlobalLoadingStateManager) -> some View {
         self
-            .modifier(DMRootLoadingModifier())
+            .environment(\.globalLoadingManager, globalLoadingManager)
+            .modifier(DMRootLoadingModifier(globalLoadingStateManager: globalLoadingManager))
     }
 }

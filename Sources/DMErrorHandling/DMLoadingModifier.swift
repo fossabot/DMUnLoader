@@ -6,6 +6,7 @@
 //
 
 import SwiftUICore
+import Combine
 
 /// Modifier to add LoadingView to any View
 internal struct DMLoadingModifier<Provider: DMLoadingViewProvider>: ViewModifier {
@@ -24,23 +25,5 @@ internal struct DMLoadingModifier<Provider: DMLoadingViewProvider>: ViewModifier
             DMLoadingView(loadingManager: loadingManager,
                           provider: provider)
         }
-    }
-}
-
-internal struct DMRootLoadingModifier: ViewModifier {
-    public func body(content: Content) -> some View {
-        return ZStack {
-            content
-            
-            BlockingView()
-                .allowsHitTesting(true)
-        }
-    }
-}
-
-private struct BlockingView: View {
-    var body: some View {
-        Color.gray.opacity(0.001)
-            .ignoresSafeArea()
     }
 }

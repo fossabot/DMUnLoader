@@ -13,12 +13,7 @@ struct DMErrorHandlingPodExampleApp: App {
     var body: some Scene {
         WindowGroup {
             DMRootLoadingView {
-//                ZStack {
-                    MainTabView()
-                    
-//                    BlockingView()
-//                        .allowsHitTesting(true)
-//                }
+                MainTabView()
             }
         }
     }
@@ -39,13 +34,3 @@ struct DMErrorHandlingPodExampleApp: App {
         }
     }
 }
-
-
-//struct BlockingView: View {
-//    var body: some View {
-//        Color.gray.opacity(0.001) // Blocks interactions by giving a transparent background
-//            .ignoresSafeArea()
-//            //.allowsHitTesting(true) // Forbids any pressing
-//    }
-//}
-

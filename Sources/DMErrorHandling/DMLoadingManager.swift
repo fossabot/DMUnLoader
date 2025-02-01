@@ -27,8 +27,19 @@ internal struct DMLoadingManagerDefaultSettings: DMLoadingManagerSettings {
 public final class DMLoadingManager: ObservableObject {
     public let settings: DMLoadingManagerSettings
     
-    @Published internal(set) public var loadableState: DMLoadableType = .none
+    @Published internal(set) public var loadableState: DMLoadableType = .none {
+        willSet {
+            loadableStateSubject.send(newValue)
+        }
+    }
+    
+    internal var loadableStatePublisher: AnyPublisher<DMLoadableType, Never> {
+        loadableStateSubject.eraseToAnyPublisher()
+    }
+    
     private var inactivityTimerCancellable: AnyCancellable?
+    
+    private let loadableStateSubject = PassthroughSubject<DMLoadableType, Never>()
     
     public init(loadableState: DMLoadableType = .none,
                 settings: DMLoadingManagerSettings? = nil) {

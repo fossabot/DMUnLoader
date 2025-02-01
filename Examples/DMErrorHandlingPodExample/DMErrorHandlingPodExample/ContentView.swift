@@ -10,35 +10,19 @@ import DMErrorHandling
 
 // loading with default setting
 struct ContentViewDefaultSettings: View {
-    @StateObject private var loadingManager: DMLoadingManager
-    private let provider = DefaultDMLoadingViewProvider()
-    
-    internal init() {
-        _loadingManager = StateObject(wrappedValue: DMLoadingManager())
-    }
-    
     var body: some View {
-        LoadingContentView()
-            .autoLoading(loadingManager,
-                         provider: provider)
+        DMLocalLoadingView(provider: DefaultDMLoadingViewProvider()) {
+            LoadingContentView()
+        }
     }
 }
 
 // loading with custom setting
 struct ContentViewCustomSettings: View {
-//    @StateObject private var loadingManager = DMLoadingManager(/*provider: CustomDMLoadingViewProvider()*/)
-    
-    @StateObject private var loadingManager: DMLoadingManager
-    private let provider = CustomDMLoadingViewProvider()
-    
-    internal init() {
-        _loadingManager = StateObject(wrappedValue: DMLoadingManager())
-    }
-    
     var body: some View {
-        LoadingContentView()
-            .autoLoading(loadingManager,
-                         provider: provider)
+        DMLocalLoadingView(provider: CustomDMLoadingViewProvider()) {
+            LoadingContentView()
+        }
     }
 }
 

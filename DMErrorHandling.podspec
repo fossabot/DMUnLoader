@@ -1,7 +1,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'DMErrorHandling'
-  s.version          = '0.1.23'
+  s.version          = '0.1.24'
   s.summary          = 'Error handling SDK'
   s.description      = <<-DESC
   
@@ -11,7 +11,7 @@ TODO: Add long description of the pod here.
   s.homepage         = 'https://github.com/nikolay-dementiev/DMErrorHandling'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'Nikolay Dementiev' => 'nikolas.dementiev@gmail.com' }
-  s.ios.deployment_target = "16.0"
+  s.ios.deployment_target = "17.0"
   #s.osx.deployment_target = "10.13"
   #s.tvos.deployment_target = "12.0"
   s.watchos.deployment_target = "7.0"

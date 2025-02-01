@@ -10,6 +10,8 @@ import SwiftUICore
 public struct DMRootLoadingView<Content: View>: View {
     private let content: () -> Content
     
+    @StateObject private var globalLoadingStateManager = GlobalLoadingStateManager()
+    
     public init(
         @ViewBuilder content: @escaping () -> Content
     ) {
@@ -18,6 +20,6 @@ public struct DMRootLoadingView<Content: View>: View {
     
     public var body: some View {
         return content()
-            .rootLoading()
+            .rootLoading(globalManager: globalLoadingStateManager)
     }
 }
