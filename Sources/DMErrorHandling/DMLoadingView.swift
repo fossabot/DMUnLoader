@@ -9,10 +9,13 @@ import SwiftUI
 
 internal struct DMLoadingView<Provider: DMLoadingViewProvider>: View {
     
-    @ObservedObject private(set) internal var loadingManager: DMLoadingManager<Provider>
+    @ObservedObject private(set) internal var loadingManager: DMLoadingManager
+    internal var provider: Provider
     
-    internal init(loadingManager: DMLoadingManager<Provider>) {
+    internal init(loadingManager: DMLoadingManager,
+                  provider: Provider) {
         self.loadingManager = loadingManager
+        self.provider = provider
     }
     
     internal var body: some View {
@@ -28,13 +31,13 @@ internal struct DMLoadingView<Provider: DMLoadingViewProvider>: View {
                     VStack(spacing: 20) {
                         switch loadingManager.loadableState {
                         case .loading:
-                            loadingManager.provider.getLoadingView()
+                            provider.getLoadingView()
                         case .failure(let error, let onRetry):
-                            loadingManager.provider.getErrorView(error: error,
-                                                                 onRetry: onRetry,
-                                                                 onClose: loadingManager.hide)
+                            provider.getErrorView(error: error,
+                                                  onRetry: onRetry,
+                                                  onClose: loadingManager.hide)
                         case .success(let object):
-                            loadingManager.provider.getSuccessView(message: object)
+                            provider.getSuccessView(message: object)
                         case .none:
                             EmptyView()
                         }

@@ -6,18 +6,24 @@
 //
 
 import SwiftUICore
+import Combine
 
 /// Modifier to add LoadingView to any View
-public struct DMLoadingModifier<Provider: DMLoadingViewProvider>: ViewModifier {
-    @ObservedObject internal var loadingManager: DMLoadingManager<Provider>
+internal struct DMLoadingModifier<Provider: DMLoadingViewProvider>: ViewModifier {
+    @ObservedObject internal var loadingManager: DMLoadingManager
+    
+    internal var provider: Provider
     
     public func body(content: Content) -> some View {
-        ZStack {
+        let isLoading = loadingManager.loadableState != .none
+        
+        return ZStack {
             content
-                .blur(radius: loadingManager.loadableState == .none ? 0 : 2)
-                .disabled(loadingManager.loadableState != .none)
+                .blur(radius: isLoading ? 2 : 0)
+                .disabled(isLoading)
             
-            DMLoadingView(loadingManager: loadingManager)
+            DMLoadingView(loadingManager: loadingManager,
+                          provider: provider)
         }
     }
 }

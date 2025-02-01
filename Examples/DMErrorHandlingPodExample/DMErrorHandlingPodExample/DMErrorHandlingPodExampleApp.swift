@@ -6,12 +6,15 @@
 //
 
 import SwiftUI
+import DMErrorHandling
 
 @main
 struct DMErrorHandlingPodExampleApp: App {
     var body: some Scene {
         WindowGroup {
-            MainTabView()
+            DMRootLoadingView {
+                MainTabView()
+            }
         }
     }
     
@@ -31,6 +34,3 @@ struct DMErrorHandlingPodExampleApp: App {
         }
     }
 }
-
-
-

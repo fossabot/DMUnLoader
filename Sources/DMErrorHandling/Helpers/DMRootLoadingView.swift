@@ -7,24 +7,19 @@
 
 import SwiftUICore
 
-public struct DMRootLoadingView<Content: View, Provider: DMLoadingViewProvider>: View {
-    @StateObject private var loadingManager: DMLoadingManager<Provider>
+public struct DMRootLoadingView<Content: View>: View {
+    private let content: () -> Content
     
-    private let content: (Provider) -> Content
-    private let provider: Provider
+    @StateObject private var globalLoadingStateManager = GlobalLoadingStateManager()
     
     public init(
-        provider: Provider = DefaultDMLoadingViewProvider(),
-        @ViewBuilder content: @escaping (Provider) -> Content
+        @ViewBuilder content: @escaping () -> Content
     ) {
-        _loadingManager = StateObject(wrappedValue: DMLoadingManager(provider: provider))
         self.content = content
-        self.provider = provider
     }
     
     public var body: some View {
-        return content(provider)
-            .environmentObject(loadingManager)
-            .autoLoading(loadingManager)
+        return content()
+            .rootLoading(globalManager: globalLoadingStateManager)
     }
 }
