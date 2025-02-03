@@ -16,8 +16,6 @@ internal final class GlobalLoadingStateManager: ObservableObject, Observable {
     
     private var loadingManagerCancellables: [UUID: AnyCancellable] = [:]
 
-//    private var cancellables = Set<AnyCancellable>()
-
     @MainActor
     func subscribeToLoadingManagers(_ loadingManagers: DMLoadingManager...) {
         // Subscribes to each of DMLoadingManager's object
@@ -26,7 +24,6 @@ internal final class GlobalLoadingStateManager: ObservableObject, Observable {
                 .sink { [weak self] state in
                     self?.loadableState = state
                 }
-                //.store(in: &cancellables)
             loadingManagerCancellables[manager.id] = cancellable
         }
     }
