@@ -19,11 +19,21 @@ public extension View {
     internal func subscribeToGloabalLoadingManagers(localManager localLoadingManager: DMLoadingManager,
                                                     globalManager globalLoadingManager: GlobalLoadingStateManager?) {
         guard let globalLoadingManager else {
-            print("@Environment(\\.gloabalLoadingManager) doesn't contains any values")
+            print("\(#function): @Environment(\\.gloabalLoadingManager) doesn't contains required value")
             return
         }
         
         globalLoadingManager.subscribeToLoadingManagers(localLoadingManager)
+    }
+    
+    internal func unsubscribeFromLoadingManager(localManager localLoadingManager: DMLoadingManager,
+                                                globalManager globalLoadingManager: GlobalLoadingStateManager?) {
+        guard let globalLoadingManager else {
+            print("\(#function): @Environment(\\.gloabalLoadingManager) doesn't contains required value")
+            return
+        }
+        
+        globalLoadingManager.unsubscribeFromLoadingManager(localLoadingManager)
     }
     
     internal func rootLoading(globalManager globalLoadingManager: GlobalLoadingStateManager) -> some View {

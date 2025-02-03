@@ -20,7 +20,7 @@ public protocol DMLoadingViewProvider: ObservableObject {
                       onRetry: (() -> Void)?,
                       onClose: @escaping () -> Void) -> ErrorViewType
     @MainActor
-    func getSuccessView(message: Any) -> SuccessViewType
+    func getSuccessView(object: DMLoadableTypeSuccess) -> SuccessViewType
     
     //Settings
     var loadingManagerSettings: DMLoadingManagerSettings { get }
@@ -48,9 +48,9 @@ public extension DMLoadingViewProvider {
     }
     
     @MainActor
-    func getSuccessView(message: Any) -> some View {
+    func getSuccessView(object: DMLoadableTypeSuccess) -> some View {
         DMSuccessView(settings: successViewSettings,
-                      assosiatedObject: message)
+                      assosiatedObject: object)
     }
     
     //Settings

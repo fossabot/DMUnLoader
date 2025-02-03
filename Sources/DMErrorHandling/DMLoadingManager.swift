@@ -20,12 +20,10 @@ internal struct DMLoadingManagerDefaultSettings: DMLoadingManagerSettings {
     }
 }
 
-
-//TODO: make LoadingManager as @Sendable
-
 /// ViewModel to save loading state
 @MainActor
 public final class DMLoadingManager: ObservableObject {
+    public let id: UUID
     public let settings: DMLoadingManagerSettings
     private let loadableStateSubject = PassthroughSubject<DMLoadableType, Never>()
     
@@ -43,6 +41,7 @@ public final class DMLoadingManager: ObservableObject {
     
     public init(state loadableState: DMLoadableType,
                 settings: DMLoadingManagerSettings) {
+        self.id = UUID()
         self.loadableState = loadableState
         self.settings = settings
     }
@@ -53,7 +52,7 @@ public final class DMLoadingManager: ObservableObject {
         loadableState = .loading
     }
     
-    public func showSuccess(_ message: Any) {
+    public func showSuccess(_ message: DMLoadableTypeSuccess) {
         startInactivityTimer()
         
         loadableState = .success(message)
@@ -90,11 +89,6 @@ public final class DMLoadingManager: ObservableObject {
         .sink(receiveValue: { [weak self] _ in
             self?.hide()
         })
-    }
-    
-    // Reset the timer
-    public func resetInactivityTimer() {
-        startInactivityTimer()
     }
     
     // Stopping the timer

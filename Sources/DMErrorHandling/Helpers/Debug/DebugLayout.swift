@@ -12,8 +12,10 @@ internal struct DebugLayout: Layout {
     func sizeThatFits(proposal: ProposedViewSize,
                       subviews: Subviews,
                       cache: inout ()) -> CGSize {
+        
         let result = subviews[0].sizeThatFits(proposal)
         print(name, proposal, result)
+        
         return result
     }
     
@@ -21,7 +23,9 @@ internal struct DebugLayout: Layout {
                        proposal: ProposedViewSize,
                        subviews: Subviews,
                        cache: inout ()) {
-        subviews[0].place(at: bounds.origin, proposal: proposal)
+        
+        subviews[0].place(at: bounds.origin,
+                          proposal: proposal)
     }
 }
 
@@ -47,15 +51,14 @@ internal extension View {
 #if DEBUG
         closure()
 #endif
-        
         return self
     }
     
-//    func _printChanges() -> some View {
-//#if DEBUG
-//        let _ = Self._printChanges()
-//#endif
-//        return EmptyView()
-//    }
+    func printChanges() -> Self {
+#if DEBUG
+        let _ = Self._printChanges()
+#endif
+        return self
+    }
 }
 

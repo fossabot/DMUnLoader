@@ -37,7 +37,7 @@ internal struct DMLoadingView<Provider: DMLoadingViewProvider>: View {
                                                   onRetry: onRetry,
                                                   onClose: loadingManager.hide)
                         case .success(let object):
-                            provider.getSuccessView(message: object)
+                            provider.getSuccessView(object: object)
                         case .none:
                             EmptyView()
                         }
@@ -61,7 +61,3 @@ internal struct DMLoadingView<Provider: DMLoadingViewProvider>: View {
         }
     }
 }
-
-//#Preview {
-//    LoadingView(loadingManager: LoadingManager(loadableState: .loading))
-//}

@@ -7,43 +7,31 @@
 
 import SwiftUI
 
-// This protocol restponsible to provide settings for ProgressView
-public protocol DMSuccessViewSettings {
-    var successImage: Image { get }
-    var successText: String? { get }
-}
-
-//default implementation of settings
-internal struct DMSuccessDefaultViewSettings: DMSuccessViewSettings {
-    var successImage: Image
-    var successText: String?
-    
-    internal init(successImage: Image = Image(systemName: "checkmark.circle.fill"),
-                  errorText: String? = "Успішно!") {
-        self.successImage = successImage
-        self.successText = errorText
-    }
-}
-
 internal struct DMSuccessView: View {
-    
-    internal let assosiatedObject: Any?
+    internal let assosiatedObject: DMLoadableTypeSuccess?
     internal let settingsProvider: DMSuccessViewSettings
     
     internal init(settings settingsProvider: DMSuccessViewSettings,
-                  assosiatedObject: Any? = nil) {
+                  assosiatedObject: DMLoadableTypeSuccess) {
         self.assosiatedObject = assosiatedObject
         self.settingsProvider = settingsProvider
     }
     
-    var body: some View {
+    internal var body: some View {
+        let successImageProperties = settingsProvider.successImageProperties
         VStack {
-            settingsProvider.successImage
+            successImageProperties.image
                 .resizable()
-                .frame(width: 50, height: 50)
-                .foregroundColor(.green)
-            Text("\(String(describing: assosiatedObject as? String ?? settingsProvider.successText))")
-                .foregroundColor(.white)
+                .frame(width: successImageProperties.frame.width,
+                       height: successImageProperties.frame.height,
+                       alignment: successImageProperties.frame.alignment)
+                .foregroundColor(successImageProperties.foregroundColor)
+            
+            let successTextProperties = settingsProvider.successTextProperties
+            if let successText = assosiatedObject?.description ?? successTextProperties.text {
+                Text(successText)
+                    .foregroundColor(successTextProperties.foregroundColor)
+            }
         }
     }
 }

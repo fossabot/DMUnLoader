@@ -20,11 +20,6 @@ public struct DMLocalLoadingView<Content: View, Provider: DMLoadingViewProvider>
         self.provider = provider
         _loadingManager = StateObject(wrappedValue: DMLoadingManager(state: .none,
                                                                      settings: provider.loadingManagerSettings))
-        
-        /*
-        subscribeToGloabalLoadingManagers(localManager: loadingManager,
-                                          globalManager: globalLoadingManager)
-        */
     }
 
     public var body: some View {
@@ -34,6 +29,10 @@ public struct DMLocalLoadingView<Content: View, Provider: DMLoadingViewProvider>
             .onAppear {
                 subscribeToGloabalLoadingManagers(localManager: loadingManager,
                                                   globalManager: globalLoadingManager)
+            }
+            .onDisappear {
+                unsubscribeFromLoadingManager(localManager: loadingManager,
+                                              globalManager: globalLoadingManager)
             }
     }
 }

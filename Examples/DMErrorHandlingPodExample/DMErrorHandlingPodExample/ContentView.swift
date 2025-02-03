@@ -87,6 +87,7 @@ internal final class CustomDMLoadingViewProvider: DMLoadingViewProvider {
         }
     }
     
+    /*
     @MainActor
     func getSuccessView(message: Any) -> some View {
         VStack {
@@ -98,6 +99,7 @@ internal final class CustomDMLoadingViewProvider: DMLoadingViewProvider {
                 .foregroundColor(.white)
         }
     }
+    */
     
     //Settings
     
@@ -105,6 +107,10 @@ internal final class CustomDMLoadingViewProvider: DMLoadingViewProvider {
     
     private struct CustomLoadingManagerSettings: DMLoadingManagerSettings {
         var autoHideDelay: Duration = .seconds(4)
+    }
+    
+    var successViewSettings: DMSuccessViewSettings {
+        DMSuccessDefaultViewSettings(successImageProperties: SuccessImageProperties(foregroundColor: .orange))
     }
 }
 
