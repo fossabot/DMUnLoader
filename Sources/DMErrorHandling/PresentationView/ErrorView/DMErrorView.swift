@@ -7,25 +7,6 @@
 
 import SwiftUI
 
-// This protocol restponsible to provide settings for ProgressView
-public protocol DMErrorViewSettings {
-    var errorImage: Image { get }
-    var errorText: String? { get }
-}
-
-//default implementation of settings
-internal struct DMErrorDefaultViewSettings: DMErrorViewSettings {
-    internal let errorImage: Image
-    internal let errorText: String?
-    
-    public init(errorImage: Image = Image(systemName: "exclamationmark.triangle"),
-                errorText: String? = "An error has occured") {
-        
-        self.errorImage = errorImage
-        self.errorText = errorText
-    }
-}
-
 //TODO: adopt all for accesssability
 //https://developer.apple.com/videos/play/wwdc2021/10119
 //https://developer.apple.com/videos/play/wwdc2019/238
@@ -38,10 +19,6 @@ internal struct DMErrorView: View {
     internal let onRetry: (() -> Void)?
     internal let onClose: () -> Void
 
-    /// provides an initializer for instance.
-    /// - Parameter settingsProvider: the settings used to set this view.
-    /// In case this parameter is not provided - it will be used as default settings by calling
-    /// `Self.getSettingsProvider()` by `LoadingViewScene` protocol responsibility
     internal init(settings settingsProvider: DMErrorViewSettings,
                   error: Error,
                   onRetry: (() -> Void)? = nil,
@@ -54,29 +31,29 @@ internal struct DMErrorView: View {
     
     internal var body: some View {
         
+        let imageSettings = settingsProvider.errorImageSettings
         VStack {
-            settingsProvider.errorImage
+            imageSettings.image
                 .resizable()
-                .frame(width: 50, height: 50)
-                .foregroundColor(.red)
+                .frame(width: imageSettings.frameSize.width,
+                       height: imageSettings.frameSize.height)
+                .foregroundColor(imageSettings.foregroundColor)
             
             if let errorText = settingsProvider.errorText {
-                ErrorText(errorText)
+                ErrorText(errorText,
+                          settings: settingsProvider.errorTextSettings)
             }
             
-            ErrorText(error.localizedDescription)
+            ErrorText(error.localizedDescription,
+                      settings: settingsProvider.errorTextSettings)
             
             HStack {
-                //TODO: connect CloseButtonView and check layout
-                /*
-                CloseButtonView {
-                    self.presentationMode.wrappedValue.dismiss()
-                }*/
-                ActionButton(text: "Close", action: onClose)
+                ActionButton(settings: settingsProvider.actionButtonCloseSettings,
+                             action: onClose)
 
-                //TODO: obtain all variables from `settingsProvider`
                 if let onRetry = onRetry {
-                    ActionButton(text: "Retry", action: onRetry)
+                    ActionButton(settings: settingsProvider.actionButtonRetrySettings,
+                                 action: onRetry)
                 }
             }
         }
@@ -84,37 +61,40 @@ internal struct DMErrorView: View {
     
     private struct ActionButton: View {
         let action: () -> Void
-        let buttonText: String
+        let settings: ActionButtonSettings
         
-        internal init(text buttonText: String, action: @escaping () -> Void) {
+        internal init(settings: ActionButtonSettings,
+                      action: @escaping () -> Void) {
             self.action = action
-            self.buttonText = buttonText
+            self.settings = settings
         }
         
         var body: some View {
-            Button(buttonText, action: action)
+            Button(settings.text, action: action)
             .padding()
-            .background(Color.white)
-            .cornerRadius(8)
+            .background(settings.backgroundColor)
+            .cornerRadius(settings.cornerRadius)
         }
     }
     
     private struct ErrorText: View {
         let errorText: String
+        let settings: ErrorTextSettings
         
-        internal init(_ errorText: String) {
+        internal init(_ errorText: String,
+                      settings: ErrorTextSettings) {
             self.errorText = errorText
+            self.settings = settings
         }
         
         var body: some View {
             Text(errorText)
-                .foregroundColor(.white)
-                .multilineTextAlignment(.center)
-                .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
+                .foregroundColor(settings.foregroundColor)
+                .multilineTextAlignment(settings.multilineTextAlignment)
+                .padding(settings.padding)
         }
     }
 }
-
 
 //#Preview {
 //    ErrorView(error: DMAppError.custom(errorDescription: "Some error Test"),

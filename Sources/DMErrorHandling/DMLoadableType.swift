@@ -5,14 +5,12 @@
 //  Created by Nikolay Dementiev on 16.01.2025.
 //
 
-import SwiftUI
-
 public enum DMLoadableType: Hashable, RawRepresentable {
     public typealias RawValue = String
     
     case loading
     case failure(error: Error, onRetry: (() -> Void)? = nil)
-    case success(Any) //TODO: need to wrap into some protocol to omit casting from Any
+    case success(DMLoadableTypeSuccess)
     case none
     
     public var rawValue: RawValue {
@@ -21,9 +19,9 @@ public enum DMLoadableType: Hashable, RawRepresentable {
         case .loading:
             rawValueForReturn = "Loading"
         case .failure(let error, _):
-            rawValueForReturn = "Error: \(error)"
+            rawValueForReturn = "Error: `\(error)`"
         case .success(let message):
-            rawValueForReturn = "Success: \(message)"
+            rawValueForReturn = "Success: `\(message.description)`"
         case .none:
             rawValueForReturn = "None"
         }
