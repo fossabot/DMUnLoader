@@ -1,34 +1,16 @@
 //
-//  ContentView.swift
+//  CustomDMLoadingViewProvider.swift
 //  DMErrorHandlingPodExample
 //
-//  Created by Nikolay Dementiev on 22.01.2025.
+//  Created by Nikolay Dementiev on 03.02.2025.
 //
 
 import SwiftUI
 import DMErrorHandling
 
-// loading with default setting
-struct ContentViewDefaultSettings: View {
-    var body: some View {
-        DMLocalLoadingView(provider: DefaultDMLoadingViewProvider()) {
-            LoadingContentView()
-        }
-    }
-}
-
-// loading with custom setting
-struct ContentViewCustomSettings: View {
-    var body: some View {
-        DMLocalLoadingView(provider: CustomDMLoadingViewProvider()) {
-            LoadingContentView()
-        }
-    }
-}
-
 internal final class CustomDMLoadingViewProvider: DMLoadingViewProvider {
     @MainActor
-    public func getLoadingView() -> some View {
+    func getLoadingView() -> some View {
         VStack {
             Text("Some custom loading text...")
                 .lineLimit(2)
@@ -87,20 +69,6 @@ internal final class CustomDMLoadingViewProvider: DMLoadingViewProvider {
         }
     }
     
-    /*
-    @MainActor
-    func getSuccessView(message: Any) -> some View {
-        VStack {
-            Image(systemName: "message.circle.fill")
-                .resizable()
-                .frame(width: 50, height: 50)
-                .foregroundColor(.green)
-            Text("All task finished!")
-                .foregroundColor(.white)
-        }
-    }
-    */
-    
     //Settings
     
     var loadingManagerSettings: DMLoadingManagerSettings { CustomLoadingManagerSettings() }
@@ -113,9 +81,3 @@ internal final class CustomDMLoadingViewProvider: DMLoadingViewProvider {
         DMSuccessDefaultViewSettings(successImageProperties: SuccessImageProperties(foregroundColor: .orange))
     }
 }
-
-
-
-//#Preview {
-//    ContentView()
-//}

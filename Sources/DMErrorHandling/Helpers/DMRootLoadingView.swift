@@ -21,5 +21,6 @@ public struct DMRootLoadingView<Content: View>: View {
     public var body: some View {
         return content()
             .rootLoading(globalManager: globalLoadingStateManager)
+            .ignoresSafeArea()
     }
 }
