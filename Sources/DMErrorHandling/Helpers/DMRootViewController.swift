@@ -16,7 +16,7 @@ public final class DMRootViewController: UIViewController {
         
         // Створення нової UIKit-вʼю
         let newViewToApply = UIView()
-        newViewToApply.backgroundColor = .orange // FOR TEST ONLY //TODO: remove test enviroments!
+//        newViewToApply.backgroundColor = .orange // FOR TEST ONLY //TODO: remove test enviroments!
         
         // Створення SwiftUI-вʼю
         let rootView = DMRootLoadingView {

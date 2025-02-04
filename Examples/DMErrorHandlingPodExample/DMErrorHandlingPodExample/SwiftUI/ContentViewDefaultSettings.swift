@@ -11,7 +11,7 @@ import DMErrorHandling
 // loading with default setting
 struct ContentViewDefaultSettings: View {
     var body: some View {
-        DMLocalLoadingView(provider: DefaultDMLoadingViewProvider()) {
+        DMLocalLoadingView(provider: DefaultDMLoadingViewProvider()) {  
             LoadingContentView()
         }
     }

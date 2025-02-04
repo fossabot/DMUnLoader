@@ -7,12 +7,10 @@
 
 import DMErrorHandling
 
-
 //TODO: move inner func/class implementation to some places where those can be checked each time build app and not ommited because of `#if ... #elseif ...` macros!
 
 #if UIKIT_APP
 
-// UIKit-App
 import UIKit
 
 @main
@@ -23,6 +21,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.main.bounds)
         
         let rootVC = DMRootViewController()
+        
+        let tabViewControlelr = MainTabViewControllerUIKit()
+        
+        // Add MainTabViewControllerUIKit as a child controller
+        tabViewControlelr.willMove(toParent: rootVC)
+        rootVC.addChild(tabViewControlelr)
+        tabViewControlelr.view.frame = rootVC.view.bounds
+        tabViewControlelr.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        rootVC.view.addSubview(tabViewControlelr.view)
+        tabViewControlelr.didMove(toParent: rootVC)
+        
+        
         window?.rootViewController = rootVC
         window?.makeKeyAndVisible()
         return true
@@ -31,7 +41,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 #elseif SWIFTUI_APP
 
-// SwiftUI-App
 import SwiftUI
 
 @main

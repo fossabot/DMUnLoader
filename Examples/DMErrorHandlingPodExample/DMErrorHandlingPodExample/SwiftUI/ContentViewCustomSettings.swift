@@ -11,7 +11,7 @@ import DMErrorHandling
 // loading with custom setting
 struct ContentViewCustomSettings: View {
     var body: some View {
-        DMLocalLoadingView(provider: CustomDMLoadingViewProvider()) {
+        DMLocalLoadingView(provider: CustomDMLoadingViewProvider()) {  
             LoadingContentView()
         }
     }
