@@ -8,19 +8,24 @@
 import SwiftUI
 import UIKit
 
-open class DMLocalLoadingViewUIKit<View: UIView, Provider: DMLoadingViewProvider>: UIView {
-    private typealias HostingControllerType = DMLocalLoadingView<DMUIKitWrappedView<View>, Provider>
-    private let hostingController: UIHostingController<HostingControllerType>
+open class DMLocalLoadingViewUIKit<UIKitView: UIView, Provider: DMLoadingViewProvider>: UIView {
+    private typealias HostingContent = DMLocalLoadingView<DMWrappedViewUIKit<UIKitView>, Provider>
+    private let hostingController: UIHostingController<AnyView>
     
-    public weak var loadingManager: DMLoadingManager?
+    public weak private(set) var loadingManager: DMLoadingManager?
     
-    public init(provider: Provider, innerView: View) {
+    public init(provider: Provider,
+                innerView: UIKitView,
+                manager: GlobalLoadingStateManager) {
         let swiftUIView = Self.makeSwiftUIView(provider: provider, view: innerView)
+        self.loadingManager = swiftUIView.getLoadingManager()
         
-        hostingController = UIHostingController(rootView: swiftUIView)
+        hostingController = UIHostingController(rootView:
+                                                    AnyView(swiftUIView
+                                                        .environment(\.globalLoadingManager, manager)
+                                                    ))
         super.init(frame: .zero)
-       
-
+        
         self.loadingManager = swiftUIView.getLoadingManager()
         setupUI()
     }
@@ -35,7 +40,7 @@ open class DMLocalLoadingViewUIKit<View: UIView, Provider: DMLoadingViewProvider
         hostingController.rootView = Self.makeSwiftUIView(provider: provider, view: view)
     }
     */
-    
+
     private func setupUI() {
         guard let view = hostingController.view else { return }
         
@@ -50,9 +55,9 @@ open class DMLocalLoadingViewUIKit<View: UIView, Provider: DMLoadingViewProvider
         ])
     }
     
-    private static func makeSwiftUIView(provider: Provider, view: View) -> HostingControllerType {
+    private static func makeSwiftUIView(provider: Provider, view: UIKitView) -> HostingContent {
         let newView = DMLocalLoadingView(provider: provider) {
-            DMUIKitWrappedView(uiView: view)
+            DMWrappedViewUIKit(uiView: view)
         }
         
         return newView

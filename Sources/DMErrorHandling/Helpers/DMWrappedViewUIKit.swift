@@ -8,7 +8,7 @@
 import SwiftUI
 import UIKit
 
-public struct DMUIKitWrappedView<View: UIView>: UIViewRepresentable {
+public struct DMWrappedViewUIKit<View: UIView>: UIViewRepresentable {
     public let uiView: View
     
     public func makeUIView(context: Context) -> UIView {

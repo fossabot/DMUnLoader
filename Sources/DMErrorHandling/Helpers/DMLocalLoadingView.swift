@@ -12,9 +12,10 @@ public struct DMLocalLoadingView<Content: View, Provider: DMLoadingViewProvider>
     private let content: () -> Content
     
     @StateObject internal var loadingManager: DMLoadingManager
-    @Environment(\.globalLoadingManager) var globalLoadingManager
+    @Environment(\.globalLoadingManager) internal var globalLoadingManager
     
-    internal var getLoadingManager: () -> DMLoadingManager
+    //uses for UIKit's approach to obtain Loading Manager object
+    private(set) internal var getLoadingManager: () -> DMLoadingManager
 
     public init(provider: Provider,
                 @ViewBuilder content: @escaping () -> Content) {
@@ -22,7 +23,9 @@ public struct DMLocalLoadingView<Content: View, Provider: DMLoadingViewProvider>
         self.provider = provider
         let newLoadingManager = DMLoadingManager(state: .none,
                                                  settings: provider.loadingManagerSettings)
-        self.getLoadingManager = { newLoadingManager }
+        self.getLoadingManager = {
+            newLoadingManager
+        }
         
         _loadingManager = StateObject(wrappedValue: newLoadingManager)
     }

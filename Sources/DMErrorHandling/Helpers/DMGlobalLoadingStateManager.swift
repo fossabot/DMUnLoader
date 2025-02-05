@@ -7,17 +7,19 @@
 
 import Combine
 
-internal final class GlobalLoadingStateManager: ObservableObject, Observable {
-    @Published var loadableState: DMLoadableType = .none
+public final class GlobalLoadingStateManager: ObservableObject, Observable {
+    @Published internal var loadableState: DMLoadableType = .none
     
-    var isLoading: Bool {
-        loadableState == .loading
+    internal var isLoading: Bool {
+        print("GlobalLoadingStateManager: \(loadableState == .loading)")
+        
+        return loadableState == .loading
     }
     
     private var loadingManagerCancellables: [UUID: AnyCancellable] = [:]
 
     @MainActor
-    func subscribeToLoadingManagers(_ loadingManagers: DMLoadingManager...) {
+    internal func subscribeToLoadingManagers(_ loadingManagers: DMLoadingManager...) {
         // Subscribes to each of DMLoadingManager's object
         loadingManagers.forEach { manager in
             let cancellable = manager.loadableStatePublisher
@@ -28,7 +30,7 @@ internal final class GlobalLoadingStateManager: ObservableObject, Observable {
         }
     }
     
-    func unsubscribeFromLoadingManager(_ manager: DMLoadingManager) {
+    internal func unsubscribeFromLoadingManager(_ manager: DMLoadingManager) {
         loadingManagerCancellables[manager.id] = nil
     }
 }

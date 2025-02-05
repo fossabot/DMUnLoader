@@ -10,9 +10,12 @@ import DMErrorHandling
 
 final class ContentViewCustomSettingsUIKit<CV: LoadingContentViewUIKit, LVP: DMLoadingViewProvider>: DMLocalLoadingViewUIKit<CV, LVP> {
     
-    override init(provider: LVP, innerView: CV) {
+    override init(provider: LVP,
+                  innerView: CV,
+                  manager: GlobalLoadingStateManager) {
         super.init(provider: provider,
-                   innerView: innerView)
+                   innerView: innerView,
+                   manager: manager)
         
         innerView.loadingManager = self.loadingManager
     }
