@@ -6,11 +6,13 @@
 //
 
 import UIKit
+import Combine
 import DMErrorHandling
 
 final class MainTabViewControllerUIKit: UITabBarController {
     
     private(set) weak var globalLoadingManager: GlobalLoadingStateManager!
+    private var cancellable: AnyCancellable?
     
     internal init(manager: GlobalLoadingStateManager? = nil) {
         self.globalLoadingManager = manager
@@ -24,6 +26,12 @@ final class MainTabViewControllerUIKit: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTabs()
+        
+        cancellable = globalLoadingManager.$loadableState
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] state in
+                self?.handleLoadingStateChange(state)
+            }
     }
     
     private func setupTabs() {
@@ -42,6 +50,10 @@ final class MainTabViewControllerUIKit: UITabBarController {
         )
         
         viewControllers = [defaultVC, customVC]
+    }
+    
+    private func handleLoadingStateChange(_ state: DMLoadableType) {
+        view.isUserInteractionEnabled = state != .loading
     }
     
     private func createNavController(
