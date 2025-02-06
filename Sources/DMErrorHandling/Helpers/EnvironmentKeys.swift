@@ -10,7 +10,7 @@ import SwiftUICore
 //MARK: - GlobalLoadingManagerKey
 
 internal struct GlobalLoadingManagerKey: EnvironmentKey {
-    static let defaultValue: GlobalLoadingStateManager? = nil
+    nonisolated(unsafe) static let defaultValue: GlobalLoadingStateManager? = nil
 }
 
 internal extension EnvironmentValues {

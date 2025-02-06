@@ -5,6 +5,8 @@
 //  Created by Nikolay Dementiev on 03.02.2025.
 //
 
+import Foundation
+
 internal protocol OptionalProtocol {
     func isSomeValue() -> Bool
     func unwrapValue() -> Any

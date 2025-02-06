@@ -6,6 +6,7 @@
 //
 
 import Combine
+import Foundation
 
 public final class GlobalLoadingStateManager: ObservableObject, Observable {
     @Published internal(set) public var loadableState: DMLoadableType = .none

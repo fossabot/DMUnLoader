@@ -6,6 +6,7 @@
 //
 
 import Combine
+import Foundation
 
 public protocol DMViewControllerTopLevel: AnyObject {
     func handleLoadingStateChange(_ state: DMLoadableType)
@@ -40,7 +41,7 @@ public extension DMViewControllerTopLevel {
 }
 
 fileprivate struct DMViewControllerTopLevelSubscriptionHolder {
-    static var shared = Self()
+    nonisolated(unsafe) static var shared = Self()
     
     var cancellableTopLevelView: Set<AnyCancellable> = []
 }
