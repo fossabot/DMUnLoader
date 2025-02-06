@@ -47,15 +47,15 @@ private struct AppDelegateHelper {
     func makeUIKitRootViewHierarhy() -> DMRootViewControllerUIKit<UIView> {
         let rootVC = DMRootViewControllerUIKit()
         
-        let tabViewControlelr = MainTabViewControllerUIKit(manager: rootVC.getLoadingManager())
+        let tabViewController = MainTabViewControllerUIKit(manager: rootVC.getLoadingManager())
         
         // Add MainTabViewControllerUIKit as a child controller
-        tabViewControlelr.willMove(toParent: rootVC)
-        rootVC.addChild(tabViewControlelr)
-        tabViewControlelr.view.frame = rootVC.view.bounds
-        tabViewControlelr.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        rootVC.view.addSubview(tabViewControlelr.view)
-        tabViewControlelr.didMove(toParent: rootVC)
+        tabViewController.willMove(toParent: rootVC)
+        rootVC.addChild(tabViewController)
+        tabViewController.view.frame = rootVC.view.bounds
+        tabViewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        rootVC.view.addSubview(tabViewController.view)
+        tabViewController.didMove(toParent: rootVC)
         
         return rootVC
     }
