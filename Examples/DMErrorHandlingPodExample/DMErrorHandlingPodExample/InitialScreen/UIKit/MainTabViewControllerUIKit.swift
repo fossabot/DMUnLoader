@@ -7,11 +7,7 @@
 
 import UIKit
 import Combine
-#if USE_COCOAPODS
 import DMErrorHandling
-#elseif USE_SPM
-import DMErrorHandling
-#endif
 
 final class MainTabViewControllerUIKit: UITabBarController {
     
