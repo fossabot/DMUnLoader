@@ -13,7 +13,7 @@ internal struct LoadingContentView: View {
     
     var body: some View {
         VStack {
-            Text("Main content")
+            Text(AppDelegateHelper.appDescriprtion)
                 .padding()
 
             Button("Show downloads") {

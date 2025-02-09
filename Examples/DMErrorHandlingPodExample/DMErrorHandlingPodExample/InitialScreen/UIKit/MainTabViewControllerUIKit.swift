@@ -33,15 +33,17 @@ final class MainTabViewControllerUIKit: UITabBarController {
         // First tab - Default
         let defaultVC = createNavController(
             viewController: DefaultSettingsViewController(manager: globalLoadingManager),
-            title: "Default",
-            imageName: "gearshape"
+            buttonTitle: "Default",
+            imageName: "gearshape",
+            navigatioTitle: "Default settings"
         )
         
         // Second tab - Custom
         let customVC = createNavController(
             viewController: CustomSettingsViewController(manager: globalLoadingManager),
-            title: "Custom",
-            imageName: "pencil"
+            buttonTitle: "Custom",
+            imageName: "pencil",
+            navigatioTitle: "Custom settings"
         )
         
         viewControllers = [defaultVC, customVC]
@@ -49,14 +51,15 @@ final class MainTabViewControllerUIKit: UITabBarController {
     
     private func createNavController(
         viewController: UIViewController,
-        title: String,
-        imageName: String) -> UINavigationController {
+        buttonTitle: String,
+        imageName: String,
+        navigatioTitle: String) -> UINavigationController {
             
         let navController = UINavigationController(rootViewController: viewController)
-        navController.tabBarItem.title = title
+        navController.tabBarItem.title = buttonTitle
         navController.tabBarItem.image = UIImage(systemName: imageName)
         navController.navigationBar.prefersLargeTitles = true
-        viewController.navigationItem.title = title
+        viewController.navigationItem.title = navigatioTitle
         return navController
     }
 }

@@ -34,8 +34,9 @@ final class LoadingContentViewUIKit: UIView {
         addSubview(stackView)
         
         // Header
-        titleLabel.text = "Main content"
-        titleLabel.font = .preferredFont(forTextStyle: .title1)
+        titleLabel.attributedText = NSAttributedString(string: AppDelegateHelper.appDescriprtion)
+        titleLabel.numberOfLines = 4
+        titleLabel.font = .preferredFont(forTextStyle: .title3)
         stackView.addArrangedSubview(titleLabel)
         
         // Buttons
