@@ -31,8 +31,6 @@
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		2FA647622D40F00000BB3D6F /* DMErrorHandlingPodSPMExample */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-			);
 			path = DMErrorHandlingPodSPMExample;
 			sourceTree = "<group>";
 		};
@@ -145,7 +143,7 @@
 			mainGroup = 2FA647572D40F00000BB3D6F;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				2F5A62482D57CCA900AA32BA /* XCLocalSwiftPackageReference "DMErrorHandling" */,
+				2F5A62482D57CCA900AA32BA /* XCLocalSwiftPackageReference "../../../DMErrorHandling" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 2FA647612D40F00000BB3D6F /* Products */;
@@ -431,7 +429,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		2F5A62482D57CCA900AA32BA /* XCLocalSwiftPackageReference "DMErrorHandling" */ = {
+		2F5A62482D57CCA900AA32BA /* XCLocalSwiftPackageReference "../../../DMErrorHandling" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = ../../../DMErrorHandling;
 		};
