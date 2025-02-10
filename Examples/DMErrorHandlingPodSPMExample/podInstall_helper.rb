@@ -67,10 +67,6 @@ rescue StandardError => e
   puts "#{LOG_ERROR}: Failed to save dependency manager: #{e.message}"
 end
 
-## Print the DEPENDENCY_MANAGER being used
-#current_dependency_manager = dependency_manager
-#puts "#{LOG_INFO}: >>> Using #{DEPENDENCY_MANAGER_KEY}: `#{current_dependency_manager}` <<<"
-
 # Define a helper method to execute shell commands with optional info and error messages
 def command(cmd, info_text: nil, error_text: nil)
   # Execute the command and capture both stdout and stderr
