@@ -61,7 +61,7 @@ public final class DMLoadingManager: Identifiable, ObservableObject {
         hide()
     }
     
-    //Timer
+    // Timer
     
     // Start inactivity timer
     private func startInactivityTimer() {

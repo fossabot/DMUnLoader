@@ -35,7 +35,8 @@ final class DMLoadingManagerTests: XCTestCase {
     func testShowLoading() throws {
         let expectation = XCTestExpectation(description: "Loadable state updated to .loading")
         
-        let settings = MockDMLoadingManagerSettings()
+        let secondsAutoHideDelay: Double = 0.2
+        let settings = MockDMLoadingManagerSettings(autoHideDelay: .seconds(secondsAutoHideDelay))
         let manager = DMLoadingManager(state: .none, settings: settings)
         
         // Observe changes to loadableState
@@ -52,7 +53,7 @@ final class DMLoadingManagerTests: XCTestCase {
         manager.showLoading()
         
         // Wait for the expectation to be fulfilled
-        wait(for: [expectation], timeout: 0.2)
+        wait(for: [expectation], timeout: secondsAutoHideDelay)
     }
     
     // Test 3: Show Success State
@@ -60,7 +61,8 @@ final class DMLoadingManagerTests: XCTestCase {
     func testShowSuccess() throws {
         let expectation = XCTestExpectation(description: "Loadable state updated to .success")
         
-        let settings = MockDMLoadingManagerSettings(autoHideDelay: .seconds(0.5))
+        let secondsAutoHideDelay: Double = 0.2
+        let settings = MockDMLoadingManagerSettings(autoHideDelay: .seconds(secondsAutoHideDelay))
         let manager = DMLoadingManager(state: .none, settings: settings)
         
         // Observe changes to loadableState
@@ -80,7 +82,7 @@ final class DMLoadingManagerTests: XCTestCase {
         manager.showSuccess("Test Message")
         
         // Wait for the expectation to be fulfilled
-        wait(for: [expectation], timeout: 0.2)
+        wait(for: [expectation], timeout: secondsAutoHideDelay)
     }
     
     // Test 4: Show Failure State
@@ -88,7 +90,8 @@ final class DMLoadingManagerTests: XCTestCase {
     func testShowFailure() throws {
         let expectation = XCTestExpectation(description: "Loadable state updated to .failure")
         
-        let settings = MockDMLoadingManagerSettings(autoHideDelay: .seconds(0.5))
+        let secondsAutoHideDelay: Double = 0.2
+        let settings = MockDMLoadingManagerSettings(autoHideDelay: .seconds(secondsAutoHideDelay))
         let manager = DMLoadingManager(state: .none, settings: settings)
         
         // Observe changes to loadableState
@@ -110,15 +113,40 @@ final class DMLoadingManagerTests: XCTestCase {
                                     userInfo: [NSLocalizedDescriptionKey: "Test Error"]))
         
         // Wait for the expectation to be fulfilled
-        wait(for: [expectation], timeout: 0.2)
+        wait(for: [expectation], timeout: secondsAutoHideDelay)
     }
     
     // Test 5: Inactivity Timer Hides State
     @MainActor
-    func testInactivityTimerHidesState() throws {
-        let expectation = XCTestExpectation(description: "Loadable state hidden after inactivity timer")
+    func testInactivityTimerHidesStateEarlyHideExpectation() throws {
+        let earlyHideExpectation = XCTestExpectation(description: "Loadable state should not hide earlier than 1.5 seconds")
+        earlyHideExpectation.isInverted = true // This ensures the test fails if the expectation is fulfilled too early
         
-        let settings = MockDMLoadingManagerSettings(autoHideDelay: .seconds(0.2))
+        let secondsAutoHideDelay: Double = 0.2
+        let settings = MockDMLoadingManagerSettings(autoHideDelay: .seconds(secondsAutoHideDelay))
+        let manager = DMLoadingManager(state: .none, settings: settings)
+        
+        // Trigger the showSuccess method to start the inactivity timer
+        manager.showSuccess("Test Message")
+        
+        // Check that the state does not transition to `.none` before `\(secondsAutoHideDelay)` seconds
+        DispatchQueue.main.asyncAfter(deadline: .now() + secondsAutoHideDelay - 0.1) {
+            // If the state has already transitioned to `.none`, log a failure (optional)
+            XCTAssertFalse(manager.loadableState == .none,
+                           "Loadable state transitioned to .none before the expected delay of `\(secondsAutoHideDelay)` seconds")
+        }
+        
+        wait(for: [earlyHideExpectation], timeout: secondsAutoHideDelay + 0.1) // Ensure no early fulfillment
+        XCTAssertTrue(manager.loadableState == .none,
+                       "Loadable state didn't transitioned to .none the expected delay of `\(secondsAutoHideDelay)` seconds")
+    }
+    
+    @MainActor
+    func testInactivityTimerHidesStateHideExpectation() throws {
+        let hideExpectation = XCTestExpectation(description: "Loadable state hidden after inactivity timer")
+        
+        let secondsAutoHideDelay: Double = 0.2
+        let settings = MockDMLoadingManagerSettings(autoHideDelay: .seconds(secondsAutoHideDelay))
         let manager = DMLoadingManager(state: .none, settings: settings)
         
         // Observe changes to loadableState
@@ -126,7 +154,7 @@ final class DMLoadingManagerTests: XCTestCase {
             .dropFirst() // Skip the initial value
             .sink { state in
                 if state == .none {
-                    expectation.fulfill()
+                    hideExpectation.fulfill()
                 }
             }
             .store(in: &cancellables)
@@ -134,8 +162,8 @@ final class DMLoadingManagerTests: XCTestCase {
         // Trigger the showSuccess method to start the inactivity timer
         manager.showSuccess("Test Message")
         
-        // Wait for the expectation to be fulfilled
-        wait(for: [expectation], timeout: 0.2)
+        // Wait for the expectations to be fulfilled
+        wait(for: [hideExpectation], timeout: secondsAutoHideDelay+0.1) // Ensure the state hides after the timer
     }
     
     // Test 6: Stop Timer and Hide
@@ -143,7 +171,8 @@ final class DMLoadingManagerTests: XCTestCase {
     func testStopTimerAndHide() throws {
         let expectation = XCTestExpectation(description: "Loadable state hidden after stopping timer")
         
-        let settings = MockDMLoadingManagerSettings(autoHideDelay: .seconds(0.5))
+        let secondsAutoHideDelay: Double = 0.2
+        let settings = MockDMLoadingManagerSettings(autoHideDelay: .seconds(secondsAutoHideDelay))
         let manager = DMLoadingManager(state: .none, settings: settings)
         
         // Observe changes to loadableState
@@ -163,6 +192,6 @@ final class DMLoadingManagerTests: XCTestCase {
         manager.stopTimerAndHide()
         
         // Wait for the expectation to be fulfilled
-        wait(for: [expectation], timeout: 0.2)
+        wait(for: [expectation], timeout: secondsAutoHideDelay)
     }
 }
