@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-/// ViewModel to save loading state
+/// ViewModel to handle loading state
 @MainActor
 public final class DMLoadingManager: Identifiable, ObservableObject {
     public let id: UUID
@@ -27,9 +27,10 @@ public final class DMLoadingManager: Identifiable, ObservableObject {
     
     private var inactivityTimerCancellable: AnyCancellable?
     
-    public init(state loadableState: DMLoadableType,
+    public init(id: UUID = UUID(),
+                state loadableState: DMLoadableType,
                 settings: DMLoadingManagerSettings) {
-        self.id = UUID()
+        self.id = id
         self.loadableState = loadableState
         self.settings = settings
     }

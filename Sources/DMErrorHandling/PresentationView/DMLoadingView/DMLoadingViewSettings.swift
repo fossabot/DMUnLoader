@@ -14,7 +14,7 @@ public protocol DMLoadingViewSettings {
     var frameGeometrySize: CGSize { get }
 }
 
-///Default `Loading` settings implementation
+/// Default `Loading` settings implementation
 public struct DMLoadingDefaultViewSettings: DMLoadingViewSettings {
     public let loadingTextProperties: LoadingTextProperties
     public let progressIndicatorProperties: ProgressIndicatorProperties

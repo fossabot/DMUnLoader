@@ -11,7 +11,7 @@ import XCTest
 import ViewInspector
 
 @MainActor // Ensure all tests run on the main actor
-class DMRootLoadingViewTests: XCTestCase {
+final class DMRootLoadingViewTests: XCTestCase {
     
     func testInitialization() throws {
         // Create a mock content view that takes a GlobalLoadingStateManager

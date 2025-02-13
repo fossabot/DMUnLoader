@@ -53,7 +53,7 @@ public extension DMLoadingViewProvider {
                       assosiatedObject: object)
     }
     
-    //Settings
+    // Settings
     
     var loadingManagerSettings: DMLoadingManagerSettings {
         DMLoadingManagerDefaultSettings()

@@ -40,7 +40,7 @@ public extension DMViewControllerTopLevel {
     }
 }
 
-fileprivate struct DMViewControllerTopLevelSubscriptionHolder {
+private struct DMViewControllerTopLevelSubscriptionHolder {
     nonisolated(unsafe) static var shared = Self()
     
     var cancellableTopLevelView: Set<AnyCancellable> = []

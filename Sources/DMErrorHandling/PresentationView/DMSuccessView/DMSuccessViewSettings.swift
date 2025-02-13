@@ -13,7 +13,7 @@ public protocol DMSuccessViewSettings {
     var successTextProperties: SuccessTextProperties { get }
 }
 
-///Default `Success` settings implementation
+/// Default `Success` settings implementation
 public struct DMSuccessDefaultViewSettings: DMSuccessViewSettings {
     public let successImageProperties: SuccessImageProperties
     public let successTextProperties: SuccessTextProperties

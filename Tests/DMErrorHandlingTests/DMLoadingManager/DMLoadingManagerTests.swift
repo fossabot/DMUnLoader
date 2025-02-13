@@ -18,7 +18,7 @@ final class DMLoadingManagerTests: XCTestCase {
         super.tearDown()
     }
     
-    // Test 1: Initialization
+    // Initialization
     @MainActor
     func testInitialization() {
         let settings = MockDMLoadingManagerSettings()
@@ -30,7 +30,69 @@ final class DMLoadingManagerTests: XCTestCase {
                        "Initial loadableState should be .none")
     }
     
-    // Test 2: Show Loading State
+    // Test loading manager conforms to Hashable
+    @MainActor
+    func testDMLoadingManagerConformsToHashable() {
+        let settings = MockDMLoadingManagerSettings()
+        let manager = DMLoadingManager(state: .none, settings: settings)
+        
+        // Check if DMLoadingManager conforms to Hashable
+        XCTAssertTrue((manager as Any) is (any Hashable), "DMLoadingManager should conform to Hashable")
+    }
+    
+    // Test loading manager conforms to Identifiable
+    @MainActor
+    func testDMLoadingManagerConformsToIdentifiable() {
+        let settings = MockDMLoadingManagerSettings()
+        let manager = DMLoadingManager(state: .none, settings: settings)
+        
+        // Check if DMLoadingManager conforms to Identifiable
+        XCTAssertTrue((manager as Any) is (any Identifiable), "DMLoadingManager should conform to Identifiable")
+    }
+    
+    // Test loading manager conforms to ObservableObject
+    @MainActor
+    func testDMLoadingManagerConformsToObservableObject() {
+        let settings = MockDMLoadingManagerSettings()
+        let manager = DMLoadingManager(state: .none, settings: settings)
+        
+        // Check if DMLoadingManager conforms to ObservableObject
+        XCTAssertTrue((manager as Any) is (any ObservableObject), "DMLoadingManager should conform to ObservableObject")
+    }
+    
+    // Test loading manager instances conforms to Identifiable
+    @MainActor
+    func testDMLoadingManagerInstancesConformsToIdentifiable() {
+        let settings = MockDMLoadingManagerSettings()
+        
+        // Create two DMLoadingManager instances
+        let manager1 = DMLoadingManager(state: .none, settings: settings)
+        let manager2 = DMLoadingManager(state: .none, settings: settings)
+        
+        // Verify that the IDs are unique
+        XCTAssertNotEqual(manager1.id, manager2.id, "DMLoadingManager instances should have unique IDs")
+    }
+    
+    // Test loading manager instances conforms to Hashable
+    @MainActor
+    func testDMLoadingManagerInstancesConformsToHashable() {
+        let settings = MockDMLoadingManagerSettings()
+        
+        let newTheSameID = UUID()
+        // Create two DMLoadingManager instances with the same ID
+        let manager1 = DMLoadingManager(id: newTheSameID, state: .none, settings: settings)
+        let manager2 = DMLoadingManager(id: newTheSameID, state: .none, settings: settings)
+        
+        // Verify equality
+        XCTAssertEqual(manager1, manager2, "DMLoadingManager instances with the same ID should be equal")
+        
+        // Verify hashValue consistency
+        var set = Set<DMLoadingManager>()
+        set.insert(manager1)
+        XCTAssertTrue(set.contains(manager2), "DMLoadingManager instances with the same ID should have the same hashValue")
+    }
+    
+    // Show Loading State
     @MainActor
     func testShowLoading() throws {
         let expectation = XCTestExpectation(description: "Loadable state updated to .loading")
@@ -56,7 +118,7 @@ final class DMLoadingManagerTests: XCTestCase {
         wait(for: [expectation], timeout: secondsAutoHideDelay)
     }
     
-    // Test 3: Show Success State
+    // Show Success State
     @MainActor
     func testShowSuccess() throws {
         let expectation = XCTestExpectation(description: "Loadable state updated to .success")
@@ -85,7 +147,7 @@ final class DMLoadingManagerTests: XCTestCase {
         wait(for: [expectation], timeout: secondsAutoHideDelay)
     }
     
-    // Test 4: Show Failure State
+    // Show Failure State
     @MainActor
     func testShowFailure() throws {
         let expectation = XCTestExpectation(description: "Loadable state updated to .failure")
@@ -116,7 +178,7 @@ final class DMLoadingManagerTests: XCTestCase {
         wait(for: [expectation], timeout: secondsAutoHideDelay)
     }
     
-    // Test 5: Inactivity Timer Hides State
+    // Test inactivity timer hides state early with hide expectation
     @MainActor
     func testInactivityTimerHidesStateEarlyHideExpectation() throws {
         let earlyHideExpectation = XCTestExpectation(description: "Loadable state should not hide earlier than 1.5 seconds")
@@ -141,6 +203,7 @@ final class DMLoadingManagerTests: XCTestCase {
                        "Loadable state didn't transitioned to .none the expected delay of `\(secondsAutoHideDelay)` seconds")
     }
     
+    // Test inactivity timer hides state with hide expectation
     @MainActor
     func testInactivityTimerHidesStateHideExpectation() throws {
         let hideExpectation = XCTestExpectation(description: "Loadable state hidden after inactivity timer")
@@ -166,7 +229,7 @@ final class DMLoadingManagerTests: XCTestCase {
         wait(for: [hideExpectation], timeout: secondsAutoHideDelay+0.1) // Ensure the state hides after the timer
     }
     
-    // Test 6: Stop Timer and Hide
+    // Stop Timer and Hide
     @MainActor
     func testStopTimerAndHide() throws {
         let expectation = XCTestExpectation(description: "Loadable state hidden after stopping timer")
