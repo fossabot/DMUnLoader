@@ -229,6 +229,7 @@ final class DMLoadingManagerTests: XCTestCase {
         wait(for: [hideExpectation], timeout: secondsAutoHideDelay+0.1) // Ensure the state hides after the timer
     }
     
+    /*
     // Stop Timer and Hide
     @MainActor
     func testStopTimerAndHide() throws {
@@ -257,4 +258,5 @@ final class DMLoadingManagerTests: XCTestCase {
         // Wait for the expectation to be fulfilled
         wait(for: [expectation], timeout: secondsAutoHideDelay)
     }
+    */
 }

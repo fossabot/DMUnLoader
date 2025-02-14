@@ -8,7 +8,7 @@
 import SwiftUI
 
 /// Protocol for configuring LoadingView
-public protocol DMLoadingViewProvider: ObservableObject {
+public protocol DMLoadingViewProviderProtocol: ObservableObject {
     associatedtype LoadingViewType: View
     associatedtype ErrorViewType: View
     associatedtype SuccessViewType: View
@@ -31,7 +31,7 @@ public protocol DMLoadingViewProvider: ObservableObject {
     var successViewSettings: DMSuccessViewSettings { get }
 }
 
-public extension DMLoadingViewProvider {
+public extension DMLoadingViewProviderProtocol {
     @MainActor
     func getLoadingView() -> some View {
         DMProgressView(settings: loadingViewSettings)
@@ -73,7 +73,7 @@ public extension DMLoadingViewProvider {
 }
 
 /// Default provider implementation
-public final class DefaultDMLoadingViewProvider: DMLoadingViewProvider {
+public final class DefaultDMLoadingViewProvider: DMLoadingViewProviderProtocol {
     public init() {
         
     }

@@ -10,7 +10,7 @@ import XCTest
 import Combine
 @testable import DMErrorHandling
 
-final class MockDMLoadingViewProvider: DMLoadingViewProvider {
+final class MockDMLoadingViewProvider: DMLoadingViewProviderProtocol {
     typealias LoadingViewType = Text
     typealias ErrorViewType = Text
     typealias SuccessViewType = Text

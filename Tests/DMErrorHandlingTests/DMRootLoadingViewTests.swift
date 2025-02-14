@@ -20,8 +20,9 @@ final class DMRootLoadingViewTests: XCTestCase {
         }
         
         // Initialize DMRootLoadingView with the mock content
-        let hostingViewController = makeTestRootView(content: contentView)
-        let rootLoadingView = hostingViewController.rootView
+//        let hostingViewController = makeTestRootView(content: contentView)
+//        let rootLoadingView = hostingViewController.rootView
+        let rootLoadingView = makeTestRootView(content: contentView)
         
         // Ensure that the view initializes without crashing
         XCTAssertNotNil(rootLoadingView)
@@ -39,13 +40,15 @@ final class DMRootLoadingViewTests: XCTestCase {
         }
         
         // Create the root view
-        let hostingController = makeTestRootView(content: contentView)
+//        let hostingController = makeTestRootView(content: contentView)
+        let rootLoadingView = makeTestRootView(content: contentView)
         
         // Use ViewInspector to inspect and render the view hierarchy
         Task {
             do {
                 // Inspect the root view to trigger rendering
-                let inspectedView = try hostingController.rootView.inspect()
+//                let inspectedView = try hostingController.rootView.inspect()
+                let inspectedView = try rootLoadingView.inspect()
                 
                 // Find the Text view inside DMRootLoadingView
                 _ = try inspectedView.find(ViewType.Text.self)
@@ -68,8 +71,9 @@ final class DMRootLoadingViewTests: XCTestCase {
             Text("Test Content")
         }
         
-        let hostingViewController = makeTestRootView(content: contentView)
-        let rootLoadingView = hostingViewController.rootView
+//        let hostingViewController = makeTestRootView(content: contentView)
+//        let rootLoadingView = hostingViewController.rootView
+        let rootLoadingView = makeTestRootView(content: contentView)
         
         do {
             // Use ViewInspector to inspect the view hierarchy
@@ -90,8 +94,9 @@ final class DMRootLoadingViewTests: XCTestCase {
         }
         
         // Create the root view
-        let hostingViewController = makeTestRootView(content: contentView)
-        let rootLoadingView = hostingViewController.rootView
+//        let hostingViewController = makeTestRootView(content: contentView)
+//        let rootLoadingView = hostingViewController.rootView
+        let rootLoadingView = makeTestRootView(content: contentView)
         
         do {
             // Inspect the root view to trigger rendering
@@ -111,19 +116,32 @@ final class DMRootLoadingViewTests: XCTestCase {
         }
     }
     
+//    // Helper function to create a test-specific root view using UIHostingController
+//    private func makeTestRootView<Content: View>(
+//        content: @escaping (GlobalLoadingStateManager) -> Content
+//    ) -> UIHostingController<DMRootLoadingView<Content>> {
+//        // Create the DMRootLoadingView
+//        let rootView = DMRootLoadingView(content: content)
+//        
+//        // Embed the view in a UIHostingController
+//        let hostingController = UIHostingController(rootView: rootView)
+//        
+//        // Trigger the view lifecycle by accessing the view property
+//        _ = hostingController.view
+//        
+//        
+//        return hostingController
+//    }
+    
     // Helper function to create a test-specific root view using UIHostingController
     private func makeTestRootView<Content: View>(
         content: @escaping (GlobalLoadingStateManager) -> Content
-    ) -> UIHostingController<DMRootLoadingView<Content>> {
+    ) -> DMRootLoadingView<Content> {
         // Create the DMRootLoadingView
         let rootView = DMRootLoadingView(content: content)
         
-        // Embed the view in a UIHostingController
-        let hostingController = UIHostingController(rootView: rootView)
+        ViewHosting.host(view: rootView)
         
-        // Trigger the view lifecycle by accessing the view property
-        _ = hostingController.view
-        
-        return hostingController
+        return rootView
     }
 }

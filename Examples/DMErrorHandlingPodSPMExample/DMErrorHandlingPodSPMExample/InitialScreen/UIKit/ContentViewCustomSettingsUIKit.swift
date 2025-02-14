@@ -18,15 +18,15 @@ import DMErrorHandling
  
  - Parameters:
    - CV: A type conforming to `LoadingContentViewUIKit`, representing the inner content view.
-   - LVP: A type conforming to `DMLoadingViewProvider`, responsible for providing loading and error views.
+   - LVP: A type conforming to `DMLoadingViewProviderProtocol`, responsible for providing loading and error views.
  */
-final class ContentViewCustomSettingsUIKit<CV: LoadingContentViewUIKit, LVP: DMLoadingViewProvider>: DMLocalLoadingViewUIKit<CV, LVP> {
+final class ContentViewCustomSettingsUIKit<CV: LoadingContentViewUIKit, LVP: DMLoadingViewProviderProtocol>: DMLocalLoadingViewUIKit<CV, LVP> {
     
     /**
      Initializes the `ContentViewCustomSettingsUIKit` instance.
      
      - Parameters:
-       - provider: An instance of `LVP` (a `DMLoadingViewProvider`) that provides custom loading and error views.
+       - provider: An instance of `LVP` (a `DMLoadingViewProviderProtocol`) that provides custom loading and error views.
        - innerView: An instance of `CV` (a `LoadingContentViewUIKit`) that represents the main content view.
        - manager: A `GlobalLoadingStateManager` instance used to manage the global loading state.
      

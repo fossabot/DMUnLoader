@@ -8,7 +8,7 @@
 import SwiftUI
 import UIKit
 
-open class DMLocalLoadingViewUIKit<UIKitView: UIView, Provider: DMLoadingViewProvider>: UIView {
+open class DMLocalLoadingViewUIKit<UIKitView: UIView, Provider: DMLoadingViewProviderProtocol>: UIView {
     private typealias HostingContent = DMLocalLoadingView<DMWrappedViewUIKit<UIKitView>, Provider>
     private let hostingController: UIHostingController<AnyView>
     

@@ -38,7 +38,7 @@ internal extension Optional where Wrapped: Collection {
     }
 }
 
-fileprivate func unwrapUsingProtocol<ObjType>(_ any: ObjType) -> Any {
+private func unwrapUsingProtocol<ObjType>(_ any: ObjType) -> Any {
     guard let optional = any as? OptionalProtocol,
             optional.isSomeValue() else {
         return any

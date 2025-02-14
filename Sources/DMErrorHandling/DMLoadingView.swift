@@ -7,12 +7,13 @@
 
 import SwiftUI
 
-internal struct DMLoadingView<Provider: DMLoadingViewProvider>: View {
+internal struct DMLoadingView<Provider: DMLoadingViewProviderProtocol,
+                              LLM: DMLoadingManagerInteralProtocol>: View {
     
-    @ObservedObject private(set) internal var loadingManager: DMLoadingManager
+    @ObservedObject private(set) internal var loadingManager: LLM
     internal var provider: Provider
     
-    internal init(loadingManager: DMLoadingManager,
+    internal init(loadingManager: LLM,
                   provider: Provider) {
         self.loadingManager = loadingManager
         self.provider = provider
@@ -21,7 +22,7 @@ internal struct DMLoadingView<Provider: DMLoadingViewProvider>: View {
     internal var body: some View {
         ZStack {
             switch loadingManager.loadableState {
-            case .none :
+            case .none:
                 EmptyView()
             default:
                 ZStack {

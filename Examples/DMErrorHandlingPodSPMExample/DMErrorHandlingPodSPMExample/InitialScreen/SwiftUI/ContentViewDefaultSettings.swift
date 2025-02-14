@@ -12,7 +12,7 @@ import DMErrorHandling
  A SwiftUI view (`ContentViewDefaultSettings`) that represents a loading view with default settings.
  
  This view uses `DMLocalLoadingView` to wrap a `LoadingContentView` and provides a default
- implementation of `DMLoadingViewProvider` for managing loading states, error views, and success views.
+ implementation of `DMLoadingViewProviderProtocol` for managing loading states, error views, and success views.
  */
 struct ContentViewDefaultSettings: View {
     

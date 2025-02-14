@@ -51,6 +51,7 @@ struct DMErrorHandlingPodSPMExampleApp: App {
         }
     }
 }
+
 #endif
 
 
@@ -65,7 +66,7 @@ internal struct AppDelegateHelper {
         appDescriprtion += "\nFramework: `SwiftUI`"
 #endif
         
-        appDescriprtion += "\nUses dependency manager: `\(getDependencyManager() ?? "???")`"
+        appDescriprtion += "\nDependency manager: `\(getDependencyManager() ?? "???")`"
     }
     
     static func addAppDescriprtion(_ newString: String) {

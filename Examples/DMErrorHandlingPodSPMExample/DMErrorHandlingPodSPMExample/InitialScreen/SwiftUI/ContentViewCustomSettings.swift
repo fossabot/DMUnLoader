@@ -12,7 +12,7 @@ import DMErrorHandling
  A SwiftUI view (`ContentViewCustomSettings`) that represents a loading view with custom settings.
  
  This view uses `DMLocalLoadingView` to wrap a `LoadingContentView` and provides a custom
- implementation of `DMLoadingViewProvider` for managing loading states, error views, and success views.
+ implementation of `DMLoadingViewProviderProtocol` for managing loading states, error views, and success views.
  */
 struct ContentViewCustomSettings: View {
     

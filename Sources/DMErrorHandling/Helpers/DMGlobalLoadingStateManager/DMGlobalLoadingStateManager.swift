@@ -8,7 +8,7 @@
 import Combine
 import Foundation
 
-public final class GlobalLoadingStateManager: ObservableObject, Observable {
+public final class GlobalLoadingStateManager: GlobalLoadingStateManagerInternalProtocol {
     @Published internal(set) public var loadableState: DMLoadableType = .none
     
     internal var isLoading: Bool {
@@ -18,7 +18,7 @@ public final class GlobalLoadingStateManager: ObservableObject, Observable {
     private var loadingManagerCancellables: [UUID: AnyCancellable] = [:]
 
     @MainActor
-    internal func subscribeToLoadingManagers(_ loadingManagers: DMLoadingManager...) {
+    internal func subscribeToLoadingManagers<LLM: DMLoadingManagerInteralProtocol>(_ loadingManagers: LLM...) {
         // Subscribes to each of DMLoadingManager's object
         loadingManagers.forEach { manager in
             let cancellable = manager.loadableStatePublisher
@@ -29,7 +29,8 @@ public final class GlobalLoadingStateManager: ObservableObject, Observable {
         }
     }
     
-    internal func unsubscribeFromLoadingManager(_ manager: DMLoadingManager) {
+    @MainActor
+    internal func unsubscribeFromLoadingManager<LLM: DMLoadingManagerInteralProtocol>(_ manager: LLM) {
         loadingManagerCancellables[manager.id] = nil
     }
 }

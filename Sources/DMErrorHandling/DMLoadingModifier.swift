@@ -9,8 +9,9 @@ import SwiftUICore
 import Combine
 
 /// Modifier to add LoadingView to any View
-internal struct DMLoadingModifier<Provider: DMLoadingViewProvider>: ViewModifier {
-    @ObservedObject internal var loadingManager: DMLoadingManager
+internal struct DMLoadingModifier<Provider: DMLoadingViewProviderProtocol,
+                                  LLM: DMLoadingManagerInteralProtocol>: ViewModifier {
+    @ObservedObject internal var loadingManager: LLM
     
     internal var provider: Provider
     

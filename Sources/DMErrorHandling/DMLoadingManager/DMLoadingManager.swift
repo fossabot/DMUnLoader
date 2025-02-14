@@ -10,7 +10,7 @@ import Combine
 
 /// ViewModel to handle loading state
 @MainActor
-public final class DMLoadingManager: Identifiable, ObservableObject {
+public final class DMLoadingManager: DMLoadingManagerInteralProtocol {
     public let id: UUID
     public let settings: DMLoadingManagerSettings
     private let loadableStateSubject = PassthroughSubject<DMLoadableType, Never>()
@@ -55,11 +55,6 @@ public final class DMLoadingManager: Identifiable, ObservableObject {
     
     public func hide() {
         loadableState = .none
-    }
-    
-    internal func stopTimerAndHide() {
-        stopInactivityTimer()
-        hide()
     }
     
     // Timer

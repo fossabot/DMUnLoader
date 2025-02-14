@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-public struct DMLocalLoadingView<Content: View, Provider: DMLoadingViewProvider>: View {
+public struct DMLocalLoadingView<Content: View, Provider: DMLoadingViewProviderProtocol>: View {
     private let provider: Provider
     private let content: () -> Content
     

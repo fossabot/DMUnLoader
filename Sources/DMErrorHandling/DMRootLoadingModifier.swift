@@ -7,8 +7,8 @@
 
 import SwiftUICore
 
-internal struct DMRootLoadingModifier: ViewModifier {
-    @ObservedObject var globalLoadingStateManager: GlobalLoadingStateManager
+internal struct DMRootLoadingModifier<GLM: GlobalLoadingStateManagerInternalProtocol>: ViewModifier {
+    @ObservedObject var globalLoadingStateManager: GLM
     
     public func body(content: Content) -> some View {
         return ZStack {
