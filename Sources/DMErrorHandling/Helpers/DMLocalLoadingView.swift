@@ -11,6 +11,10 @@ public struct DMLocalLoadingView<Content: View, Provider: DMLoadingViewProviderP
     private let provider: Provider
     private let content: () -> Content
     
+#if DEBUG
+   internal let inspection: Inspection<Self>? = getInspectionIfAvailable()
+#endif
+    
     @StateObject internal var loadingManager: DMLoadingManager
     @Environment(\.globalLoadingManager) internal var globalLoadingManager
     
@@ -42,5 +46,10 @@ public struct DMLocalLoadingView<Content: View, Provider: DMLoadingViewProviderP
                 unsubscribeFromLoadingManager(localManager: loadingManager,
                                               globalManager: globalLoadingManager)
             }
+#if DEBUG
+           .onReceive(inspection?.notice ?? EmptyPublisher().notice) { [weak inspection] in
+               inspection?.visit(self, $0)
+           }
+#endif
     }
 }
