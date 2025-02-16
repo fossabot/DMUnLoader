@@ -26,7 +26,7 @@ final class ExtensionViewTests: XCTestCase {
             ViewHosting.expel()
         }
         
-        // Create mocks
+        // Create objects
         let provider = DefaultDMLoadingViewProvider()
         let globalManager = GlobalLoadingStateManager()
         
