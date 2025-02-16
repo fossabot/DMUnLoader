@@ -73,7 +73,8 @@ public struct DMActionWithFallback: DMAction {
             primaryAction { result in
                 switch result {
                 case .success:
-                    let finalResult = Self.mapResultWithAttempt(result, attempt: currentAttempt)
+                    let finalResult = Self.mapResultWithAttempt(result,
+                                                                attempt: result.attemptCount ?? currentAttempt)
                     completion(finalResult)
                 case .failure:
                     let fallbackActionWithIncrement = DMButtonAction(currentAttempt: currentAttempt + 1,
@@ -108,7 +109,7 @@ public extension DMAction {
     
     func callAsFunction(completion: @escaping (ResultType) -> Void) {
         self.action { result in
-            let finalResult = Self.mapResultWithAttempt(result, attempt: currentAttempt)
+            let finalResult = Self.mapResultWithAttempt(result, attempt: result.attemptCount ?? currentAttempt)
             completion(finalResult)
         }
     }

@@ -14,6 +14,12 @@ final class DMActionTests: XCTestCase {
     
     // MARK: DMButtonAction
     
+    func testDMActionResultValueProtocolEmptyAttemptCount() throws {
+        let newValue = MockCopyable(value: "DMActionResultValueProtocolEmptyAttemptCount")
+        
+        XCTAssertNil(newValue.attemptCount, "DMActionResultValueProtocol's attemptCount should be `nil`")
+    }
+    
     func testDMButtonActionInitialization() {
         // Initialize with ActionType
         let buttonAction = DMButtonAction { completion in
@@ -55,7 +61,7 @@ final class DMActionTests: XCTestCase {
     
     // MARK: DMActionWithFallback
     
-    func testDMActionWithFallbackInitialization() {
+    func testDMActionWithFallbackInitializationFailurePrimaryAction() {
         // Primary action
         let primaryButtonAction = DMButtonAction { completion in
             completion(.failure(NSError(domain: "TestError", code: 1, userInfo: nil)))
@@ -82,11 +88,50 @@ final class DMActionTests: XCTestCase {
         }
         
         XCTAssertEqual(attemptExecuted,
-                       2,
+                       3,
                        "The number of attempts made does not match the required number.")
         
         if case .success(let copyable) = result {
             XCTAssertEqual((copyable as? MockCopyable)?.value, "Fallback Success", "Fallback action should execute on failure")
+        } else {
+            XCTFail("Fallback action did not execute successfully")
+        }
+    }
+    
+    func testDMActionWithFallbackInitializationSuccessPrimaryAction() {
+        // Primary action
+        let primaryButtonAction = DMButtonAction { completion in
+            completion(.success(MockCopyable(value: "PrimaryAction Success")))
+        }
+        
+        // Fallback action
+        let fallbackButtonAction = DMButtonAction { completion in
+            completion(.success(MockCopyable(value: "Fallback Success")))
+        }
+        
+        // Create DMActionWithFallback
+        let actionWithFallback = primaryButtonAction
+            .retry(1)
+            .fallbackTo(fallbackButtonAction)
+        
+        XCTAssertNotNil(actionWithFallback.id, "ID should be generated")
+        
+        // Execute the action
+        var result: DMAction.ResultType?
+        var attemptExecuted: UInt?
+        actionWithFallback { output in
+            result = output.unwrapValue()
+            attemptExecuted = output.attemptCount
+        }
+        
+        XCTAssertEqual(attemptExecuted,
+                       0,
+                       "The number of attempts made does not match the required number.")
+        
+        if case .success(let copyable) = result {
+            XCTAssertEqual((copyable as? MockCopyable)?.value,
+                           "PrimaryAction Success",
+                           "PrimaryAction action should execute firstly")
         } else {
             XCTFail("Fallback action did not execute successfully")
         }
@@ -121,7 +166,7 @@ final class DMActionTests: XCTestCase {
         // Create DMActionWithFallback using `fallbackTo`
         let initialAction = DMButtonAction(primaryAction)
         let actionWithFallback = initialAction
-            .retry(1)
+            .retry(3)
             .fallbackTo(DMButtonAction(fallbackAction))
         
         // Execute the action
@@ -133,7 +178,7 @@ final class DMActionTests: XCTestCase {
         }
         
         XCTAssertEqual(attemptExecuted,
-                       actionWithFallback.currentAttempt,
+                       5,
                        "The number of attempts made does not match the required number.")
         
         if case .success(let copyable) = result {
