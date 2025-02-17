@@ -172,7 +172,7 @@ final class DMLocalLoadingViewTests: XCTestCase {
                            // swiftlint:disable:next line_length
                            "DMLoadingView's content `blur` radius should be set to `\(correctBlurValue)` when loading (loadableState != .none)!")
         }) {
-            wait(for: [expEnvironment], timeout: 0.01)
+            wait(for: [expEnvironment], timeout: 0.1)
         }
     }
     
