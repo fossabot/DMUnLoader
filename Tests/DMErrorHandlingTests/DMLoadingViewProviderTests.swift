@@ -164,8 +164,3 @@ extension DMLoadingViewProviderTests {
     }
 }
 
-// MARK: - Mocks
-
-private struct MockDMLoadableTypeSuccess: DMLoadableTypeSuccess {
-    var description: String = "MockDMLoadableTypeSuccess"
-}
