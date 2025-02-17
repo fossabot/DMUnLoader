@@ -24,12 +24,35 @@ public protocol DMDeviceParameters {
 /// This object provide implementation for all parameters spesific for any device type
 /// which this SDK support
 /// e.g. iOS, watchOS,...
-///
 
 @MainActor
 internal struct DMNativeDeviceParameters: DMDeviceParameters {
     
-    static var deviceScreenSize: CGSize = {
+    /// The current screen size provider (injectable for testing)
+    static var screenSizeProvider: ScreenSizeProvider = DefaultScreenSizeProvider()
+    
+    /// Reset the screen size provider to the default implementation
+    static func resetScreenSizeProvider() {
+        screenSizeProvider = DefaultScreenSizeProvider()
+    }
+    
+    /// Get the current device screen size
+    static var deviceScreenSize: CGSize {
+        return screenSizeProvider.getScreenSize()
+    }
+}
+
+// MARK: - Protocol for Screen Size Provider
+
+/// Protocol for providing screen size
+@MainActor
+protocol ScreenSizeProvider {
+    func getScreenSize() -> CGSize
+}
+
+/// Default implementation of ScreenSizeProvider
+struct DefaultScreenSizeProvider: ScreenSizeProvider {
+    func getScreenSize() -> CGSize {
         let deviceSize: CGSize
 #if os(watchOS)
         deviceSize = WKInterfaceDevice.current().screenBounds.size
@@ -37,5 +60,32 @@ internal struct DMNativeDeviceParameters: DMDeviceParameters {
         deviceSize = UIScreen.main.bounds.size
 #endif
         return deviceSize
-    }()
+    }
 }
+
+//@MainActor
+//internal struct DMNativeDeviceParameters: DMDeviceParameters {
+//    
+//    static func resetScreenSizeProvider() {
+//        screenSizeProvider = { getDefaultScreenSize() }
+//    }
+//    
+//    // Allow dependency injection for screen size
+//    static var screenSizeProvider: () -> CGSize = {
+//        getDefaultScreenSize()
+//    }
+//
+//    static var deviceScreenSize: CGSize {
+//        return screenSizeProvider()
+//    }
+//    
+//    private static func getDefaultScreenSize() -> CGSize {
+//        let deviceSize: CGSize
+//#if os(watchOS)
+//        deviceSize = WKInterfaceDevice.current().screenBounds.size
+//#elseif os(iOS)
+//        deviceSize = UIScreen.main.bounds.size
+//#endif
+//        return deviceSize
+//    }
+//}
