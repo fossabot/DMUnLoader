@@ -11,10 +11,15 @@ import Foundation
 internal extension DispatchQueue {
     nonisolated(unsafe) private static var _onceTracker = [String]()
     
+    static func resetTrackersSet() {
+        _onceTracker.removeAll()
+    }
+    
     class func once(forObject object: AnyObject? = nil,
                     file: String = #file,
                     function: String = #function,
                     line: Int = #line,
+                    position: ObjectPosition = .current,
                     block: () -> Void) {
         
         let objectsToProvide: [AnyObject]?
@@ -28,6 +33,7 @@ internal extension DispatchQueue {
              file: file,
              function: function,
              line: line,
+             position: position,
              block: block)
     }
     
@@ -35,6 +41,7 @@ internal extension DispatchQueue {
                     file: String = #file,
                     function: String = #function,
                     line: Int = #line,
+                    position: ObjectPosition = .current,
                     block: () -> Void) {
         let objectsTokenString: String = (
             objects?
@@ -42,7 +49,14 @@ internal extension DispatchQueue {
                 .joined(separator: ";")
         ).getValueOrNullSting()
         
-        let token = "\(objectsTokenString)\(file):\(function):\(line)"
+        let token: String
+        switch position {
+        case .any:
+            token = "\(objectsTokenString)"
+        case .current:
+            token = "\(objectsTokenString)\(file):\(function):\(line)"
+        }
+       
         once(token: token, block: block)
     }
     
@@ -64,5 +78,9 @@ internal extension DispatchQueue {
         
         _onceTracker.append(token)
         block()
+    }
+    
+    enum ObjectPosition {
+        case current, any
     }
 }
