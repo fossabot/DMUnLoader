@@ -7,8 +7,22 @@
 
 import SwiftUI
 
+private enum DMLoadingViewPrivateSettings {
+    static let emptyViewTag: Int = 0001
+    static let defaultViewTag: Int = 0102
+    static let loadingViewTag: Int = 0203
+    static let failureViewTag: Int = 0304
+    static let successViewTag: Int = 0405
+    static let noneViewTag: Int = 1001
+    static let tapGestureViewTag: Int = 0515
+}
+
 internal struct DMLoadingView<Provider: DMLoadingViewProviderProtocol,
                               LLM: DMLoadingManagerInteralProtocol>: View {
+    
+#if DEBUG
+    internal let inspection: Inspection<Self>? = getInspectionIfAvailable()
+#endif
     
     @ObservedObject private(set) internal var loadingManager: LLM
     internal var provider: Provider
@@ -24,6 +38,7 @@ internal struct DMLoadingView<Provider: DMLoadingViewProviderProtocol,
             switch loadingManager.loadableState {
             case .none:
                 EmptyView()
+                    .tag(DMLoadingViewPrivateSettings.emptyViewTag)
             default:
                 ZStack {
                     Color.black.opacity(0.2)
@@ -33,14 +48,19 @@ internal struct DMLoadingView<Provider: DMLoadingViewProviderProtocol,
                         switch loadingManager.loadableState {
                         case .loading:
                             provider.getLoadingView()
+                                .tag(DMLoadingViewPrivateSettings.loadingViewTag)
                         case .failure(let error, let onRetry):
                             provider.getErrorView(error: error,
                                                   onRetry: onRetry,
                                                   onClose: DMButtonAction(loadingManager.hide))
+                            .tag(DMLoadingViewPrivateSettings.failureViewTag)
                         case .success(let object):
                             provider.getSuccessView(object: object)
+                                .tag(DMLoadingViewPrivateSettings.successViewTag)
                         case .none:
+                            // It's a rudiment. Never be executed. Check the line above
                             EmptyView()
+                                .tag(DMLoadingViewPrivateSettings.noneViewTag)
                         }
                     }
                     .padding(30)
@@ -49,6 +69,7 @@ internal struct DMLoadingView<Provider: DMLoadingViewProviderProtocol,
                 }
                 .transition(.opacity)
                 .animation(.easeInOut, value: loadingManager.loadableState)
+                .tag(DMLoadingViewPrivateSettings.defaultViewTag)
             }
         }.onTapGesture {
             switch loadingManager.loadableState {
@@ -60,5 +81,11 @@ internal struct DMLoadingView<Provider: DMLoadingViewProviderProtocol,
                 break
             }
         }
+        .tag(DMLoadingViewPrivateSettings.tapGestureViewTag)
+#if DEBUG
+        .onReceive(inspection?.notice ?? EmptyPublisher().notice) { [weak inspection] in
+            inspection?.visit(self, $0)
+        }
+#endif
     }
 }

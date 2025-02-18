@@ -33,6 +33,8 @@ final class DMLocalLoadingViewTests: XCTestCase {
                             "DMLoadingManager should be available as the StateObject")
         }) {
             wait(for: [expEnvironment], timeout: 0.01)
+        } else {
+            XCTFail("The view should be inspected")
         }
     }
     
@@ -65,6 +67,8 @@ final class DMLocalLoadingViewTests: XCTestCase {
             
         }) {
             wait(for: [expEnvironment], timeout: 0.01)
+        } else {
+            XCTFail("The view should be inspected")
         }
     }
     
@@ -109,6 +113,8 @@ final class DMLocalLoadingViewTests: XCTestCase {
                            "Global manager should no longer reflect changes after unsubscribing")
         }) {
             wait(for: [expEnvironment], timeout: 0.01)
+        } else {
+            XCTFail("The view should be inspected")
         }
     }
     
@@ -175,6 +181,8 @@ final class DMLocalLoadingViewTests: XCTestCase {
                            "DMLoadingView's content `blur` radius should be set to `\(correctBlurValue)` when loading (loadableState != .none)!")
         }) {
             wait(for: [expEnvironment], timeout: 0.01)
+        } else {
+            XCTFail("The view should be inspected")
         }
     }
     

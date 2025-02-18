@@ -228,35 +228,4 @@ final class DMLoadingManagerTests: XCTestCase {
         // Wait for the expectations to be fulfilled
         wait(for: [hideExpectation], timeout: secondsAutoHideDelay+0.1) // Ensure the state hides after the timer
     }
-    
-    /*
-    // Stop Timer and Hide
-    @MainActor
-    func testStopTimerAndHide() throws {
-        let expectation = XCTestExpectation(description: "Loadable state hidden after stopping timer")
-        
-        let secondsAutoHideDelay: Double = 0.2
-        let settings = MockDMLoadingManagerSettings(autoHideDelay: .seconds(secondsAutoHideDelay))
-        let manager = DMLoadingManager(state: .none, settings: settings)
-        
-        // Observe changes to loadableState
-        manager.$loadableState
-            .dropFirst() // Skip the initial value
-            .sink { state in
-                if state == .none {
-                    expectation.fulfill()
-                }
-            }
-            .store(in: &cancellables)
-        
-        // Trigger the showSuccess method to start the inactivity timer
-        manager.showSuccess("Test Message")
-        
-        // Stop the timer and hide manually
-        manager.stopTimerAndHide()
-        
-        // Wait for the expectation to be fulfilled
-        wait(for: [expectation], timeout: secondsAutoHideDelay)
-    }
-    */
 }

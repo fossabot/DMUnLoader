@@ -62,6 +62,8 @@ final class ExtensionViewTests: XCTestCase {
             
         }) {
             wait(for: [expEnvironment], timeout: 0.015)
+        } else {
+            XCTFail("The view should be inspected")
         }
     }
     
@@ -231,6 +233,8 @@ final class ExtensionViewTests: XCTestCase {
             try self.checkDMLoadingModifier(modifier: modifier, loadingManager: loadingManager)
         }) {
             wait(for: [expModifier], timeout: 0.08)
+        } else {
+            XCTFail("The view should be inspected")
         }
     }
     
