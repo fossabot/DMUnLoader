@@ -5,6 +5,10 @@
 //  Created by Nikolay Dementiev on 25.01.2025.
 //
 
+/*
+ 
+ Uncomment it only when needed!
+ 
 import SwiftUI
 
 internal struct DebugLayout: Layout {
@@ -62,3 +66,4 @@ internal extension View {
         return self
     }
 }
+*/
