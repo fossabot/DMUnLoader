@@ -37,6 +37,7 @@ final class OptionalProtocolTests: XCTestCase {
     func testUnwrapValueForNone() {
         let optional: String? = nil
         
+        // swiftlint:disable:next assert_throws_error
         XCTAssertThrowsError(try {
             _ = try optional.unwrapValue()
         }(),

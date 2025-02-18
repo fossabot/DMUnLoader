@@ -286,21 +286,21 @@ final class DispatchQueueOnceTests: XCTestCase {
         let queue = DispatchQueue(label: "concurrent", attributes: .concurrent)
         let group = DispatchGroup()
         
-        // Use a serial queue for thread-safe access
-        let executionQueue = DispatchQueue(label: "executionQueue")
-        var executionCount = 0
+        let executionCountMock = MockOnceTokenObject()
         
         for _ in 0..<20 {
-            queue.async(group: group) {
-                DispatchQueue.once(token: token) {
-                    executionQueue.sync {
-                        executionCount += 1
-                    }
+            queue.async(group: group) { [executionCountMock] in
+                DispatchQueue.once(token: token) { [executionCountMock] in
+                    executionCountMock.executionCount += 1
                 }
             }
         }
         
         group.wait()
-        XCTAssertEqual(executionCount, 1, "Block should execute exactly once in a multithreaded environment")
+        XCTAssertEqual(executionCountMock.executionCount, 1, "Block should execute exactly once in a multithreaded environment")
+    }
+    
+    final class MockOnceTokenObject: @unchecked Sendable {
+        var executionCount = 0
     }
 }

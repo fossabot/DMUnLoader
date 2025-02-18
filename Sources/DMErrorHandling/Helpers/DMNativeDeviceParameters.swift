@@ -62,30 +62,3 @@ struct DefaultScreenSizeProvider: ScreenSizeProvider {
         return deviceSize
     }
 }
-
-//@MainActor
-//internal struct DMNativeDeviceParameters: DMDeviceParameters {
-//    
-//    static func resetScreenSizeProvider() {
-//        screenSizeProvider = { getDefaultScreenSize() }
-//    }
-//    
-//    // Allow dependency injection for screen size
-//    static var screenSizeProvider: () -> CGSize = {
-//        getDefaultScreenSize()
-//    }
-//
-//    static var deviceScreenSize: CGSize {
-//        return screenSizeProvider()
-//    }
-//    
-//    private static func getDefaultScreenSize() -> CGSize {
-//        let deviceSize: CGSize
-//#if os(watchOS)
-//        deviceSize = WKInterfaceDevice.current().screenBounds.size
-//#elseif os(iOS)
-//        deviceSize = UIScreen.main.bounds.size
-//#endif
-//        return deviceSize
-//    }
-//}

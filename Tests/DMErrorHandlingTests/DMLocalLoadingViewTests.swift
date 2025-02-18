@@ -137,11 +137,13 @@ final class DMLocalLoadingViewTests: XCTestCase {
         // Inspect the view hierarchy
         if let expEnvironment = testView.inspection?.inspect({ view in
             
-            let loadingManagerFromView = try? view.actualView().loadingManager
+            let actualView = try? view.actualView()
+            
+            let loadingManagerFromView = actualView?.loadingManager
             XCTAssertNotNil(loadingManagerFromView,
                             "DMLoadingManager should be available as the StateObject")
             
-            let globalLoadingManagerFromView = try view.actualView().globalLoadingManager
+            let globalLoadingManagerFromView = actualView?.globalLoadingManager
             XCTAssertNotNil(globalLoadingManagerFromView,
                             "GlobalLoadingStateManager should be available in the environment")
             
@@ -149,7 +151,7 @@ final class DMLocalLoadingViewTests: XCTestCase {
                            globalManager.id,
                            "GlobalLoadingStateManager ids' is not the same in the environment!")
             
-            let modifier = try? view.actualView().modifier(DMLoadingModifier<MockDMLoadingViewProvider, DMLoadingManager>.self)
+            let modifier = actualView?.modifier(DMLoadingModifier<MockDMLoadingViewProvider, DMLoadingManager>.self)
             XCTAssertNotNil(modifier,
                             "DMLoadingModifier should be applied")
             
@@ -172,7 +174,7 @@ final class DMLocalLoadingViewTests: XCTestCase {
                            // swiftlint:disable:next line_length
                            "DMLoadingView's content `blur` radius should be set to `\(correctBlurValue)` when loading (loadableState != .none)!")
         }) {
-            wait(for: [expEnvironment], timeout: 0.1)
+            wait(for: [expEnvironment], timeout: 0.01)
         }
     }
     

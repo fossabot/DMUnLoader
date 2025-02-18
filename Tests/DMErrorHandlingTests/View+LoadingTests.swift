@@ -40,7 +40,7 @@ final class ExtensionViewTests: XCTestCase {
             .environment(\.globalLoadingManager, globalManager))
         
         // Inspect the view hierarchy
-        if let expEnvironment = testView.inspection?.inspect(after: 0.1, { view in
+        if let expEnvironment = testView.inspection?.inspect(after: 0.01, { view in
             
             let loadingManagerFromView = try? view.actualView().loadingManager
             XCTAssertNotNil(loadingManagerFromView,
@@ -61,7 +61,7 @@ final class ExtensionViewTests: XCTestCase {
             // self.checkDMLoadingModifier(modifier: modifier, loadingManager: loadingManagerFromView!)
             
         }) {
-            wait(for: [expEnvironment], timeout: 0.15)
+            wait(for: [expEnvironment], timeout: 0.015)
         }
     }
     
@@ -225,12 +225,12 @@ final class ExtensionViewTests: XCTestCase {
             .autoLoading(loadingManager,
                          provider: provider,
                          modifier: loadingModifier))
-        wait(for: [expEnvironment], timeout: 0.1)
+        wait(for: [expEnvironment], timeout: 0.02)
         
-        if let expModifier = loadingModifier.inspection?.inspect(after: 0.1, { [unowned self] modifier in
+        if let expModifier = loadingModifier.inspection?.inspect(after: 0.02, { [unowned self] modifier in
             try self.checkDMLoadingModifier(modifier: modifier, loadingManager: loadingManager)
         }) {
-            wait(for: [expModifier], timeout: 0.15)
+            wait(for: [expModifier], timeout: 0.08)
         }
     }
     

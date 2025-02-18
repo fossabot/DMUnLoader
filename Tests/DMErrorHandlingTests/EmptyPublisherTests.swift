@@ -68,7 +68,7 @@ final class EmptyPublisherTests: XCTestCase {
             .store(in: &cancellables)
         
         wait(for: [expectation],
-             timeout: 0.1) // Expect no fulfillment within 0.1 seconds
+             timeout: 0.01) // Expect no fulfillment within 0.1 seconds
     }
     
     func testMultipleSubscribersReceiveSameValue() {

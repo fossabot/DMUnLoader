@@ -8,7 +8,7 @@
 import Foundation
 
 @propertyWrapper
-internal final class Atomic<ValueType: Sendable> {
+internal final class Atomic<ValueType: Sendable>: @unchecked Sendable {
     private var _property: ValueType
     private let wQueue: DispatchQueue = {
         let name = "AtomicProperty" + String(Int.random(in: 0...100000)) + String(describing: ValueType.self)

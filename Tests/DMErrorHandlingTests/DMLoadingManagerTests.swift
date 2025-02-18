@@ -184,7 +184,7 @@ final class DMLoadingManagerTests: XCTestCase {
         let earlyHideExpectation = XCTestExpectation(description: "Loadable state should not hide earlier than 1.5 seconds")
         earlyHideExpectation.isInverted = true // This ensures the test fails if the expectation is fulfilled too early
         
-        let secondsAutoHideDelay: Double = 0.2
+        let secondsAutoHideDelay: Double = 0.05
         let settings = MockDMLoadingManagerSettings(autoHideDelay: .seconds(secondsAutoHideDelay))
         let manager = DMLoadingManager(state: .none, settings: settings)
         
@@ -192,13 +192,13 @@ final class DMLoadingManagerTests: XCTestCase {
         manager.showSuccess("Test Message")
         
         // Check that the state does not transition to `.none` before `\(secondsAutoHideDelay)` seconds
-        DispatchQueue.main.asyncAfter(deadline: .now() + secondsAutoHideDelay - 0.1) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + secondsAutoHideDelay - 0.01) {
             // If the state has already transitioned to `.none`, log a failure (optional)
             XCTAssertFalse(manager.loadableState == .none,
                            "Loadable state transitioned to .none before the expected delay of `\(secondsAutoHideDelay)` seconds")
         }
         
-        wait(for: [earlyHideExpectation], timeout: secondsAutoHideDelay + 0.1) // Ensure no early fulfillment
+        wait(for: [earlyHideExpectation], timeout: secondsAutoHideDelay + 0.01) // Ensure no early fulfillment
         XCTAssertTrue(manager.loadableState == .none,
                        "Loadable state didn't transitioned to .none the expected delay of `\(secondsAutoHideDelay)` seconds")
     }
@@ -208,7 +208,7 @@ final class DMLoadingManagerTests: XCTestCase {
     func testInactivityTimerHidesStateHideExpectation() throws {
         let hideExpectation = XCTestExpectation(description: "Loadable state hidden after inactivity timer")
         
-        let secondsAutoHideDelay: Double = 0.2
+        let secondsAutoHideDelay: Double = 0.03
         let settings = MockDMLoadingManagerSettings(autoHideDelay: .seconds(secondsAutoHideDelay))
         let manager = DMLoadingManager(state: .none, settings: settings)
         
