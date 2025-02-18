@@ -5,11 +5,10 @@
 //  Created by Nikolay Dementiev on 24.01.2025.
 //
 
-/*
 import Foundation
 
 @propertyWrapper
-internal final class Atomic<ValueType> {
+internal final class Atomic<ValueType: Sendable> {
     private var _property: ValueType
     private let wQueue: DispatchQueue = {
         let name = "AtomicProperty" + String(Int.random(in: 0...100000)) + String(describing: ValueType.self)
@@ -18,12 +17,12 @@ internal final class Atomic<ValueType> {
                              attributes: .concurrent)
     }()
     
-    public var projectedValue: Atomic<ValueType> {
+    internal var projectedValue: Atomic<ValueType> {
         // swiftlint:disable:next implicit_getter
         get { self }
     }
     
-    public var wrappedValue: ValueType {
+    internal var wrappedValue: ValueType {
         get {
             wQueue.sync {
                return _property
@@ -36,8 +35,12 @@ internal final class Atomic<ValueType> {
         }
     }
     
-    public init(_ wrappedValue: ValueType) {
+    internal init(_ wrappedValue: ValueType) {
         self._property = wrappedValue
+    }
+    
+    internal func callAsFunction() -> ValueType {
+        wrappedValue
     }
     
     // perform an atomic operation on the atomic property
@@ -51,4 +54,3 @@ internal final class Atomic<ValueType> {
         }
     }
 }
-*/

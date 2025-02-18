@@ -23,13 +23,13 @@ internal final class Inspection<V>: @unchecked Sendable {
 
 internal extension ViewModifier {
     static func getInspectionIfAvailable() -> Inspection<Self>? {
-        return SchemaArguments.isInspectionEnabled ? Inspection<Self>() : nil
+        return SchemaArguments().isInspectionEnabled ? Inspection<Self>() : nil
     }
 }
 
 internal extension View {
     static func getInspectionIfAvailable() -> Inspection<Self>? {
-        return SchemaArguments.isInspectionEnabled ? Inspection<Self>() : nil
+        return SchemaArguments().isInspectionEnabled ? Inspection<Self>() : nil
     }
 }
 
