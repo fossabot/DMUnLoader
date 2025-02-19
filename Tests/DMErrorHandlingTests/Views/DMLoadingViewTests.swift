@@ -188,6 +188,9 @@ final class DMLoadingViewTests: XCTestCase {
             XCTAssertNoThrow(try tapGestureView?.callOnTapGesture(),
                              "The view should be able to call the tap gesture")
             
+            XCTAssertEqual(loadingManager.loadableState,
+                           .none,
+                           "The loadingManager should change the state to .none")
         }) {
             wait(for: [expEnvironment], timeout: 0.022)
         } else {
@@ -219,6 +222,9 @@ final class DMLoadingViewTests: XCTestCase {
             XCTAssertNoThrow(try tapGestureView?.callOnTapGesture(),
                              "The view should be able to call the tap gesture")
             
+            XCTAssertEqual(loadingManager.loadableState,
+                           .loading,
+                           "The loadingManager should not change the state")
         }) {
             wait(for: [expEnvironment], timeout: 0.022)
         } else {
