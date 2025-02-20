@@ -19,10 +19,6 @@ internal enum DMLoadingViewOwnSettings {
 internal struct DMLoadingView<Provider: DMLoadingViewProviderProtocol,
                               LLM: DMLoadingManagerInteralProtocol>: View {
     
-#if DEBUG
-    internal let inspection: Inspection<Self>? = getInspectionIfAvailable()
-#endif
-    
     @ObservedObject private(set) internal var loadingManager: LLM
     internal var provider: Provider
     
@@ -81,10 +77,5 @@ internal struct DMLoadingView<Provider: DMLoadingViewProviderProtocol,
             }
         }
         .tag(DMLoadingViewOwnSettings.tapGestureViewTag)
-#if DEBUG
-        .onReceive(inspection?.notice ?? EmptyPublisher().notice) { [weak inspection] in
-            inspection?.visit(self, $0)
-        }
-#endif
     }
 }

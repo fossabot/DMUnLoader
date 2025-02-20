@@ -30,10 +30,6 @@ final class DMLoadingViewTests: XCTestCase {
     
     @MainActor
     func testNoneStateRendersEmptyView() {
-        defer {
-            ViewHosting.expel()
-        }
-        
         let loadingManager = MockDMLoadingManager()
         let provider = MockDMLoadingViewProvider()
         let testView = DMLoadingView(loadingManager: loadingManager,
@@ -43,27 +39,17 @@ final class DMLoadingViewTests: XCTestCase {
                        .none,
                        "Initial state should be .none")
         
-        ViewHosting.host(view: testView)
-        
-        if let expEnvironment = testView.inspection?.inspect({ view in
-            let noneStateView = try? view
-                .implicitAnyView()
-                .find(viewWithTag: DMLoadingViewOwnSettings.emptyViewTag)
-            XCTAssertNotNil(noneStateView,
-                            "The body should render an EmptyView for .none state")
-        }) {
-            wait(for: [expEnvironment], timeout: 0.022)
-        } else {
-            XCTFail("The view should be inspected")
-        }
+        let testedView = try? testView.inspect()
+        XCTAssertNotNil(testedView, "The view should be rendered")
+        let noneStateView = try? testedView?
+            .implicitAnyView()
+            .find(viewWithTag: DMLoadingViewOwnSettings.emptyViewTag)
+        XCTAssertNotNil(noneStateView,
+                        "The body should render an EmptyView for .none state")
     }
     
     @MainActor
     func testLoadingStateRendersLoadingView() {
-        defer {
-            ViewHosting.expel()
-        }
-        
         let loadingManager = MockDMLoadingManager()
         let provider = MockDMLoadingViewProvider()
         let testView = DMLoadingView(loadingManager: loadingManager,
@@ -74,34 +60,24 @@ final class DMLoadingViewTests: XCTestCase {
                        .loading,
                        "State should be .loading")
         
-        ViewHosting.host(view: testView)
+        let testedView = try? testView.inspect()
+        XCTAssertNotNil(testedView, "The view should be rendered")
+        let defaultStateView = try? testedView?
+            .implicitAnyView()
+            .find(viewWithTag: DMLoadingViewOwnSettings.defaultViewTag)
+            .zStack()
+        XCTAssertNotNil(defaultStateView,
+                        "The body should render the default ZStack as a container")
         
-        if let expEnvironment = testView.inspection?.inspect({ view in
-            let defaultStateView = try? view
-                .implicitAnyView()
-                .find(viewWithTag: DMLoadingViewOwnSettings.defaultViewTag)
-                .zStack()
-            XCTAssertNotNil(defaultStateView,
-                            "The body should render the default ZStack as a container")
-            
-            let loadingStateView = try? view
-                .implicitAnyView()
-                .find(viewWithTag: DMLoadingViewOwnSettings.loadingViewTag)
-            XCTAssertNotNil(loadingStateView,
-                            "The body should render the Loading view for .loading state")
-        }) {
-            wait(for: [expEnvironment], timeout: 0.022)
-        } else {
-            XCTFail("The view should be inspected")
-        }
+        let loadingStateView = try? testedView?
+            .implicitAnyView()
+            .find(viewWithTag: DMLoadingViewOwnSettings.loadingViewTag)
+        XCTAssertNotNil(loadingStateView,
+                        "The body should render the Loading view for .loading state")
     }
     
     @MainActor
     func testFailureStateRendersErrorView() {
-        defer {
-            ViewHosting.expel()
-        }
-        
         let loadingManager = MockDMLoadingManager()
         let provider = MockDMLoadingViewProvider()
         let testView = DMLoadingView(loadingManager: loadingManager,
@@ -116,34 +92,25 @@ final class DMLoadingViewTests: XCTestCase {
                        currentState,
                        "State should be .failure")
         
-        ViewHosting.host(view: testView)
+        let testedView = try? testView.inspect()
+        XCTAssertNotNil(testedView, "The view should be rendered")
         
-        if let expEnvironment = testView.inspection?.inspect({ view in
-            let defaultStateView = try? view
-                .implicitAnyView()
-                .find(viewWithTag: DMLoadingViewOwnSettings.defaultViewTag)
-                .zStack()
-            XCTAssertNotNil(defaultStateView,
-                            "The body should render the default ZStack as a container")
-            
-            let failureStateView = try? view
-                .implicitAnyView()
-                .find(viewWithTag: DMLoadingViewOwnSettings.failureViewTag)
-            XCTAssertNotNil(failureStateView,
-                            "The body should render the ErrorView view for .failure state")
-        }) {
-            wait(for: [expEnvironment], timeout: 0.022)
-        } else {
-            XCTFail("The view should be inspected")
-        }
+        let defaultStateView = try? testedView?
+            .implicitAnyView()
+            .find(viewWithTag: DMLoadingViewOwnSettings.defaultViewTag)
+            .zStack()
+        XCTAssertNotNil(defaultStateView,
+                        "The body should render the default ZStack as a container")
+        
+        let failureStateView = try? testedView?
+            .implicitAnyView()
+            .find(viewWithTag: DMLoadingViewOwnSettings.failureViewTag)
+        XCTAssertNotNil(failureStateView,
+                        "The body should render the ErrorView view for .failure state")
     }
     
     @MainActor
     func testSuccessStateRendersSuccessView() {
-        defer {
-            ViewHosting.expel()
-        }
-        
         let loadingManager = MockDMLoadingManager()
         let provider = MockDMLoadingViewProvider()
         let testView = DMLoadingView(loadingManager: loadingManager,
@@ -156,36 +123,27 @@ final class DMLoadingViewTests: XCTestCase {
                        currentState,
                        "State should be .success")
         
-        ViewHosting.host(view: testView)
+        let testedView = try? testView.inspect()
+        XCTAssertNotNil(testedView, "The view should be rendered")
         
-        if let expEnvironment = testView.inspection?.inspect({ view in
-            let defaultStateView = try? view
-                .implicitAnyView()
-                .find(viewWithTag: DMLoadingViewOwnSettings.defaultViewTag)
-                .zStack()
-            XCTAssertNotNil(defaultStateView,
-                            "The body should render the default ZStack as a container")
-            
-            let successStateView = try? view
-                .implicitAnyView()
-                .find(viewWithTag: DMLoadingViewOwnSettings.successViewTag)
-            XCTAssertNotNil(successStateView,
-                            "The body should render the SuccessView view for .success state")
-        }) {
-            wait(for: [expEnvironment], timeout: 0.022)
-        } else {
-            XCTFail("The view should be inspected")
-        }
+        let defaultStateView = try? testedView?
+            .implicitAnyView()
+            .find(viewWithTag: DMLoadingViewOwnSettings.defaultViewTag)
+            .zStack()
+        XCTAssertNotNil(defaultStateView,
+                        "The body should render the default ZStack as a container")
+        
+        let successStateView = try? testedView?
+            .implicitAnyView()
+            .find(viewWithTag: DMLoadingViewOwnSettings.successViewTag)
+        XCTAssertNotNil(successStateView,
+                        "The body should render the SuccessView view for .success state")
     }
     
     // MARK: Interactivity Tests
     
     @MainActor
     func testTapGestureHidesLoadingManager() {
-        defer {
-            ViewHosting.expel()
-        }
-        
         let loadingManager = MockDMLoadingManager()
         let provider = MockDMLoadingViewProvider()
         let testView = DMLoadingView(loadingManager: loadingManager,
@@ -194,35 +152,25 @@ final class DMLoadingViewTests: XCTestCase {
         let currentState: DMLoadableType = .success(MockDMLoadableTypeSuccess())
         loadingManager.loadableState = currentState
         
-        ViewHosting.host(view: testView)
+        let testedView = try? testView.inspect()
+        XCTAssertNotNil(testedView, "The view should be rendered")
         
-        if let expEnvironment = testView.inspection?.inspect({ view in
-            let tapGestureView = try? view
-                .implicitAnyView()
-                .find(viewWithTag: DMLoadingViewOwnSettings.tapGestureViewTag)
-            XCTAssertNotNil(tapGestureView,
-                            "The body should render a tap gesture view")
-            
-            XCTAssertNoThrow(try tapGestureView?.callOnTapGesture(),
-                             "The view should be able to call the tap gesture")
-            
-            XCTAssertEqual(loadingManager.loadableState,
-                           .none,
-                           "The loadingManager should change the state to .none")
-
-        }) {
-            wait(for: [expEnvironment], timeout: 0.022)
-        } else {
-            XCTFail("The view should be inspected")
-        }
+        let tapGestureView = try? testedView?
+            .implicitAnyView()
+            .find(viewWithTag: DMLoadingViewOwnSettings.tapGestureViewTag)
+        XCTAssertNotNil(tapGestureView,
+                        "The body should render a tap gesture view")
+        
+        XCTAssertNoThrow(try tapGestureView?.callOnTapGesture(),
+                         "The view should be able to call the tap gesture")
+        
+        XCTAssertEqual(loadingManager.loadableState,
+                       .none,
+                       "The loadingManager should change the state to .none")
     }
     
     @MainActor
     func testTapGestureHidesLoadingManagerLoadingState() {
-        defer {
-            ViewHosting.expel()
-        }
-        
         let loadingManager = MockDMLoadingManager()
         let provider = MockDMLoadingViewProvider()
         let testView = DMLoadingView(loadingManager: loadingManager,
@@ -231,25 +179,19 @@ final class DMLoadingViewTests: XCTestCase {
         let currentState: DMLoadableType = .loading
         loadingManager.loadableState = currentState
         
-        ViewHosting.host(view: testView)
+        let testedView = try? testView.inspect()
+        XCTAssertNotNil(testedView, "The view should be rendered")
+        let tapGestureView = try? testedView?
+            .implicitAnyView()
+            .find(viewWithTag: DMLoadingViewOwnSettings.tapGestureViewTag)
+        XCTAssertNotNil(tapGestureView,
+                        "The body should render a tap gesture view")
         
-        if let expEnvironment = testView.inspection?.inspect({ view in
-            let tapGestureView = try? view
-                .implicitAnyView()
-                .find(viewWithTag: DMLoadingViewOwnSettings.tapGestureViewTag)
-            XCTAssertNotNil(tapGestureView,
-                            "The body should render a tap gesture view")
-            
-            XCTAssertNoThrow(try tapGestureView?.callOnTapGesture(),
-                             "The view should be able to call the tap gesture")
-            
-            XCTAssertEqual(loadingManager.loadableState,
-                           .loading,
-                           "The loadingManager should not change the state")
-        }) {
-            wait(for: [expEnvironment], timeout: 0.022)
-        } else {
-            XCTFail("The view should be inspected")
-        }
+        XCTAssertNoThrow(try tapGestureView?.callOnTapGesture(),
+                         "The view should be able to call the tap gesture")
+        
+        XCTAssertEqual(loadingManager.loadableState,
+                       .loading,
+                       "The loadingManager should not change the state")
     }
 }
