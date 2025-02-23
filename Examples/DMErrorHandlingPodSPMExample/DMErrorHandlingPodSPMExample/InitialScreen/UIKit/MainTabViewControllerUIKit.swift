@@ -12,7 +12,7 @@ final class MainTabViewControllerUIKit: UITabBarController {
     
     private(set) weak var globalLoadingManager: GlobalLoadingStateManager!
     
-    internal init(manager: GlobalLoadingStateManager? = nil) {
+    internal init(manager: GlobalLoadingStateManager) {
         self.globalLoadingManager = manager
         super.init(nibName: nil, bundle: nil)
     }

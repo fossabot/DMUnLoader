@@ -9,7 +9,7 @@ import XCTest
 import SwiftUI
 import ViewInspector
 
-class DMWrappedViewUIKitTests: XCTestCase {
+final class DMWrappedViewUIKitTests: XCTestCase {
     
     // MARK: - Initialization Tests
     

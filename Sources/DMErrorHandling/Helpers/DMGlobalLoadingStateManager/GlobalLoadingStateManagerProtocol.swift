@@ -12,7 +12,6 @@ public protocol GlobalLoadingStateManagerProtocol: ObservableObject, Observable 
 
 internal protocol GlobalLoadingStateManagerInternalProtocol: GlobalLoadingStateManagerProtocol {
     var id: UUID { get }
-    var loadableState: DMLoadableType { get }
     var isLoading: Bool { get }
     @MainActor
     func subscribeToLoadingManagers<LLM: DMLoadingManagerInteralProtocol>(_ loadingManagers: LLM...)
