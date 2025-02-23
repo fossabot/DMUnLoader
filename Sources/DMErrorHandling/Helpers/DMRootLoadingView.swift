@@ -7,6 +7,7 @@
 import SwiftUICore
 
 public struct DMRootLoadingView<Content: View>: View {
+    internal let id: UUID = UUID()
     private let content: (GlobalLoadingStateManager) -> Content
     
     // uses for UIKit's approach to obtain Loading Manager object
