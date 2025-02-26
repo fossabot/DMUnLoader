@@ -4,8 +4,6 @@
 //  Created by Mykola Dementiev
 //
 
-import DMAction
-
 /// An enumeration representing the possible states of a loadable operation.
 /// Conforms to `Hashable` and `RawRepresentable` for easy comparison and serialization.
 public enum DMLoadableType: Hashable, RawRepresentable {

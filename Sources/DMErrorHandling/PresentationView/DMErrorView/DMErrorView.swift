@@ -5,7 +5,6 @@
 //
 
 import SwiftUI
-import DMAction
 
 /// A namespace for constants used in the `DMErrorView`.
 /// These constants define unique tags for views within the error view.

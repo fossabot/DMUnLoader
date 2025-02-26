@@ -2,15 +2,6 @@
   "originHash" : "49f43300fce58a53bf49c37777f29d159f07337dffa8abdd21cd3feebdcaaf28",
   "pins" : [
     {
-      "identity" : "dmaction",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/nikolay-dementiev/DMAction.git",
-      "state" : {
-        "branch" : "main",
-        "revision" : "e98a6022dea7819fb4d180f30c3ece90af2db0b7"
-      }
-    },
-    {
       "identity" : "swiftlintplugin",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/GayleDunham/SwiftLintPlugin.git",
