@@ -1,6 +1,15 @@
 {
-  "originHash" : "4d4825aa2837bfdddd1be104df14421cbe0e0ab36ad9d957911fba8d0b54b7fa",
+  "originHash" : "53025413439f246bf79f5c7fd78ae63d00331f61759cb03bcef74c68aa664dff",
   "pins" : [
+    {
+      "identity" : "dmaction",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/nikolay-dementiev/DMAction.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "5b55adf807469364dbb2f95ac02cbc2b9bd86aa6"
+      }
+    },
     {
       "identity" : "swiftlintplugin",
       "kind" : "remoteSourceControl",
