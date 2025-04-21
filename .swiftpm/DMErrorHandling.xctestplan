@@ -9,11 +9,21 @@
     }
   ],
   "defaultOptions" : {
+    "codeCoverage" : {
+      "targets" : [
+        {
+          "containerPath" : "container:",
+          "identifier" : "DMErrorHandling",
+          "name" : "DMErrorHandling"
+        }
+      ]
+    },
     "commandLineArgumentEntries" : [
       {
         "argument" : "--enable-inspection"
       }
-    ]
+    ],
+    "testExecutionOrdering" : "random"
   },
   "testTargets" : [
     {
