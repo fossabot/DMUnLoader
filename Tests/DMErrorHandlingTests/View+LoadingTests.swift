@@ -239,36 +239,48 @@ final class ExtensionViewTests: XCTestCase {
     
     private func checkDMLoadingModifier<Provider: DMLoadingViewProviderProtocol, LM: DMLoadingManagerInteralProtocol>
     (modifier: InspectableView<ViewType.ViewModifier<DMLoadingModifier<Provider, LM>>>,
-     loadingManager: LM) throws {
+     loadingManager: LM,
+     file: StaticString = #filePath,
+     line: UInt = #line) throws {
         let loadingManagerFromModifier = try modifier.actualView().loadingManager
         // modifier.viewModifierContent()
         
-        XCTAssertNotNil(loadingManagerFromModifier, "DMLoadingManager should be available in the modifier")
+        XCTAssertNotNil(loadingManagerFromModifier,
+                        "DMLoadingManager should be available in the modifier",
+                        file: file,
+                        line: line)
         
         XCTAssertEqual(loadingManagerFromModifier.id,
                        loadingManager.id,
-                       "DMLoadingManager ids' is not the same in the modifier!")
+                       "DMLoadingManager ids' is not the same in the modifier!",
+                       file: file,
+                       line: line)
         
         let childDMLoadingView = try? modifier
-            .implicitAnyView()
             .find(DMLoadingView<MockDMLoadingViewProvider, MockDMLoadingManager>.self)
             .actualView()
-        XCTAssertNotNil(childDMLoadingView, "DMLoadingView should be available in the modifier's content")
+        XCTAssertNotNil(childDMLoadingView, "DMLoadingView should be available in the modifier's content", file: file, line: line)
         XCTAssertEqual(childDMLoadingView?.loadingManager.id,
                        loadingManager.id,
-                       "DMLoadingManager ids' is not the same in the DMLoadingView!")
+                       "DMLoadingManager ids' is not the same in the DMLoadingView!",
+                       file: file,
+                       line: line)
         
-        let loadingContentViewFromModifier = try modifier.implicitAnyView().zStack().first
+        let loadingContentViewFromModifier = try modifier.zStack().first
         let isLoading = loadingManagerFromModifier.loadableState != .none
         XCTAssertEqual(loadingContentViewFromModifier?.isDisabled(),
                        isLoading,
-                       "DMLoadingView's content should be disabled when loading (loadableState != .none)!")
+                       "DMLoadingView's content should be disabled when loading (loadableState != .none)!",
+                       file: file,
+                       line: line)
         
         let correctBlurValue: CGFloat = isLoading ? 2 : 0
         XCTAssertEqual(try loadingContentViewFromModifier?.blur().radius,
                        correctBlurValue,
                        // swiftlint:disable:next line_length
-                       "DMLoadingView's content `blur` radius should be set to `\(correctBlurValue)` when loading (loadableState != .none)!")
+                       "DMLoadingView's content `blur` radius should be set to `\(correctBlurValue)` when loading (loadableState != .none)!",
+                       file: file,
+                       line: line)
     }
 }
 

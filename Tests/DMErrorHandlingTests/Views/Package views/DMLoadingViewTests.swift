@@ -42,10 +42,9 @@ final class DMLoadingViewTests: XCTestCase {
         let testedView = try? testView.inspect()
         XCTAssertNotNil(testedView, "The view should be rendered")
         let noneStateView = try? testedView?
-            .implicitAnyView()
             .find(viewWithTag: DMLoadingViewOwnSettings.emptyViewTag)
         XCTAssertNotNil(noneStateView,
-                        "The body should render an EmptyView for .none state")
+                        "The body should render an EmptyView for .none state; Instead rendered as `\(type(of: noneStateView))`")
     }
     
     @MainActor
@@ -63,17 +62,21 @@ final class DMLoadingViewTests: XCTestCase {
         let testedView = try? testView.inspect()
         XCTAssertNotNil(testedView, "The view should be rendered")
         let defaultStateView = try? testedView?
-            .implicitAnyView()
             .find(viewWithTag: DMLoadingViewOwnSettings.defaultViewTag)
             .zStack()
         XCTAssertNotNil(defaultStateView,
-                        "The body should render the default ZStack as a container")
+                        """
+                        The body should render the default ZStack as a container;
+                        Instead rendered as `\(type(of: defaultStateView))`
+                        """)
         
         let loadingStateView = try? testedView?
-            .implicitAnyView()
             .find(viewWithTag: DMLoadingViewOwnSettings.loadingViewTag)
         XCTAssertNotNil(loadingStateView,
-                        "The body should render the Loading view for .loading state")
+                        """
+                        The body should render the Loading view for .loading state; 
+                        Instead rendered as `\(type(of: loadingStateView))`
+                        """)
     }
     
     @MainActor
@@ -95,18 +98,22 @@ final class DMLoadingViewTests: XCTestCase {
         let testedView = try? testView.inspect()
         XCTAssertNotNil(testedView, "The view should be rendered")
         
-        let testedViewImplicitAnyView = try? testedView?
-            .implicitAnyView()
-        let defaultStateView = try? testedViewImplicitAnyView?
+        let defaultStateView = try? testedView?
             .find(viewWithTag: DMLoadingViewOwnSettings.defaultViewTag)
             .zStack()
         XCTAssertNotNil(defaultStateView,
-                        "The body should render the default ZStack as a container")
+                        """
+                        The body should render the default ZStack as a container;
+                        Instead rendered as `\(type(of: defaultStateView))`
+                        """)
         
-        let failureStateView = try? testedViewImplicitAnyView?
+        let failureStateView = try? testedView?
             .find(viewWithTag: DMLoadingViewOwnSettings.failureViewTag)
         XCTAssertNotNil(failureStateView,
-                        "The body should render the ErrorView view for .failure state")
+                        """
+                        The body should render the ErrorView view for .failure state;
+                        Instead rendered as `\(type(of: failureStateView))`
+                        """)
     }
     
     @MainActor
@@ -127,17 +134,21 @@ final class DMLoadingViewTests: XCTestCase {
         XCTAssertNotNil(testedView, "The view should be rendered")
         
         let defaultStateView = try? testedView?
-            .implicitAnyView()
             .find(viewWithTag: DMLoadingViewOwnSettings.defaultViewTag)
             .zStack()
         XCTAssertNotNil(defaultStateView,
-                        "The body should render the default ZStack as a container")
+                        """
+                        The body should render the default ZStack as a container;
+                        Instead rendered as `\(type(of: defaultStateView))`
+                        """)
         
         let successStateView = try? testedView?
-            .implicitAnyView()
             .find(viewWithTag: DMLoadingViewOwnSettings.successViewTag)
         XCTAssertNotNil(successStateView,
-                        "The body should render the SuccessView view for .success state")
+                        """
+                        The body should render the SuccessView view for .success state;
+                        Instead rendered as `\(type(of: successStateView))`
+                        """)
     }
     
     // MARK: Interactivity Tests
@@ -156,17 +167,22 @@ final class DMLoadingViewTests: XCTestCase {
         XCTAssertNotNil(testedView, "The view should be rendered")
         
         let tapGestureView = try? testedView?
-            .implicitAnyView()
             .find(viewWithTag: DMLoadingViewOwnSettings.tapGestureViewTag)
         XCTAssertNotNil(tapGestureView,
-                        "The body should render a tap gesture view")
+                        """
+                        The body should render a tap gesture view;
+                        Instead rendered as `\(type(of: tapGestureView))`
+                        """)
         
         XCTAssertNoThrow(try tapGestureView?.callOnTapGesture(),
                          "The view should be able to call the tap gesture")
         
         XCTAssertEqual(loadingManager.loadableState,
                        .none,
-                       "The loadingManager should change the state to .none")
+                       """
+                       The loadingManager should change the state to .none;
+                       Instead set`\(loadingManager.loadableState)`
+                       """)
     }
     
     @MainActor
@@ -182,10 +198,12 @@ final class DMLoadingViewTests: XCTestCase {
         let testedView = try? testView.inspect()
         XCTAssertNotNil(testedView, "The view should be rendered")
         let tapGestureView = try? testedView?
-            .implicitAnyView()
             .find(viewWithTag: DMLoadingViewOwnSettings.tapGestureViewTag)
         XCTAssertNotNil(tapGestureView,
-                        "The body should render a tap gesture view")
+                        """
+                        The body should render a tap gesture view;
+                        Instead rendered as `\(type(of: tapGestureView))`
+                        """)
         
         XCTAssertNoThrow(try tapGestureView?.callOnTapGesture(),
                          "The view should be able to call the tap gesture")

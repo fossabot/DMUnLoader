@@ -1,5 +1,5 @@
 {
-  "originHash" : "53025413439f246bf79f5c7fd78ae63d00331f61759cb03bcef74c68aa664dff",
+  "originHash" : "dd42dc391eef5d087a2f767d0a6950e678908bf18a8cec0906c67037f99afd7a",
   "pins" : [
     {
       "identity" : "dmaction",
@@ -7,7 +7,7 @@
       "location" : "https://github.com/nikolay-dementiev/DMAction.git",
       "state" : {
         "branch" : "main",
-        "revision" : "5b55adf807469364dbb2f95ac02cbc2b9bd86aa6"
+        "revision" : "f1d0a7fe092d111b6759aab1f1f5d4eac3440f43"
       }
     },
     {

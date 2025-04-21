@@ -161,7 +161,6 @@ final class DMLocalLoadingViewTests: XCTestCase {
                             "DMLoadingModifier should be applied")
             
             let childDMLoadingView = try? view
-                .implicitAnyView()
                 .find(DMLoadingView<MockDMLoadingViewProvider, DMLoadingManager>.self)
             XCTAssertNotNil(childDMLoadingView, "DMLoadingView should be available in the DMLocalLoadingView.modifier's content")
             

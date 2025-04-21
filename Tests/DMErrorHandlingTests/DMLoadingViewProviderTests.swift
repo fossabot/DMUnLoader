@@ -23,16 +23,24 @@ final class DMLoadingViewProviderTests: XCTestCase {
     }
     
     @MainActor
-    func testDefaultLoadingView() throws {
+    func testDefaultLoadingView() {
         let provider = DefaultDMLoadingViewProvider()
         let loadingViewWrappedInAnyView = provider.getLoadingView()
-        let loadingView: DMProgressView = try castView(loadingViewWrappedInAnyView)
         
-        XCTAssertTrue((loadingView as Any) is DMProgressView,
-                      """
-                      Default loading view should be an instance of type: `MProgressView`
-                      but it is `\(type(of: loadingView))` instead!
-                      """)
+        do {
+            let loadingView: DMProgressView = try castView(loadingViewWrappedInAnyView)
+            
+            XCTAssertTrue((loadingView as Any) is DMProgressView,
+                          """
+                          Default loading view should be an instance of type: `MProgressView`
+                          but it is `\(type(of: loadingView))` instead!
+                          """)
+        } catch {
+            XCTFail("""
+            Failed to cast the default loading view to `DMProgressView`.
+            Error: \(error.localizedDescription)
+            """)
+        }
     }
     
     @MainActor
@@ -153,12 +161,17 @@ final class DMLoadingViewProviderTests: XCTestCase {
 
 extension DMLoadingViewProviderTests {
     func castView<T: View>(_ viewToCast: some View) throws -> T {
-        let requestedView = try viewToCast
-            .inspect()
-            .implicitAnyView()
-            .view(T.self)
-            .actualView()
         
-        return requestedView
+        guard let viewToCast = viewToCast as? T else {
+            let requestedView = try viewToCast
+                .inspect()
+                //.implicitAnyView()
+                .view(T.self)
+                .actualView()
+            
+            return requestedView
+        }
+        
+        return viewToCast
     }
 }
