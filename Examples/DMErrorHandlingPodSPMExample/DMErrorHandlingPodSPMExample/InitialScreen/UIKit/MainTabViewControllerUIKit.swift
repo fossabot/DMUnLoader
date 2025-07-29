@@ -1,12 +1,12 @@
 //
-//  DMErrorHandlingPodExample
+//  DMUnLoaderPodExample
 //
 //  Created by Mykola Dementiev
 //
 
 import UIKit
 import Combine
-import DMErrorHandling
+import DMUnLoader
 
 final class MainTabViewControllerUIKit: UITabBarController {
     
@@ -64,7 +64,7 @@ final class MainTabViewControllerUIKit: UITabBarController {
 }
 
 extension MainTabViewControllerUIKit: DMViewControllerTopLevel {
-    func handleLoadingStateChange(_ state: DMErrorHandling.DMLoadableType) {
+    func handleLoadingStateChange(_ state: DMUnLoader.DMLoadableType) {
         view.isUserInteractionEnabled = state != .loading
     }
 }

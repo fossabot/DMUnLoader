@@ -1,11 +1,11 @@
 //
-//  DMErrorHandlingPodExample
+//  DMUnLoaderPodExample
 //
 //  Created by Mykola Dementiev
 //
 
 import SwiftUI
-import DMErrorHandling
+import DMUnLoader
 
 /**
  A SwiftUI view (`ContentViewDefaultSettings`) that represents a loading view with default settings.

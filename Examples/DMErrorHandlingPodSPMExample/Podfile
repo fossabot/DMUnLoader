@@ -17,10 +17,10 @@ clean_xcode_project(PROJECT_NAME)
 
 # Main target configuration
 target PROJECT_NAME do
-  # Conditionally include the DMErrorHandling pod
+  # Conditionally include the DMUnLoader pod
   if is_pod_configuration(current_dependency_manager)
     use_frameworks!
-    pod 'DMErrorHandling', path: '../../'
+    pod 'DMUnLoader', path: '../../'
   end
 end
 

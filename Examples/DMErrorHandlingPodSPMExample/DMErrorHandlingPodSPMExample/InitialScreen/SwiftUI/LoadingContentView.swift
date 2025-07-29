@@ -1,11 +1,11 @@
 //
-//  DMErrorHandlingPodExample
+//  DMUnLoaderPodExample
 //
 //  Created by Mykola Dementiev
 //
 
 import SwiftUI
-import DMErrorHandling
+import DMUnLoader
 
 internal struct LoadingContentView: View {
     @EnvironmentObject var loadingManager: DMLoadingManager

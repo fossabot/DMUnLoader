@@ -1,11 +1,11 @@
 //
-//  DMErrorHandlingPodExample
+//  DMUnLoaderPodExample
 //
 //  Created by Mykola Dementiev
 //
 
 import UIKit
-import DMErrorHandling
+import DMUnLoader
 
 /**
  A generic `ContentViewDefaultSettingsUIKit` class that extends `DMLocalLoadingViewUIKit`

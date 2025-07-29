@@ -11,6 +11,6 @@
 #endif
 
 
-FOUNDATION_EXPORT double Pods_DMErrorHandlingPodSPMExampleVersionNumber;
-FOUNDATION_EXPORT const unsigned char Pods_DMErrorHandlingPodSPMExampleVersionString[];
+FOUNDATION_EXPORT double Pods_DMUnLoaderPodSPMExampleVersionNumber;
+FOUNDATION_EXPORT const unsigned char Pods_DMUnLoaderPodSPMExampleVersionString[];
 

@@ -1,11 +1,11 @@
 //
-//  DMErrorHandlingPodExample
+//  DMUnLoaderPodExample
 //
 //  Created by Mykola Dementiev
 //
 
 import SwiftUI
-import DMErrorHandling
+import DMUnLoader
 
 /// A custom implementation of `DMLoadingViewProvider` that provides custom loading and error views.
 /// This class also defines settings for the `DMLoadingManager`, including success view configurations.

@@ -1,5 +1,5 @@
 #import <Foundation/Foundation.h>
-@interface PodsDummy_Pods_DMErrorHandlingPodSPMExample : NSObject
+@interface PodsDummy_Pods_DMUnLoaderPodSPMExample : NSObject
 @end
-@implementation PodsDummy_Pods_DMErrorHandlingPodSPMExample
+@implementation PodsDummy_Pods_DMUnLoaderPodSPMExample
 @end

@@ -1,5 +1,5 @@
 //
-//  DMErrorHandlingPodExample
+//  DMUnLoaderPodExample
 //
 //  Created by Mykola Dementiev
 //
@@ -7,7 +7,7 @@
 
 import UIKit
 import SwiftUI
-import DMErrorHandling
+import DMUnLoader
 
 #if UIKIT_APP
 
@@ -38,7 +38,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 #elseif SWIFTUI_APP
 
 @main
-struct DMErrorHandlingPodSPMExampleApp: App {
+struct DMUnLoaderPodSPMExampleApp: App {
     
     init () {
         AppDelegateHelper.makeAppDescriprtion()

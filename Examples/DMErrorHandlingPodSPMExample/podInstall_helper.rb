@@ -1,5 +1,5 @@
 # Define constants for dependency manager settings
-PROJECT_NAME = 'DMErrorHandlingPodSPMExample'
+PROJECT_NAME = 'DMUnLoaderPodSPMExample'
 DEPENDENCY_MANAGER_POD = 'POD'
 DEPENDENCY_MANAGER_SPM = 'SPM'
 DEPENDENCY_MANAGER_KEY = 'DEPENDENCY_MANAGER'

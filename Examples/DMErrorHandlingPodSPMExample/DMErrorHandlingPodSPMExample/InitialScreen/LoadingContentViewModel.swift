@@ -1,11 +1,11 @@
 //
-//  DMErrorHandlingPodSPMExample
+//  DMUnLoaderPodSPMExample
 //
 //  Created by Mykola Dementiev
 //
 
 import Foundation
-import DMErrorHandling
+import DMUnLoader
 
 /// The `LoadingContentViewModel` is the ViewModel responsible for managing the state and actions
 /// related to loading, success, and error scenarios in the UI. It adheres to the MVVM pattern

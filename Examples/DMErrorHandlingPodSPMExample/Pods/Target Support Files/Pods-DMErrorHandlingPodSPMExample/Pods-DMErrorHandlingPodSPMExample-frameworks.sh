@@ -177,11 +177,11 @@ code_sign_if_enabled() {
 
 if [[ "$CONFIGURATION" == "Debug-SwiftUI" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/DMAction/DMAction.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/DMErrorHandling/DMErrorHandling.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/DMUnLoader/DMUnLoader.framework"
 fi
 if [[ "$CONFIGURATION" == "Debug-UIKit" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/DMAction/DMAction.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/DMErrorHandling/DMErrorHandling.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/DMUnLoader/DMUnLoader.framework"
 fi
 if [ "${COCOAPODS_PARALLEL_CODE_SIGN}" == "true" ]; then
   wait

@@ -1,12 +1,12 @@
 //
-//  DMErrorHandlingPodExample
+//  DMUnLoaderPodExample
 //
 //  Created by Mykola Dementiev
 //
 
 import UIKit
 import Combine
-import DMErrorHandling
+import DMUnLoader
 
 final class LoadingContentViewUIKit: UIView {
     private let viewModel = LoadingContentViewModel()
