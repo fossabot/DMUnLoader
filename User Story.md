@@ -9,7 +9,7 @@ so that users can understand what is happening in the app at any given moment, i
 ## Acceptance Criteria
 
 ### 1. `Idle` State
-1. When the app is not performing any operation, the `Idle` state should be activated.
+1. When the app is initiated, the `Idle` state should be activated.
 2. In the `Idle` state, no screen should be displayed — the library should render a null view, ensuring that no visible content is shown to the user.
 
 ### 2. `Loading` State:
@@ -42,7 +42,11 @@ The `Success` Screen may include the following optional elements:
 1. Exclusive State Display:
 - Only one state (Idle, Loading, Error, or Success) can be displayed at a time.
 - Switching between states should be smooth and intuitive, ensuring a seamless user experience.
-2. Customizability:
+2. Automatic Fallback to Idle State
+- After a specified period of time (configurable via Loader settings), the states `Success` and `Error` should automatically fallback to the `Idle` state.
+- The duration for displaying states must be explicitly provided by the developer in the Loader settings.
+- If no duration is specified, the library will use a default value of `2` seconds.
+3. Customizability:
 - Developers should be able to customize the appearance and content of each default state screen (e.g., colors, text, icons).
 - Developers should have the option to provide their own implementation for any state screen, allowing them to completely replace the default implementation.
 - If developers do not provide a custom implementation for a state screen, the **default implementation** must be used automatically.
