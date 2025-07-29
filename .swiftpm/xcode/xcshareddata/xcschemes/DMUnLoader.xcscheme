@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1630"
+   LastUpgradeVersion = "1640"
    version = "1.7">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -15,9 +15,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "DMErrorHandling"
-               BuildableName = "DMErrorHandling"
-               BlueprintName = "DMErrorHandling"
+               BlueprintIdentifier = "DMUnLoader"
+               BuildableName = "DMUnLoader"
+               BlueprintName = "DMUnLoader"
                ReferencedContainer = "container:">
             </BuildableReference>
          </BuildActionEntry>
@@ -30,18 +30,19 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <TestPlans>
          <TestPlanReference
-            reference = "container:DMErrorHandling.xctestplan"
+            reference = "container:DMUnLoader.xctestplan"
             default = "YES">
          </TestPlanReference>
       </TestPlans>
       <Testables>
          <TestableReference
-            skipped = "NO">
+            skipped = "NO"
+            parallelizable = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "DMErrorHandlingTests"
-               BuildableName = "DMErrorHandlingTests"
-               BlueprintName = "DMErrorHandlingTests"
+               BlueprintIdentifier = "DMUnLoaderTests"
+               BuildableName = "DMUnLoaderTests"
+               BlueprintName = "DMUnLoaderTests"
                ReferencedContainer = "container:">
             </BuildableReference>
          </TestableReference>
@@ -67,9 +68,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "DMErrorHandling"
-            BuildableName = "DMErrorHandling"
-            BlueprintName = "DMErrorHandling"
+            BlueprintIdentifier = "DMUnLoader"
+            BuildableName = "DMUnLoader"
+            BlueprintName = "DMUnLoader"
             ReferencedContainer = "container:">
          </BuildableReference>
       </MacroExpansion>

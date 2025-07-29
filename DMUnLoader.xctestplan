@@ -9,10 +9,20 @@
     }
   ],
   "defaultOptions" : {
-
+    "codeCoverage" : {
+      "targets" : [
+        {
+          "containerPath" : "container:",
+          "identifier" : "DMUnLoader",
+          "name" : "DMUnLoader"
+        }
+      ]
+    },
+    "testExecutionOrdering" : "random"
   },
   "testTargets" : [
     {
+      "parallelizable" : true,
       "target" : {
         "containerPath" : "container:",
         "identifier" : "DMUnLoaderTests",
