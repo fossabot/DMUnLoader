@@ -16,6 +16,12 @@ final class DMLoadingViewProviderUseCaseTests: XCTestCase {
         XCTAssertEqual(settingsUT.autoHideDelay, .seconds(2))
     }
     
+    func test_defaultImplementation_providesLoadingViewSettings() {
+        let sut = LoadingViewProviderSpy()
+        
+        let settingsUT = sut.loadingManagerSettings
+        XCTAssertEqual(settingsUT.autoHideDelay, .seconds(2))
+    }
     
     // MARK: - Helpers
 }
