@@ -25,7 +25,7 @@ public class DMLoadingManagerService: LoadingManager {
     private var inactivityTimerCancellable: AnyCancellable?
     
     public init(withState state: DMLoadableState = .idle,
-                settings: DMLoadingManagerSettings = DMLoadingManagerSettings()) {
+                settings: DMLoadingManagerSettings = DMLoadingManagerConfiguration()) {
         self._currentState = Atomic(state)
         self.settings = settings
     }
@@ -53,6 +53,7 @@ public class DMLoadingManagerService: LoadingManager {
     /// Starts the inactivity timer, which automatically hides the loading state after the specified delay.
     private func startInactivityTimer() {
         stopInactivityTimer()
+        
         inactivityTimerCancellable = Deferred {
             Future<Void, Never> { promise in
                 promise(.success(()))
@@ -72,7 +73,11 @@ public class DMLoadingManagerService: LoadingManager {
     }
 }
 
-public struct DMLoadingManagerSettings {
+public protocol DMLoadingManagerSettings {
+    var autoHideDelay: Duration { get }
+}
+
+public struct DMLoadingManagerConfiguration: DMLoadingManagerSettings {
     public let autoHideDelay: Duration
     
     public init(autoHideDelay: Duration = .seconds(2)) {

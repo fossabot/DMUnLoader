@@ -80,7 +80,7 @@ final class LoadingManagerUseCaseTests: XCTestCase {
         
     func test_currentState_IfItsNotIdleOrLoadingShouldResetToIdleStateAfterTimeInterval() {
         let secTimeInterval: Double = 0.001
-        let sut = makeSUT(settings: DMLoadingManagerSettings(autoHideDelay: .seconds(secTimeInterval)))
+        let sut = makeSUT(settings: DMLoadingManagerConfiguration(autoHideDelay: .seconds(secTimeInterval)))
         
         let states = [
             DMLoadableState.success,
@@ -107,7 +107,7 @@ final class LoadingManagerUseCaseTests: XCTestCase {
     
     func test_currentState_IfItsIdleOrLoadingShouldNotResetToIdleStateAfterTimeInterval() {
         let secTimeInterval: Double = 0.001
-        let sut = makeSUT(settings: DMLoadingManagerSettings(autoHideDelay: .seconds(secTimeInterval)))
+        let sut = makeSUT(settings: DMLoadingManagerConfiguration(autoHideDelay: .seconds(secTimeInterval)))
         
         let states = [
             DMLoadableState.idle,
@@ -143,7 +143,7 @@ final class LoadingManagerUseCaseTests: XCTestCase {
     
     // MARK: - Helpers
     
-    private func makeSUT(settings: DMLoadingManagerSettings = DMLoadingManagerSettings()) -> LoadingManagerSpy {
+    private func makeSUT(settings: DMLoadingManagerSettings = DMLoadingManagerConfiguration()) -> LoadingManagerSpy {
         LoadingManagerSpy(manager: DMLoadingManagerService(settings: settings))
     }
     
