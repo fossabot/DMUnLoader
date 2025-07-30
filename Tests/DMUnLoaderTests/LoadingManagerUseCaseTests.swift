@@ -5,6 +5,7 @@
 //
 
 import XCTest
+import DMUnLoader
 
 final class LoadingManagerUseCaseTests: XCTestCase {
 
