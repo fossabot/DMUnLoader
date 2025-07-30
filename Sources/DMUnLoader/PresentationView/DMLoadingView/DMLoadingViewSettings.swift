@@ -27,6 +27,13 @@ public protocol DMLoadingViewSettings {
 /// This struct provides default settings for a loading view, with customizable properties.
 public struct DMLoadingDefaultViewSettings: DMLoadingViewSettings {
     
+    public enum Settings {
+        nonisolated(unsafe) public static let loadingTextProperties: LoadingTextProperties = LoadingTextProperties()
+        nonisolated(unsafe) public static let progressIndicatorProperties: ProgressIndicatorProperties = ProgressIndicatorProperties()
+        public static let loadingContainerForegroundColor: Color = Color.primary
+        public static let frameGeometrySize: CGSize = CGSize(width: 300, height: 300)
+    }
+    
     /// Properties related to the loading text displayed in the loading view.
     public let loadingTextProperties: LoadingTextProperties
     
@@ -54,10 +61,10 @@ public struct DMLoadingDefaultViewSettings: DMLoadingViewSettings {
     ///       frameGeometrySize: CGSize(width: 400, height: 400)
     ///   )
     ///   ```
-    public init(loadingTextProperties: LoadingTextProperties = LoadingTextProperties(),
-                progressIndicatorProperties: ProgressIndicatorProperties = ProgressIndicatorProperties(),
-                loadingContainerForegroundColor: Color = Color.primary,
-                frameGeometrySize: CGSize = CGSize(width: 300, height: 300)) {
+    public init(loadingTextProperties: LoadingTextProperties = Settings.loadingTextProperties,
+                progressIndicatorProperties: ProgressIndicatorProperties = Settings.progressIndicatorProperties,
+                loadingContainerForegroundColor: Color = Settings.loadingContainerForegroundColor,
+                frameGeometrySize: CGSize = Settings.frameGeometrySize) {
         
         self.loadingTextProperties = loadingTextProperties
         self.progressIndicatorProperties = progressIndicatorProperties

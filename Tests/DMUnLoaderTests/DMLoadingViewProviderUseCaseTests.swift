@@ -14,16 +14,18 @@ final class DMLoadingViewProviderUseCaseTests: XCTestCase {
         let sut = makeSUT()
         
         let settingsUT = sut.loadingManagerSettings
-        XCTAssertEqual(settingsUT.autoHideDelay, .seconds(2))
+        let defaultSettings = DMLoadingManagerConfiguration.Settings.self
+        XCTAssertEqual(settingsUT.autoHideDelay, defaultSettings.autoHideDelay)
     }
     
     func test_defaultImplementation_providesLoadingViewSettings() {
         let sut = makeSUT()
         
         let settingsUT = sut.loadingViewSettings
+        let defaultSettings = DMLoadingDefaultViewSettings.Settings.self
         XCTAssertEqual(
             settingsUT.frameGeometrySize,
-            CGSize(width: 300, height: 300)
+            defaultSettings.frameGeometrySize
         )
         XCTAssertEqual(
             settingsUT.loadingContainerForegroundColor,
@@ -31,26 +33,11 @@ final class DMLoadingViewProviderUseCaseTests: XCTestCase {
         )
         XCTAssertEqual(
             settingsUT.progressIndicatorProperties,
-            ProgressIndicatorProperties(
-                size: .large,
-                tintColor: .white
-            )
+            defaultSettings.progressIndicatorProperties
         )
         XCTAssertEqual(
             settingsUT.loadingTextProperties,
-            LoadingTextProperties(
-                text: LoadingTextProperties.defaultText,
-                alignment: .center,
-                foregroundColor: .white,
-                font: .body,
-                lineLimit: 3,
-                linePadding: EdgeInsets(
-                    top: 0,
-                    leading: 10,
-                    bottom: 0,
-                    trailing: 10
-                )
-            )
+            defaultSettings.loadingTextProperties
         )
     }
     

@@ -78,9 +78,13 @@ public protocol DMLoadingManagerSettings {
 }
 
 public struct DMLoadingManagerConfiguration: DMLoadingManagerSettings {
+    public enum Settings {
+        public static let autoHideDelay: Duration = .seconds(2)
+    }
+    
     public let autoHideDelay: Duration
     
-    public init(autoHideDelay: Duration = .seconds(2)) {
+    public init(autoHideDelay: Duration = Settings.autoHideDelay) {
         self.autoHideDelay = autoHideDelay
     }
 }
