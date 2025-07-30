@@ -9,11 +9,11 @@ so that users can understand what is happening in the app at any given moment, i
 ## Acceptance Criteria
 
 ### 1. `Idle` State
-1. When the app is initiated, the `Idle` state should be activated.
+1. ✅ When the app is initiated, the `Idle` state should be activated.
 2. In the `Idle` state, no screen should be displayed — the library should render a null view, ensuring that no visible content is shown to the user.
 
 ### 2. `Loading` State:
-1. When the app is e.g. fetching data or performing an operation, the `Loading` Screen could replace the `Idle` (or any other currently displayed) Screen.
+1. When the app is e.g. fetching data or performing an operation, the `Loading` Screen should replace the `Idle` (or any other currently displayed) Screen.
 2. The Loading Screen must include:
 - A spinner or progress indicator to inform the user that an operation is in progress.
 - Optionally, a message such as "Loading..." to provide additional context.
@@ -40,12 +40,12 @@ The `Success` Screen may include the following optional elements:
 
 ## Behavior Rules
 1. Exclusive State Display:
-- Only one state (Idle, Loading, Error, or Success) can be displayed at a time.
-- Switching between states should be smooth and intuitive, ensuring a seamless user experience.
+- ✅ Only one state (Idle, Loading, Error, or Success) can be displayed at a time.
+- ✅ Switching between states should be smooth and intuitive, ensuring a seamless user experience.
 2. Automatic Fallback to Idle State
-- After a specified period of time (configurable via Loader settings), the states `Success` and `Error` should automatically fallback to the `Idle` state.
-- The duration for displaying states must be explicitly provided by the developer in the Loader settings.
-- If no duration is specified, the library will use a default value of `2` seconds.
+- 🔂 After a specified period of time (configurable via Loader settings), the states `Success` and `Error` should automatically fallback to the `Idle` state.
+- 🔂 The duration for displaying states must be explicitly provided by the developer in the Loader settings.
+- 🔂 If no duration is specified, the library will use a default value of `2` seconds.
 3. Customizability:
 - Developers should be able to customize the appearance and content of each default state screen (e.g., colors, text, icons).
 - Developers should have the option to provide their own implementation for any state screen, allowing them to completely replace the default implementation.
@@ -55,7 +55,7 @@ The `Success` Screen may include the following optional elements:
 #### Scenario: Fetching User Data
 
 1.`Idle` State:
-- When the user opens the app and no operation is in progress, the Idle state is activated.
+- ✅ When the user opens the app and no operation is in progress, the Idle state is activated.
 - The library renders a `null` view, and **no visible content is displayed**.
 2. `Loading` State:
 - When the user requests their profile data, the `Loading` Screen is displayed with a spinner and the message "Loading...".
