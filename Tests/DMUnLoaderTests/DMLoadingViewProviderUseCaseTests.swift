@@ -54,6 +54,33 @@ final class DMLoadingViewProviderUseCaseTests: XCTestCase {
         )
     }
     
+    func test_defaultImplementation_providesErrorViewSettings() {
+        let sut = makeSUT()
+        
+        let settingsUT = sut.errorViewSettings
+        let defaultSettings = DMErrorDefaultViewSettings.Settings.self
+        XCTAssertEqual(
+            settingsUT.errorText,
+            defaultSettings.errorText
+        )
+        XCTAssertEqual(
+            settingsUT.errorTextSettings,
+            defaultSettings.errorTextSettings
+        )
+        XCTAssertEqual(
+            settingsUT.actionButtonCloseSettings,
+            defaultSettings.actionButtonCloseSettings
+        )
+        XCTAssertEqual(
+            settingsUT.actionButtonRetrySettings,
+            defaultSettings.actionButtonRetrySettings
+        )
+        XCTAssertEqual(
+            settingsUT.errorImageSettings,
+            defaultSettings.errorImageSettings
+        )
+    }
+    
     // MARK: - Helpers
     private func makeSUT() -> LoadingViewProviderSpy {
         LoadingViewProviderSpy()
@@ -74,6 +101,38 @@ extension LoadingTextProperties: Equatable {
         lhs.font == rhs.font &&
         lhs.lineLimit == rhs.lineLimit &&
         lhs.linePadding == rhs.linePadding
+    }
+}
+
+extension ErrorTextSettings: Equatable {
+    public static func == (lhs: ErrorTextSettings, rhs: ErrorTextSettings) -> Bool {
+        lhs.foregroundColor == rhs.foregroundColor &&
+        lhs.multilineTextAlignment == rhs.multilineTextAlignment &&
+        lhs.padding == rhs.padding
+    }
+}
+
+extension ActionButtonSettings: Equatable {
+    public static func == (lhs: ActionButtonSettings, rhs: ActionButtonSettings) -> Bool {
+        lhs.text == rhs.text &&
+        lhs.backgroundColor == rhs.backgroundColor &&
+        lhs.cornerRadius == rhs.cornerRadius
+    }
+}
+
+extension ErrorImageSettings: Equatable {
+    public static func == (lhs: ErrorImageSettings, rhs: ErrorImageSettings) -> Bool {
+        lhs.image == rhs.image &&
+        lhs.foregroundColor == rhs.foregroundColor &&
+        lhs.frameSize == rhs.frameSize
+    }
+}
+
+extension CustomSizeViewSettings: Equatable {
+    public static func == (lhs: CustomSizeViewSettings, rhs: CustomSizeViewSettings) -> Bool {
+        lhs.width == rhs.width &&
+        lhs.height == rhs.height &&
+        lhs.alignment == rhs.alignment
     }
 }
 

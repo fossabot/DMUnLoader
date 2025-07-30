@@ -30,6 +30,16 @@ public protocol DMErrorViewSettings {
 /// This struct provides default settings for an error view, with customizable properties.
 public struct DMErrorDefaultViewSettings: DMErrorViewSettings {
     
+    public enum Settings {
+        public static let errorText: String = "An error has occurred!"
+        nonisolated(unsafe) public static let actionButtonCloseSettings: ActionButtonSettings = ActionButtonSettings(text: "Close")
+        nonisolated(unsafe) public static let actionButtonRetrySettings: ActionButtonSettings = ActionButtonSettings(text: "Retry")
+        nonisolated(unsafe) public static let errorTextSettings: ErrorTextSettings = ErrorTextSettings()
+        nonisolated(unsafe) public static let errorImageSettings: ErrorImageSettings = ErrorImageSettings(
+            image: Image(systemName: "exclamationmark.triangle")
+        )
+    }
+    
     /// The error message to display in the error view.
     public let errorText: String?
     
@@ -62,12 +72,11 @@ public struct DMErrorDefaultViewSettings: DMErrorViewSettings {
     ///       errorImageSettings: ErrorImageSettings(image: Image(systemName: "xmark.octagon"), foregroundColor: .orange)
     ///   )
     ///   ```
-    public init(errorText: String? = "An error has occured!",
-                actionButtonCloseSettings: ActionButtonSettings = ActionButtonSettings(text: "Close"),
-                actionButtonRetrySettings: ActionButtonSettings = ActionButtonSettings(text: "Retry"),
-                errorTextSettings: ErrorTextSettings = ErrorTextSettings(),
-                // swiftlint:disable:next line_length
-                errorImageSettings: ErrorImageSettings = ErrorImageSettings(image: Image(systemName: "exclamationmark.triangle"))) {
+    public init(errorText: String? = Settings.errorText,
+                actionButtonCloseSettings: ActionButtonSettings = Settings.actionButtonCloseSettings,
+                actionButtonRetrySettings: ActionButtonSettings = Settings.actionButtonRetrySettings,
+                errorTextSettings: ErrorTextSettings = Settings.errorTextSettings,
+                errorImageSettings: ErrorImageSettings = Settings.errorImageSettings) {
         
         self.errorText = errorText
         self.actionButtonCloseSettings = actionButtonCloseSettings
@@ -115,13 +124,13 @@ public struct ActionButtonSettings {
 public struct ErrorTextSettings {
     
     /// The foreground color of the error text.
-    let foregroundColor: Color?
+    public let foregroundColor: Color?
     
     /// The alignment of the error text.
-    let multilineTextAlignment: TextAlignment
+    public let multilineTextAlignment: TextAlignment
     
     /// The padding applied around the error text.
-    let padding: EdgeInsets
+    public let padding: EdgeInsets
     
     /// Initializes a new instance of `ErrorTextSettings` with optional customizations.
     /// - Parameters:
@@ -150,13 +159,13 @@ public struct ErrorTextSettings {
 public struct ErrorImageSettings {
     
     /// The image to display as the error icon.
-    let image: Image
+    public let image: Image
     
     /// The foreground color of the image.
-    let foregroundColor: Color?
+    public let foregroundColor: Color?
     
     /// The size of the image frame.
-    let frameSize: CustomSizeViewSettings
+    public let frameSize: CustomSizeViewSettings
     
     /// Initializes a new instance of `ErrorImageSettings` with optional customizations.
     /// - Parameters:
