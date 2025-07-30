@@ -21,6 +21,11 @@ public protocol DMSuccessViewSettings {
 /// This struct provides default settings for a success view, with customizable properties.
 public struct DMSuccessDefaultViewSettings: DMSuccessViewSettings {
     
+    public enum Settings {
+        nonisolated(unsafe) public static let successImageProperties: SuccessImageProperties = SuccessImageProperties()
+        nonisolated(unsafe) public static let successTextProperties: SuccessTextProperties = SuccessTextProperties()
+    }
+    
     /// Properties related to the success image displayed in the success view.
     public let successImageProperties: SuccessImageProperties
     
@@ -38,8 +43,8 @@ public struct DMSuccessDefaultViewSettings: DMSuccessViewSettings {
     ///       successTextProperties: SuccessTextProperties(text: "Operation Completed!", foregroundColor: .black)
     ///   )
     ///   ```
-    public init(successImageProperties: SuccessImageProperties = SuccessImageProperties(),
-                successTextProperties: SuccessTextProperties = SuccessTextProperties()) {
+    public init(successImageProperties: SuccessImageProperties = Settings.successImageProperties,
+                successTextProperties: SuccessTextProperties = Settings.successTextProperties) {
         
         self.successImageProperties = successImageProperties
         self.successTextProperties = successTextProperties

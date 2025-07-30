@@ -81,6 +81,22 @@ final class DMLoadingViewProviderUseCaseTests: XCTestCase {
         )
     }
     
+    func test_defaultImplementation_providesSuccessViewSettings() {
+        let sut = makeSUT()
+        
+        let settingsUT = sut.successViewSettings
+        let defaultSettings = DMSuccessDefaultViewSettings.Settings.self
+        
+        XCTAssertEqual(
+            settingsUT.successImageProperties,
+            defaultSettings.successImageProperties
+        )
+        XCTAssertEqual(
+            settingsUT.successTextProperties,
+            defaultSettings.successTextProperties
+        )
+    }
+    
     // MARK: - Helpers
     private func makeSUT() -> LoadingViewProviderSpy {
         LoadingViewProviderSpy()
@@ -133,6 +149,21 @@ extension CustomSizeViewSettings: Equatable {
         lhs.width == rhs.width &&
         lhs.height == rhs.height &&
         lhs.alignment == rhs.alignment
+    }
+}
+
+extension SuccessImageProperties: Equatable {
+    public static func == (lhs: SuccessImageProperties, rhs: SuccessImageProperties) -> Bool {
+        lhs.image == rhs.image &&
+        lhs.frame == rhs.frame &&
+        lhs.foregroundColor == rhs.foregroundColor
+    }
+}
+
+extension SuccessTextProperties: Equatable {
+    public static func == (lhs: SuccessTextProperties, rhs: SuccessTextProperties) -> Bool {
+        lhs.text == rhs.text &&
+        lhs.foregroundColor == rhs.foregroundColor
     }
 }
 
