@@ -27,15 +27,14 @@
 ### Scenario 2: Verify Error State
 - **Description**: Check if the error state view is generated correctly.
 - **Steps**:
-  - [ ] Create an instance of `DefaultDMLoadingViewProvider`.
-  - [ ] Call the `getErrorView(error:onRetry:onClose:)` method with test data.
-  - [ ] Verify that the returned view is of type `DMErrorView`.
-  - [ ] Verify that the correct error message is displayed.
-  - [ ] Verify that the `onRetry` and `onClose` actions work as expected.
+  - [✅] Create an instance of `DefaultDMLoadingViewProvider`.
+  - [✅] Call the `getErrorView(error:onRetry:onClose:)` method with test data.
+  - [✅] Verify that the returned view is of type `DMErrorView`.
+  - [✅] Verify that the correct error message is displayed.
+  - [✅] Verify that the `onRetry` and `onClose` actions ids' are as expected.
 - **Expected Result**:
-  - [ ] A view of type `DMErrorView` is returned.
-  - [ ] The error message is displayed correctly.
-  - [ ] The `onRetry` and `onClose` actions execute when triggered.
+  - [✅] A view of type `DMErrorView` is returned.
+  - [✅] The view settings match `DMErrorDefaultViewSettings`.
 - **Status**: ❌ / ✅
 
 ---

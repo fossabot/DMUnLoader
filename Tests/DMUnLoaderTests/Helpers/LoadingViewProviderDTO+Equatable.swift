@@ -78,3 +78,13 @@ extension DMLoadingDefaultViewSettings: Equatable {
         lhs.frameGeometrySize == rhs.frameGeometrySize
     }
 }
+
+extension DMErrorDefaultViewSettings: Equatable {
+    public static func == (lhs: DMErrorDefaultViewSettings, rhs: DMErrorDefaultViewSettings) -> Bool {
+        lhs.errorText == rhs.errorText &&
+        lhs.actionButtonCloseSettings == rhs.actionButtonCloseSettings &&
+        lhs.actionButtonRetrySettings == rhs.actionButtonRetrySettings &&
+        lhs.errorTextSettings == rhs.errorTextSettings &&
+        lhs.errorImageSettings == rhs.errorImageSettings
+    }
+}

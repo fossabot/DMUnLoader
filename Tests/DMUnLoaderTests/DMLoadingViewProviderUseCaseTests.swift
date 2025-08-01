@@ -26,6 +26,31 @@ final class DMLoadingViewProviderUseCaseTests: XCTestCase {
         )
     }
     
+    @MainActor
+    func test_defaultImplementation_providesCorrectErrorView() {
+        
+        let testError = anyDomainNSError()
+        let retryAction = DMButtonAction {}
+        let closeAction = DMButtonAction {}
+        let sut = makeSUT()
+        
+        let errorView = sut.getErrorView(
+            error: testError,
+            onRetry: retryAction,
+            onClose: closeAction
+        ) as? DMErrorView
+        
+        XCTAssertNotNil(errorView, "The returned view should be of type `DMErrorView`")
+        XCTAssertTrue((errorView?.error as? NSError) == testError, "The error should match the provided error")
+        XCTAssertEqual(errorView?.onRetry?.id, retryAction.id, "The retry action `id` should match")
+        XCTAssertEqual(errorView?.onClose.id, closeAction.id, "The close action `id` should match")
+        XCTAssertEqual(
+            errorView?.settingsProvider as? DMErrorDefaultViewSettings,
+            DMErrorDefaultViewSettings(),
+            "The view settings should match the default settings"
+        )
+    }
+    
     func test_defaultImplementation_providesUniqueID() {
         let sut1 = makeSUT()
         let sut2 = makeSUT()
@@ -111,6 +136,10 @@ final class DMLoadingViewProviderUseCaseTests: XCTestCase {
     // MARK: - Helpers
     private func makeSUT() -> any DMLoadingViewProvider {
         LoadingViewProviderSpyDecorator(decoratee: DefaultDMLoadingViewProvider())
+    }
+    
+    private func anyDomainNSError() -> NSError {
+        NSError(domain: "TestDomain", code: 404, userInfo: nil)
     }
 }
 
