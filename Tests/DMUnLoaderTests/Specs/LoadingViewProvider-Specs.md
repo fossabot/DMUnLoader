@@ -59,10 +59,10 @@
 ### Scenario 4: Verify Unique ID
 - **Description**: Check if each instance of `DefaultDMLoadingViewProvider` has a unique ID.
 - **Steps**:
-  - [ ] Create two instances of `DefaultDMLoadingViewProvider`.
-  - [ ] Compare their IDs.
+  - [✅] Create two instances of `DefaultDMLoadingViewProvider`.
+  - [✅] Compare their IDs.
 - **Expected Result**:
-  - [ ] The IDs of the two instances do not match.
+  - [✅] The IDs of the two instances do not match.
 - **Status**: ❌ / ✅
 
 ---
