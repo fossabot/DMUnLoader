@@ -9,7 +9,15 @@ import DMUnLoader
 import SwiftUICore
 
 final class DMLoadingViewProviderUseCaseTests: XCTestCase {
-
+    
+    func test_defaultImplementation_providesUniqueID() {
+        let sut1 = makeSUT()
+        let sut2 = makeSUT()
+        
+        XCTAssertNotEqual(sut1.id, sut2.id, "Each LoadingViewProvider instance should have a unique ID")
+    }
+    
+    // MARK: Settings
     func test_defaultImplementation_providesLoadingManagerSettings() {
         let sut = makeSUT()
         
