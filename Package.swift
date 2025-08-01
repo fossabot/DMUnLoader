@@ -32,6 +32,7 @@ let package = Package(
             name: "DMUnLoader",
             dependencies: ["DMAction"],
             path: "Sources",
+//            exclude: ["Examples"],
             sources: ["DMUnLoader"],
             plugins: [ .plugin(name: "SwiftLintBuildTool", package: "SwiftLintPlugin") ]
         ),
