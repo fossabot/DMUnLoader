@@ -13,13 +13,13 @@
 ### Scenario 1: Verify Loading State
 - **Description**: Check if the loading state view is generated correctly.
 - **Steps**:
-  - [ ] Create an instance of `DefaultDMLoadingViewProvider`.
-  - [ ] Call the `getLoadingView()` method.
-  - [ ] Verify that the returned view is of type `DMProgressView`.
-  - [ ] Verify that the correct settings (`loadingViewSettings`) are used.
+  - [✅] Create an instance of `DefaultDMLoadingViewProvider`.
+  - [✅] Call the `getLoadingView()` method.
+  - [✅] Verify that the returned view is of type `DMProgressView`.
+  - [✅] Verify that the correct settings (`loadingViewSettings`) are used.
 - **Expected Result**:
-  - [ ] A view of type `DMProgressView` is returned.
-  - [ ] The view settings match `DMLoadingDefaultViewSettings`.
+  - [✅] A view of type `DMProgressView` is returned.
+  - [✅] The view settings match `DMLoadingDefaultViewSettings`.
 - **Status**: ❌ / ✅
 
 ---
