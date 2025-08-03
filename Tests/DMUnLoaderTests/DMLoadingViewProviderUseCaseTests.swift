@@ -29,7 +29,7 @@ final class DMLoadingViewProviderUseCaseTests: XCTestCase {
     @MainActor
     func test_defaultImplementation_providesCorrectErrorView() {
         
-        let testError = anyDomainNSError()
+        let testError = anyNSError()
         let retryAction = DMButtonAction {}
         let closeAction = DMButtonAction {}
         let sut = makeSUT()
@@ -157,10 +157,6 @@ final class DMLoadingViewProviderUseCaseTests: XCTestCase {
     // MARK: - Helpers
     private func makeSUT() -> any DMLoadingViewProvider {
         LoadingViewProviderSpyDecorator(decoratee: DefaultDMLoadingViewProvider())
-    }
-    
-    private func anyDomainNSError() -> NSError {
-        NSError(domain: "TestDomain", code: 404, userInfo: nil)
     }
 }
 

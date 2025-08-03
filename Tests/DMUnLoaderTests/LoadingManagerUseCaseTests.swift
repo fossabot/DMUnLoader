@@ -55,7 +55,7 @@ final class LoadingManagerUseCaseTests: XCTestCase {
         }
         let ext3 = XCTestExpectation()
         testConcurrentQueue.async {
-            sut.show(state: .error(anyError()))
+            sut.show(state: .error(anyNSError()))
             expectations.completedExpectationInOrder.append(ext3)
             ext3.fulfill()
         }
@@ -88,7 +88,7 @@ final class LoadingManagerUseCaseTests: XCTestCase {
             expectation.fulfill()
         }
         testConcurrentQueue.asyncAfter(deadline: .now() + 0.02) {
-            sut.show(state: .error(anyError()))
+            sut.show(state: .error(anyNSError()))
             expectation.fulfill()
         }
         
@@ -99,7 +99,7 @@ final class LoadingManagerUseCaseTests: XCTestCase {
             [
                 .loading,
                 .idle,
-                .error(anyError())
+                .error(anyNSError())
             ],
             "LoadingManager should display states in the order they are received"
         )
@@ -119,7 +119,7 @@ final class LoadingManagerUseCaseTests: XCTestCase {
         
         let states = [
             DMLoadableState.success,
-            DMLoadableState.error(anyError())
+            DMLoadableState.error(anyNSError())
         ]
             
         states.forEach { state in
@@ -211,10 +211,6 @@ final class LoadingManagerUseCaseTests: XCTestCase {
     final class UncheckedSendableExpectations: @unchecked Sendable {
         var completedExpectationInOrder = [XCTestExpectation]()
     }
-}
-
-func anyError() -> Error {
-    NSError(domain: "TestError", code: 0, userInfo: nil)
 }
 
 extension DMLoadableState: Equatable {
