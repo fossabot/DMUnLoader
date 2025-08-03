@@ -41,23 +41,20 @@ final class LoadingManagerUseCaseTests: XCTestCase {
         let testConcurrentQueue = DispatchQueue(label: "com.test.concurrentQueue", attributes: .concurrent)
         
         let expectations = UncheckedSendableExpectations()
-        let ext1 = XCTestExpectation()
+        let ext1 = XCTestExpectation(description: "1")
         testConcurrentQueue.async {
             sut.show(state: .loading)
-            expectations.completedExpectationInOrder.append(ext1)
-            ext1.fulfill()
+            expectations.addExpectation(ext1, completion: ext1.fulfill)
         }
-        let ext2 = XCTestExpectation()
+        let ext2 = XCTestExpectation(description: "2")
         testConcurrentQueue.async {
             sut.show(state: .idle)
-            expectations.completedExpectationInOrder.append(ext2)
-            ext2.fulfill()
+            expectations.addExpectation(ext2, completion: ext2.fulfill)
         }
-        let ext3 = XCTestExpectation()
+        let ext3 = XCTestExpectation(description: "3")
         testConcurrentQueue.async {
             sut.show(state: .error(anyNSError()))
-            expectations.completedExpectationInOrder.append(ext3)
-            ext3.fulfill()
+            expectations.addExpectation(ext3, completion: ext3.fulfill)
         }
         
         wait(for: [ext1, ext2, ext3], timeout: 3)
@@ -178,8 +175,15 @@ final class LoadingManagerUseCaseTests: XCTestCase {
     
     // MARK: - Helpers
     
-    private func makeSUT(settings: DMLoadingManagerSettings = DMLoadingManagerConfiguration()) -> LoadingManagerSpy {
-        LoadingManagerSpy(manager: DMLoadingManagerService(settings: settings))
+    private func makeSUT(
+        settings: DMLoadingManagerSettings = DMLoadingManagerConfiguration(),
+        file: StaticString = #filePath,
+        line: UInt = #line
+    ) -> LoadingManagerSpy {
+        let sut = LoadingManagerSpy(manager: DMLoadingManagerService(settings: settings))
+        trackForMemoryLeaks(sut, file: file, line: line)
+        
+        return sut
     }
     
     private class LoadingManagerSpy: @unchecked Sendable, LoadingManager {
@@ -209,7 +213,25 @@ final class LoadingManagerUseCaseTests: XCTestCase {
     }
     
     final class UncheckedSendableExpectations: @unchecked Sendable {
-        var completedExpectationInOrder = [XCTestExpectation]()
+        private var _completedExpectationInOrder = [XCTestExpectation]()
+        var completedExpectationInOrder: [XCTestExpectation] {
+            get {
+                queue.sync(flags: .barrier) { [unowned self] in
+                    self._completedExpectationInOrder
+                }
+            }
+            set {
+                self._completedExpectationInOrder = newValue
+            }
+        }
+        private let queue = DispatchQueue(label: "UncheckedSendableExpectations")
+        
+        func addExpectation(_ exp: XCTestExpectation, completion: @escaping @Sendable () -> Void) {
+            queue.async { [weak self] in
+                self?._completedExpectationInOrder.append(exp)
+                completion()
+            }
+        }
     }
 }
 

@@ -155,14 +155,17 @@ final class DMLoadingViewProviderUseCaseTests: XCTestCase {
     }
     
     // MARK: - Helpers
-    private func makeSUT() -> any DMLoadingViewProvider {
-        LoadingViewProviderSpyDecorator(decoratee: DefaultDMLoadingViewProvider())
+    private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> any DMLoadingViewProvider {
+        let sut = LoadingViewProviderSpyDecorator(decoratee: DefaultDMLoadingViewProvider())
+        trackForMemoryLeaks(sut, file: file, line: line)
+        
+        return sut
     }
 }
 
 // MARK: - Spy
 
-private final class LoadingViewProviderSpyDecorator: DMLoadingViewProvider {
+private final class LoadingViewProviderSpyDecorator: DMLoadingViewProvider, @unchecked Sendable {
     var id: UUID {
         object.id
     }
