@@ -36,7 +36,7 @@ final class LoadingManagerUseCaseTests: XCTestCase {
         )
     }
     
-    func test_states_LoadingManagerIsDisplayesItsStatesInOrderOfIncomeInMultithreadingEnviroment() {
+    func test_states_LoadingManagerChangesStatesInOrderOfIncomeInMultithreadingEnviroment() {
         let sut = makeSUT()
         let testConcurrentQueue = DispatchQueue(label: "com.test.concurrentQueue", attributes: .concurrent)
         
@@ -67,6 +67,41 @@ final class LoadingManagerUseCaseTests: XCTestCase {
             "LoadingManager should display states in the order they are received"
         )
     }
+    
+    func test_states_LoadingManagerIsDisplayesItsStatesInOrderOfIncomeInMultithreadingEnviroment() {
+        let sut = makeSUT()
+        let expectation = XCTestExpectation(description: "States should be displayed in order")
+        expectation.expectedFulfillmentCount = 3
+        
+        let testConcurrentQueue = DispatchQueue(label: "com.test.concurrentQueue", attributes: .concurrent)
+        
+        testConcurrentQueue.async {
+            sut.show(state: .loading)
+            expectation.fulfill()
+        }
+        
+        testConcurrentQueue.asyncAfter(deadline: .now() + 0.01) {
+            sut.show(state: .idle)
+            expectation.fulfill()
+        }
+        testConcurrentQueue.asyncAfter(deadline: .now() + 0.02) {
+            sut.show(state: .error(anyError()))
+            expectation.fulfill()
+        }
+        
+        wait(for: [expectation], timeout: 3)
+        
+        XCTAssertEqual(
+            sut.states,
+            [
+                .loading,
+                .idle,
+                .error(anyError())
+            ],
+            "LoadingManager should display states in the order they are received"
+        )
+    }
+
     
     func test_autoHideDelay_SettingsProvideTwoSecondsDelayByDefault() {
         let sut = makeSUT()
