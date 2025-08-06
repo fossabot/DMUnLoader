@@ -186,7 +186,7 @@ final class LoadingManagerUseCaseTests: XCTestCase {
         return sut
     }
     
-    private class LoadingManagerSpy: @unchecked Sendable, LoadingManager {
+    private class LoadingManagerSpy: @unchecked Sendable, DMLoadingManager {
         var settings: DMLoadingManagerSettings {
             manager.settings
         }
@@ -195,10 +195,10 @@ final class LoadingManagerUseCaseTests: XCTestCase {
             manager.currentState
         }
         
-        private let manager: LoadingManager
+        private let manager: DMLoadingManager
         private(set) var states = [DMLoadableState]()
         
-        init(manager: LoadingManager) {
+        init(manager: DMLoadingManager) {
             self.manager = manager
         }
         

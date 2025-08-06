@@ -7,14 +7,16 @@
 import Combine
 import Foundation
 
-public protocol LoadingManager {
+/// A protocol defining the public interface for a loading manager.
+public protocol DMLoadingManager {
+    // TODO: Remove:: aka DMLoadingManagerProtocol
     var settings: DMLoadingManagerSettings { get }
     var currentState: DMLoadableState { get }
     func show(state: DMLoadableState)
     func hide()
 }
 
-public class DMLoadingManagerService: LoadingManager {
+public class DMLoadingManagerService: DMLoadingManager {
     public let settings: DMLoadingManagerSettings
     
     public var currentState: DMLoadableState {
