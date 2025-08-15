@@ -1,5 +1,5 @@
 {
-  "originHash" : "dd42dc391eef5d087a2f767d0a6950e678908bf18a8cec0906c67037f99afd7a",
+  "originHash" : "f295c079ac1639d21bcac6068d14719dc48c740e43f829035daf9b6fcbd0f186",
   "pins" : [
     {
       "identity" : "dmaction",
@@ -8,6 +8,33 @@
       "state" : {
         "branch" : "main",
         "revision" : "c7540062a8e1e03b903cb5315250c468148eab63"
+      }
+    },
+    {
+      "identity" : "swift-custom-dump",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/pointfreeco/swift-custom-dump",
+      "state" : {
+        "revision" : "82645ec760917961cfa08c9c0c7104a57a0fa4b1",
+        "version" : "1.3.3"
+      }
+    },
+    {
+      "identity" : "swift-snapshot-testing",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/pointfreeco/swift-snapshot-testing",
+      "state" : {
+        "revision" : "d7e40607dcd6bc26543f5d9433103f06e0b28f8f",
+        "version" : "1.18.6"
+      }
+    },
+    {
+      "identity" : "swift-syntax",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/swiftlang/swift-syntax",
+      "state" : {
+        "revision" : "f99ae8aa18f0cf0d53481901f88a0991dc3bd4a2",
+        "version" : "601.0.1"
       }
     },
     {
@@ -20,12 +47,30 @@
       }
     },
     {
+      "identity" : "swiftui-preview-snapshots",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/doordash-oss/swiftui-preview-snapshots",
+      "state" : {
+        "revision" : "36cd3662a48ef75cc13eae182d468178279a0445",
+        "version" : "1.1.1"
+      }
+    },
+    {
       "identity" : "viewinspector",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/nalexn/ViewInspector",
       "state" : {
         "revision" : "a6fcac8485bc8f57b2d2b55bb6d97138e8659e4b",
         "version" : "0.10.2"
+      }
+    },
+    {
+      "identity" : "xctest-dynamic-overlay",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/pointfreeco/xctest-dynamic-overlay",
+      "state" : {
+        "revision" : "b2ed9eabefe56202ee4939dd9fc46b6241c88317",
+        "version" : "1.6.1"
       }
     }
   ],

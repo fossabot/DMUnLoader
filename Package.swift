@@ -23,14 +23,19 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/GayleDunham/SwiftLintPlugin.git", branch: "main"),
         .package(url: "https://github.com/nalexn/ViewInspector", from: "0.10.1"),
-        .package(url: "https://github.com/nikolay-dementiev/DMAction.git", branch: "main")
+        .package(url: "https://github.com/nikolay-dementiev/DMAction.git", branch: "main"),
+        .package(url: "https://github.com/pointfreeco/swift-snapshot-testing", from: "1.12.0"),
+        .package(url: "https://github.com/doordash-oss/swiftui-preview-snapshots", from: "1.0.0"),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
         .target(
             name: "DMUnLoader",
-            dependencies: ["DMAction"],
+            dependencies: [
+                "DMAction",
+                .product(name: "PreviewSnapshots", package: "swiftui-preview-snapshots"),
+            ],
             path: "Sources",
 //            exclude: ["Examples"],
             sources: ["DMUnLoader"],
@@ -38,9 +43,13 @@ let package = Package(
         ),
         .testTarget(
             name: "DMUnLoaderTests",
-            dependencies: ["DMUnLoader",
-                           "ViewInspector",
-                           "DMAction"],
+            dependencies: [
+                "DMUnLoader",
+                "ViewInspector",
+                "DMAction",
+                .product(name: "SnapshotTesting", package: "swift-snapshot-testing"),
+                .product(name: "PreviewSnapshotsTesting", package: "swiftui-preview-snapshots"),
+            ],
             path: "Tests",
             plugins: [ .plugin(name: "SwiftLintBuildTool", package: "SwiftLintPlugin") ]
         ),
