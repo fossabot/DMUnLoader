@@ -6,6 +6,7 @@
 // take a look for details: https://stackoverflow.com/a/56496896/6643923
 
 import SwiftUI
+import PreviewSnapshots
 
 /// A namespace for constants used in the `DMProgressView`.
 /// These constants define unique tags for views within the progress view.
@@ -83,5 +84,36 @@ internal struct DMProgressView: View {
             .tag(DMProgressViewOwnSettings.vStackViewTag)
         }
         .tag(DMProgressViewOwnSettings.containerViewTag)
+    }
+}
+
+// MARK: - Previews
+
+struct DMProgressView_Previews: PreviewProvider {
+    static var previews: some View {
+        snapshots.previews.previewLayout(.sizeThatFits)
+    }
+
+    static var snapshots: PreviewSnapshots<DMLoadingViewSettings> {
+        PreviewSnapshots(
+            configurations: [
+                .init(name: "DefaultSettings", state: DMLoadingDefaultViewSettings()),
+
+                    .init(
+                        name: "CustomSettings",
+                        state: DMLoadingDefaultViewSettings(
+                            loadingTextProperties: LoadingTextProperties(
+                                text: "Custom loading message...",
+                                alignment: .leading,
+                                foregroundColor: .orange,
+                                font: .title3
+                            )
+                        )
+                    ),
+            ],
+            configure: { state in
+                DMProgressView(settings: state).padding()
+            }
+        )
     }
 }
