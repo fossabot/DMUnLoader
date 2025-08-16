@@ -15,8 +15,9 @@
 - **Criteria**:
   - The view should display custom text provided in the settings (e.g., `"Processing..."`).
   - The font of the text should match the custom font specified in the settings (e.g., `.headline`).
+  - The text foreground color should match the custom one specified in the settings (e.g., `.orange`).
   - The progress indicator should use the custom tint color specified in the settings (e.g., `.green`).
-  - The frame size of the view should match the custom dimensions specified in the settings (e.g., `CGSize(width: 400, height: 400)`).
+  - The frame size of the view should match the custom dimensions specified in the settings (e.g., `iPhone 13: portrait: CGSize(width: 390, height: 844)`).
 
 ---
 

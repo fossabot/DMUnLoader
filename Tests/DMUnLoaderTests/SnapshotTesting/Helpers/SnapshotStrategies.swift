@@ -29,19 +29,27 @@ extension Snapshotting where Value: SwiftUI.View, Format == UIImage {
 #elseif os(macOS)
 let frameworkName = "AppKit"
 
+private extension CGSize {
+    static let iPhone13Size = CGSize(width: 390, height: 844)
+}
+
 @MainActor
 extension Snapshotting where Value: SwiftUI.View, Format == NSImage {
+    
     static var testStrategyiPhone13Light: Self {
-        getStrategy(appearance: .vibrantLight)
+        getStrategy(appearance: .vibrantLight,
+                    size: .iPhone13Size)
     }
     
     static var testStrategyiPhone13Dark: Self {
-        getStrategy(appearance: .vibrantDark)
+        getStrategy(appearance: .vibrantDark,
+                    size: .iPhone13Size)
     }
     
-    private static func getStrategy(appearance appearanceName: NSAppearance.Name) -> Self {
+    private static func getStrategy(appearance appearanceName: NSAppearance.Name,
+                                    size: CGSize? = nil) -> Self {
         Snapshotting<NSView, NSImage>
-            .image(size: .init(width: 800, height: 400))
+            .image(size: size)
             .pullback { view in
             let view = NSHostingView(rootView: view)
             view.appearance = NSAppearance(named: appearanceName)

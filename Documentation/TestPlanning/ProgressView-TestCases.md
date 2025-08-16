@@ -10,13 +10,13 @@
 
 ## 2. Test Scenarios
 
-### Scenario 1: Verify Default Initialization
+### Scenario 1: 🚧 Verify Default Initialization
 - **Description**: Check if the `DMProgressView` is initialized correctly with default settings.
 - **Steps**:
-  - [?] Use snapshot testing to verify the layout and appearance of `DMProgressView` with default settings.
-  - [?] Inspect the view to ensure it contains a `ProgressView` and optional text.
-  - [?] Verify that the default text is `"Loading..."`.
-  - [?] Verify that the default tint color of the progress indicator is `.white`.
+  - [✅] Use snapshot testing to verify the layout and appearance of `DMProgressView` with default settings.
+  - [🚧] Inspect the view to ensure it contains a `ProgressView` and optional text.
+  - [🚧] Verify that the default text is `"Loading..."`.
+  - [🚧] Verify that the default tint color of the progress indicator is `.white`.
 - **Expected Result**:
   - The view is displayed with a circular progress indicator.
   - The default text `"Loading..."` is displayed.
@@ -25,22 +25,24 @@
 
 ---
 
-### Scenario 2: Verify Custom Settings
+### Scenario 2: 🚧 Verify Custom Settings
 - **Description**: Check if the `DMProgressView` applies custom settings correctly.
 - **Steps**:
-  - [?] Create a custom instance of `DMLoadingDefaultViewSettings` with:
-    - Custom text: `"Processing..."`.
-    - Custom font: `.headline`.
-    - Custom tint color: `.green`.
-    - Custom frame size: `CGSize(width: 400, height: 400)`.
-  - [?] Use snapshot testing to verify the layout and appearance with the custom settings.
-  - [?] Inspect the view to validate that the custom text, font, and tint color are applied.
-  - [?] Verify that the frame size matches the custom dimensions.
+  - [✅] Create a custom instance of `DMLoadingDefaultViewSettings` with:
+    - Custom text: `"Processing.."`.
+    - Custom font: `.title3`.
+    - Custom text foreground color: `.orange`.
+    - Custom progress indicator tint color: `.green`.
+    - Custom frame size: `iPhone 13: portrait: CGSize(width: 390, height: 844)`.
+  - [✅] Use snapshot testing to verify the layout and appearance with the custom settings.
+  - [🚧] Inspect the view to validate that the custom text, font, and tint color are applied.
+  - [🚧] Verify that the frame size matches the custom dimensions.
 - **Expected Result**:
   - The custom text `"Processing..."` is displayed.
-  - The font is `.headline`.
+  - The font is `.title3`.
+  - The text foreground color is `.orange`.
   - The progress indicator has a `.green` tint color.
-  - The frame size matches `CGSize(width: 400, height: 400)`.
+  - The frame size matches `CGSize(width: 390, height: 844)`.
 - **Status**: ? / 🚧 / ❌ / ✅
 
 ---

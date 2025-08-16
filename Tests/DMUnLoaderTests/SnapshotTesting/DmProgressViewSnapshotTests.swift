@@ -6,7 +6,6 @@
 
 import XCTest
 @testable import DMUnLoader
-
 import PreviewSnapshots
 import PreviewSnapshotsTesting
 
@@ -19,14 +18,64 @@ final class DmProgressViewSnapshotTests: XCTestCase {
     }
     
     func test_progressView_VerifyDefaultInitialization() {
+        let snapshots = makeSUT(
+            withConfiguration: .init(
+                name: "DefaultSettings",
+                state: DMLoadingDefaultViewSettings()
+            )
+        )
+        
         expect(
-            DMProgressView_Previews.snapshots,
+            snapshots,
             named: frameworkName,
             record: false
         )
     }
     
-    // MARK: HELPER
+    func test_progressView_VerifyCustomSettings() {
+        let snapshots = makeSUT(
+            withConfiguration: .init(
+                name: "CustomSettings",
+                state: DMLoadingDefaultViewSettings(
+                    loadingTextProperties: LoadingTextProperties(
+                        text: "Processing...",
+                        alignment: .leading,
+                        foregroundColor: .orange,
+                        font: .title3
+                    ),
+                    progressIndicatorProperties: ProgressIndicatorProperties(
+                        tintColor: .green
+                    )
+                )
+            )
+        )
+        
+        expect(
+            snapshots,
+            named: frameworkName,
+            record: false
+        )
+    }
+    
+    // MARK: HELPERs
+    
+    func makeSUT<VS: DMLoadingViewSettings>(
+        withConfiguration configurations: PreviewSnapshots<VS>.Configuration...
+    ) -> PreviewSnapshots<VS> {
+        let snapshots = PreviewSnapshots<VS>(
+            configurations: configurations,
+            configure: { state in
+                DMProgressView(settings: state)
+                    .addModificationForAlerView()
+                    .transaction { transaction in // disabling animation
+                        transaction.animation = nil
+                    }
+                    .padding()
+            }
+        )
+        
+        return snapshots
+    }
     
     func expect<State>(
         _ snapshot: PreviewSnapshots<State>,
