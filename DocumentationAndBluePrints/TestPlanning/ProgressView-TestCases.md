@@ -10,7 +10,7 @@
 
 ## 1.1 The Mockup design
 
-![](../Assets/LoadingOnEmptyScreen.png)
+![](../Assets/Loading-on-empty-screen.png)
 
 ## 2. Test Scenarios
 
