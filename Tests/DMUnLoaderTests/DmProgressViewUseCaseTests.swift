@@ -23,9 +23,24 @@ final class DmProgressViewUseCaseTests: XCTestCase {
                         "The ProgressView should be rendered")
     }
     
+    func test_progressView_VerifyDefaultInitialization_ProgressViewDefaultTextIsCorrect() throws {
+        let sut = makeSUT()
+        
+        let text = try sut
+            .inspect()
+            .find(viewWithTag: DMProgressViewOwnSettings.textTag)
+            .text()
+        XCTAssertEqual(try text.string(),
+                       "Loading...",
+                       "The Text view should display the correct text")
+    }
+    
     // MARK: HELPERs
     
-    private func makeSUT() -> DMProgressView {
-        DMProgressView(settings: DMLoadingDefaultViewSettings())
+    private func makeSUT(
+        withSettings settings: DMLoadingViewSettings = DMLoadingDefaultViewSettings()
+    ) -> DMProgressView {
+        
+        DMProgressView(settings: settings)
     }
 }

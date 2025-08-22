@@ -19,7 +19,7 @@
 - **Steps**:
   - [✅] Use snapshot testing to verify the layout and appearance of `DMProgressView` with default settings.
   - [✅] Inspect the view to ensure it contains a `ProgressView`.
-  - [?] Verify that the ProgressView's default text is `"Loading..."`.
+  - [✅] Verify that the ProgressView's default text is `"Loading..."`.
   - [?] Verify that the default tint color of the progress indicator is `.white`.
 - **Expected Result**:
   - The view is displayed with a circular progress indicator.
