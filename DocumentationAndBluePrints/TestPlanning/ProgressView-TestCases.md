@@ -39,7 +39,7 @@
     - Custom progress indicator tint color: `.green`.
     - Custom frame size: `iPhone 13: portrait: CGSize(width: 390, height: 844)`.
   - [✅] Use snapshot testing to verify the layout and appearance with the custom settings.
-  - [?] Inspect the view to validate that the custom text, font, and tint color are applied.
+  - [✅] Inspect the view to validate that the custom text, font, and foreground color are applied.
   - [?] Verify that the frame size matches the custom dimensions.
 - **Expected Result**:
   - The custom text `"Processing..."` is displayed.

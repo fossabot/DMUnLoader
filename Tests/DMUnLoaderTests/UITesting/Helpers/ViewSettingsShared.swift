@@ -13,7 +13,8 @@ enum ViewSettingsHelper {
                 text: "Processing...",
                 alignment: .leading,
                 foregroundColor: .orange,
-                font: .title3
+                font: .title3,
+                lineLimit: 2
             ),
             progressIndicatorProperties: ProgressIndicatorProperties(
                 tintColor: .green
