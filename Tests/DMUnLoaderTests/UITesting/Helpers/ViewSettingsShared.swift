@@ -5,6 +5,7 @@
 //
 
 import DMUnLoader
+import Foundation
 
 enum ViewSettingsHelper {
     static func makeLoadingCustomSettings() -> DMLoadingDefaultViewSettings {
@@ -18,9 +19,8 @@ enum ViewSettingsHelper {
             ),
             progressIndicatorProperties: ProgressIndicatorProperties(
                 tintColor: .green
-            )
+            ),
+            frameGeometrySize: CGSize(width: 300, height: 300)
         )
     }
 }
-
-

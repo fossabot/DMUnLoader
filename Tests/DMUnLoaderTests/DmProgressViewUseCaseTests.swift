@@ -86,3 +86,25 @@ final class DmProgressViewUseCaseTests: XCTestCase {
         DMProgressView(settings: settings)
     }
 }
+
+/*
+struct SizeCalculatorSpy<V: View>: View {
+    
+    let inspection = Inspection<Self>()
+    
+    @State var size: CGSize = .zero
+    let viewToInspect: V
+    
+    init(viewToInspect: V) {
+        self.viewToInspect = viewToInspect
+    }
+    
+    var body: some View {
+        viewToInspect
+            .saveSize(in: $size)
+            .onReceive(inspection.notice) { [weak inspection] in
+                inspection?.visit(self, $0)
+            }
+    }
+}
+*/
