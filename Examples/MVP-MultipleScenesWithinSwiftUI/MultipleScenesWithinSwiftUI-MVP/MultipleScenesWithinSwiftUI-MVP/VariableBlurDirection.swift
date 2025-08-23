@@ -10,30 +10,32 @@ import UIKit
 import CoreImage.CIFilterBuiltins
 import QuartzCore
 
-public enum VariableBlurDirection {
+enum VariableBlurDirection {
     case blurredTopClearBottom
     case blurredBottomClearTop
 }
 
 struct VariableBlurView: UIViewRepresentable {
 
-    public var maxBlurRadius: CGFloat = 20
+    var maxBlurRadius: CGFloat = 20
 
-    public var direction: VariableBlurDirection = .blurredTopClearBottom
+    var direction: VariableBlurDirection = .blurredTopClearBottom
 
     /// By default, variable blur starts from 0 blur radius and linearly increases to `maxBlurRadius`. Setting `startOffset` to a small negative coefficient (e.g. -0.1) will start blur from larger radius value which might look better in some cases.
-    public var startOffset: CGFloat = 0
+    var startOffset: CGFloat = 0
 
-    public func makeUIView(context: Context) -> VariableBlurUIView {
-        (try? VariableBlurUIView(
-            maxBlurRadius: maxBlurRadius,
-            direction: direction,
-            startOffset: startOffset
-        )) ?? VariableBlurUIView()
+    func makeUIView(context: Context) -> VariableBlurUIView {
+        do {
+            return try VariableBlurUIView(
+                maxBlurRadius: maxBlurRadius,
+                direction: direction,
+                startOffset: startOffset)
+        } catch {
+            return VariableBlurUIView()
+        }
     }
 
-    public func updateUIView(_ uiView: VariableBlurUIView, context: Context) {
-    }
+    func updateUIView(_ uiView: VariableBlurUIView, context: Context) {}
 }
 
 /// credit https://github.com/jtrivedi/VariableBlurView
@@ -43,7 +45,7 @@ class VariableBlurUIView: UIVisualEffectView {
         super.init(effect: UIBlurEffect(style: .regular))
     }
     
-    public convenience init(
+    convenience init(
         maxBlurRadius: CGFloat = 20,
         direction: VariableBlurDirection = .blurredTopClearBottom,
         startOffset: CGFloat = 0
@@ -52,12 +54,10 @@ class VariableBlurUIView: UIVisualEffectView {
         
         // `CAFilter` is a private QuartzCore class that dynamically create using Objective-C runtime.
         guard let CAFilter = NSClassFromString("CAFilter") as? NSObject.Type else {
-            print("[VariableBlur] Error: Can't find CAFilter class")
-            return
+            throw VariableBlurError.failedToFindCAFilterFromVariableBlurObject
         }
         guard let variableBlur = CAFilter.self.perform(NSSelectorFromString("filterWithType:"), with: "variableBlur").takeUnretainedValue() as? NSObject else {
-            print("[VariableBlur] Error: CAFilter can't create filterWithType: variableBlur")
-            return
+            throw VariableBlurError.failedtoFindVariableBlurFromCAFilter
         }
         
         // The blur radius at each pixel depends on the alpha value of the corresponding pixel in the gradient mask.
@@ -82,18 +82,14 @@ class VariableBlurUIView: UIVisualEffectView {
     }
     
     @available(*, unavailable)
-    required public init?(coder: NSCoder) {
+    required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    open override func didMoveToWindow() {
+    override func didMoveToWindow() {
         // fixes visible pixelization at unblurred edge (https://github.com/nikstar/VariableBlur/issues/1)
         guard let window, let backdropLayer = subviews.first?.layer else { return }
         backdropLayer.setValue(window.screen.scale, forKey: "scale")
-    }
-    
-    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        // `super.traitCollectionDidChange(previousTraitCollection)` crashes the app
     }
     
     private func makeGradientImage(
@@ -103,7 +99,7 @@ class VariableBlurUIView: UIVisualEffectView {
         direction: VariableBlurDirection
     ) throws -> CGImage { // much lower resolution might be acceptable
         let ciGradientFilter =  CIFilter.linearGradient()
-        //        let ciGradientFilter =  CIFilter.smoothLinearGradient()
+        //let ciGradientFilter =  CIFilter.smoothLinearGradient()
         ciGradientFilter.color0 = CIColor.black
         ciGradientFilter.color1 = CIColor.clear
         ciGradientFilter.point0 = CGPoint(x: 0, y: height)
@@ -127,8 +123,23 @@ class VariableBlurUIView: UIVisualEffectView {
         return createCGImage
     }
     
-    enum VariableBlurError: Error {
+    enum VariableBlurError: Error, LocalizedError {
         case failedToGetOutputImageFromCIGradientFilter
         case failedToCreateCGImageFromCIContext
+        case failedToFindCAFilterFromVariableBlurObject
+        case failedtoFindVariableBlurFromCAFilter
+        
+        var errorDescription: String {
+            switch self {
+            case .failedToGetOutputImageFromCIGradientFilter:
+                return "Failed to get output image from CIGradientFilter"
+            case .failedToCreateCGImageFromCIContext:
+                return "Failed to create CGImage from CIContext"
+            case .failedToFindCAFilterFromVariableBlurObject:
+                return "[VariableBlur] Error: Can't find CAFilter class"
+            case .failedtoFindVariableBlurFromCAFilter:
+                return "[VariableBlur] Error: CAFilter can't create filterWithType: variableBlur"
+            }
+        }
     }
 }

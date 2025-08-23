@@ -12,9 +12,8 @@ struct MultipleScenesWithinSwiftUI_MVPApp: App {
     @UIApplicationDelegateAdaptor var delegate: MVPAppDelegate
     
     var body: some Scene {
-      WindowGroup {
-        MainSceneView()
-          .environmentObject(hudState)
-      }
+        WindowGroup {
+            MainSceneView(hudState: hudState)
+        }
     }
 }
