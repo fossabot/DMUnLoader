@@ -1,31 +1,36 @@
 import SwiftUI
+import MPSwiftUI_SDK
 
-struct MainSceneView: View {
-    @EnvironmentObject var sceneDelegate: MVPSceneDelegate
+internal struct AppMainSceneView: View {
+//    @EnvironmentObject var sceneDelegate: MVPSceneDelegate
     
     @ObservedObject var hudState: HudState
     @State var showingSheet = false
     
-    var body: some View {
+    internal init(hudState: HudState) {
+        self.hudState = hudState
+    }
+    
+    public var body: some View {
         NavigationView {
-            MainSceneViewContent(
+            AppMainSceneViewContent(
                 hudState: hudState,
                 showingSheet: $showingSheet
             )
         }
         .sheet(isPresented: $showingSheet) {
-            MainSceneViewContent(
+            AppMainSceneViewContent(
                 hudState: hudState,
                 showingSheet: $showingSheet
             )
         }
-        .onAppear {
-            sceneDelegate.hudState = hudState
-        }
+//        .onAppear {
+//            sceneDelegate.hudState = hudState
+//        }
     }
 }
 
-struct MainSceneViewContent: View {
+struct AppMainSceneViewContent: View {
     @ObservedObject var hudState: HudState
     @Binding var showingSheet: Bool
     

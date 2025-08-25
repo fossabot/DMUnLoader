@@ -5,6 +5,6 @@
       location = "group:MultipleScenesWithinSwiftUI-MVP.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:MultipleScenesWithinSwiftUI-SDK.xcodeproj">
+      location = "group:SwiftUI-internal-SDK-use.xcodeproj">
    </FileRef>
 </Workspace>

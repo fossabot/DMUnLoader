@@ -6,9 +6,58 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		2FDD38172E5CB10B008C8352 /* MPSwiftUI_SDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FDD38002E5CB013008C8352 /* MPSwiftUI_SDK.framework */; };
+		2FDD38182E5CB10B008C8352 /* MPSwiftUI_SDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2FDD38002E5CB013008C8352 /* MPSwiftUI_SDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		2FDD38192E5CB10B008C8352 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2FCD49332E58A3A800290385 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2FDD37FF2E5CB013008C8352;
+			remoteInfo = MPSwiftUI_SDK;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		2FDD37B12E5CAE11008C8352 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				2FDD38182E5CB10B008C8352 /* MPSwiftUI_SDK.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
-		2FCD493B2E58A3A800290385 /* MultipleScenesWithinSwiftUI-SDK.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MultipleScenesWithinSwiftUI-SDK.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2FCD493B2E58A3A800290385 /* SwiftUI-internal-SDK-use.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SwiftUI-internal-SDK-use.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2FDD38002E5CB013008C8352 /* MPSwiftUI_SDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MPSwiftUI_SDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		2FDD381C2E5CB215008C8352 /* Exceptions for "MPSwiftUI_SDK" folder in "SwiftUI-internal-SDK-use" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				AppMainSceneView.swift,
+				DMLoadingView/DMLoadingViewSettings.swift,
+				DMLoadingView/DMProgressView.swift,
+				HudSceneView.swift,
+				HudState.swift,
+				MVPAppDelegate.swift,
+				MVPSceneDelegate.swift,
+				PassThroughWindow.swift,
+				VariableBlurDirection.swift,
+				"View+hud.swift",
+			);
+			target = 2FCD493A2E58A3A800290385 /* SwiftUI-internal-SDK-use */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		2FCD493D2E58A3A800290385 /* MultipleScenesWithinSwiftUI-SDK */ = {
@@ -16,10 +65,26 @@
 			path = "MultipleScenesWithinSwiftUI-SDK";
 			sourceTree = "<group>";
 		};
+		2FDD38012E5CB013008C8352 /* MPSwiftUI_SDK */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				2FDD381C2E5CB215008C8352 /* Exceptions for "MPSwiftUI_SDK" folder in "SwiftUI-internal-SDK-use" target */,
+			);
+			path = MPSwiftUI_SDK;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		2FCD49382E58A3A800290385 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2FDD38172E5CB10B008C8352 /* MPSwiftUI_SDK.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2FDD37FD2E5CB013008C8352 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -33,6 +98,8 @@
 			isa = PBXGroup;
 			children = (
 				2FCD493D2E58A3A800290385 /* MultipleScenesWithinSwiftUI-SDK */,
+				2FDD38012E5CB013008C8352 /* MPSwiftUI_SDK */,
+				2FDD38162E5CB10B008C8352 /* Frameworks */,
 				2FCD493C2E58A3A800290385 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -40,35 +107,78 @@
 		2FCD493C2E58A3A800290385 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				2FCD493B2E58A3A800290385 /* MultipleScenesWithinSwiftUI-SDK.app */,
+				2FCD493B2E58A3A800290385 /* SwiftUI-internal-SDK-use.app */,
+				2FDD38002E5CB013008C8352 /* MPSwiftUI_SDK.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
+		2FDD38162E5CB10B008C8352 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		2FDD37FB2E5CB013008C8352 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
-		2FCD493A2E58A3A800290385 /* MultipleScenesWithinSwiftUI-SDK */ = {
+		2FCD493A2E58A3A800290385 /* SwiftUI-internal-SDK-use */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2FCD49462E58A3AA00290385 /* Build configuration list for PBXNativeTarget "MultipleScenesWithinSwiftUI-SDK" */;
+			buildConfigurationList = 2FCD49462E58A3AA00290385 /* Build configuration list for PBXNativeTarget "SwiftUI-internal-SDK-use" */;
 			buildPhases = (
 				2FCD49372E58A3A800290385 /* Sources */,
 				2FCD49382E58A3A800290385 /* Frameworks */,
 				2FCD49392E58A3A800290385 /* Resources */,
+				2FDD37B12E5CAE11008C8352 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2FDD381A2E5CB10B008C8352 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				2FCD493D2E58A3A800290385 /* MultipleScenesWithinSwiftUI-SDK */,
+			);
+			name = "SwiftUI-internal-SDK-use";
+			packageProductDependencies = (
+			);
+			productName = "MultipleScenesWithinSwiftUI-MVP";
+			productReference = 2FCD493B2E58A3A800290385 /* SwiftUI-internal-SDK-use.app */;
+			productType = "com.apple.product-type.application";
+		};
+		2FDD37FF2E5CB013008C8352 /* MPSwiftUI_SDK */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2FDD38062E5CB013008C8352 /* Build configuration list for PBXNativeTarget "MPSwiftUI_SDK" */;
+			buildPhases = (
+				2FDD37FB2E5CB013008C8352 /* Headers */,
+				2FDD37FC2E5CB013008C8352 /* Sources */,
+				2FDD37FD2E5CB013008C8352 /* Frameworks */,
+				2FDD37FE2E5CB013008C8352 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				2FCD493D2E58A3A800290385 /* MultipleScenesWithinSwiftUI-SDK */,
+				2FDD38012E5CB013008C8352 /* MPSwiftUI_SDK */,
 			);
-			name = "MultipleScenesWithinSwiftUI-SDK";
+			name = MPSwiftUI_SDK;
 			packageProductDependencies = (
 			);
-			productName = "MultipleScenesWithinSwiftUI-MVP";
-			productReference = 2FCD493B2E58A3A800290385 /* MultipleScenesWithinSwiftUI-SDK.app */;
-			productType = "com.apple.product-type.application";
+			productName = MPSwiftUI_SDK;
+			productReference = 2FDD38002E5CB013008C8352 /* MPSwiftUI_SDK.framework */;
+			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
 
@@ -83,9 +193,12 @@
 					2FCD493A2E58A3A800290385 = {
 						CreatedOnToolsVersion = 16.4;
 					};
+					2FDD37FF2E5CB013008C8352 = {
+						CreatedOnToolsVersion = 16.4;
+					};
 				};
 			};
-			buildConfigurationList = 2FCD49362E58A3A800290385 /* Build configuration list for PBXProject "MultipleScenesWithinSwiftUI-SDK" */;
+			buildConfigurationList = 2FCD49362E58A3A800290385 /* Build configuration list for PBXProject "SwiftUI-internal-SDK-use" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -99,13 +212,21 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				2FCD493A2E58A3A800290385 /* MultipleScenesWithinSwiftUI-SDK */,
+				2FCD493A2E58A3A800290385 /* SwiftUI-internal-SDK-use */,
+				2FDD37FF2E5CB013008C8352 /* MPSwiftUI_SDK */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		2FCD49392E58A3A800290385 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2FDD37FE2E5CB013008C8352 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -122,7 +243,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		2FDD37FC2E5CB013008C8352 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		2FDD381A2E5CB10B008C8352 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2FDD37FF2E5CB013008C8352 /* MPSwiftUI_SDK */;
+			targetProxy = 2FDD38192E5CB10B008C8352 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		2FCD49442E58A3AA00290385 /* Debug */ = {
@@ -251,7 +387,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 0.0.1;
-				DEVELOPMENT_TEAM = KQ5WJ6ZC4G;
+				DEVELOPMENT_TEAM = BPYZA4SS6H;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -280,7 +416,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 0.0.1;
-				DEVELOPMENT_TEAM = KQ5WJ6ZC4G;
+				DEVELOPMENT_TEAM = BPYZA4SS6H;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -302,10 +438,80 @@
 			};
 			name = Release;
 		};
+		2FDD38072E5CB013008C8352 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = BPYZA4SS6H;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.dementievmykola.DMUnLoader-MVP-MultipleScenesWithinSwiftUIDevice.MPSwiftUI-SDK";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_INSTALL_MODULE = YES;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		2FDD38082E5CB013008C8352 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = BPYZA4SS6H;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.dementievmykola.DMUnLoader-MVP-MultipleScenesWithinSwiftUIDevice.MPSwiftUI-SDK";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_INSTALL_MODULE = YES;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		2FCD49362E58A3A800290385 /* Build configuration list for PBXProject "MultipleScenesWithinSwiftUI-SDK" */ = {
+		2FCD49362E58A3A800290385 /* Build configuration list for PBXProject "SwiftUI-internal-SDK-use" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2FCD49442E58A3AA00290385 /* Debug */,
@@ -314,11 +520,20 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2FCD49462E58A3AA00290385 /* Build configuration list for PBXNativeTarget "MultipleScenesWithinSwiftUI-SDK" */ = {
+		2FCD49462E58A3AA00290385 /* Build configuration list for PBXNativeTarget "SwiftUI-internal-SDK-use" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2FCD49472E58A3AA00290385 /* Debug */,
 				2FCD49482E58A3AA00290385 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2FDD38062E5CB013008C8352 /* Build configuration list for PBXNativeTarget "MPSwiftUI_SDK" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2FDD38072E5CB013008C8352 /* Debug */,
+				2FDD38082E5CB013008C8352 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

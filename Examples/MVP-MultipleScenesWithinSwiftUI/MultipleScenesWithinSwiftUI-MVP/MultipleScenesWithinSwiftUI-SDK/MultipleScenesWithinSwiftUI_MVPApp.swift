@@ -5,6 +5,7 @@
 //
 
 import SwiftUI
+import MPSwiftUI_SDK
 
 @main
 struct MultipleScenesWithinSwiftUI_MVPApp: App {
@@ -13,7 +14,7 @@ struct MultipleScenesWithinSwiftUI_MVPApp: App {
     
     var body: some Scene {
         WindowGroup {
-            MainSceneView(hudState: hudState)
+            AppMainSceneView(hudState: hudState)
         }
     }
 }

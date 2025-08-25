@@ -6,8 +6,28 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		2FDD38292E5CB48B008C8352 /* MPSwiftUI_SDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FDD38282E5CB48B008C8352 /* MPSwiftUI_SDK.framework */; };
+		2FDD382A2E5CB48C008C8352 /* MPSwiftUI_SDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2FDD38282E5CB48B008C8352 /* MPSwiftUI_SDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		2FDD382B2E5CB48C008C8352 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				2FDD382A2E5CB48C008C8352 /* MPSwiftUI_SDK.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		2FDD37862E5A17C7008C8352 /* MultipleScenesWithinSwiftUI-MVP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MultipleScenesWithinSwiftUI-MVP.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2FDD38282E5CB48B008C8352 /* MPSwiftUI_SDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MPSwiftUI_SDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -23,6 +43,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2FDD38292E5CB48B008C8352 /* MPSwiftUI_SDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -49,6 +70,7 @@
 		2FDD379A2E5A1909008C8352 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2FDD38282E5CB48B008C8352 /* MPSwiftUI_SDK.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -63,6 +85,7 @@
 				2FDD37822E5A17C7008C8352 /* Sources */,
 				2FDD37832E5A17C7008C8352 /* Frameworks */,
 				2FDD37842E5A17C7008C8352 /* Resources */,
+				2FDD382B2E5CB48C008C8352 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
