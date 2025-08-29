@@ -9,11 +9,12 @@ import MPSwiftUI_SDK
 
 @main
 struct MultipleScenesWithinSwiftUI_MVPApp: App {
+    @UIApplicationDelegateAdaptor var delegate: MVPAppDelegate
     var body: some Scene {
-        MultipleScenesWithinSwiftUI_SDK_Scene { scene in
+        MultipleScenesWithinSwiftUI_SDK_Scene { hudState in
             WindowGroup {
-                ContentView()
-//                AppMainSceneView(hudState: scene.hudState)
+//                ContentView()
+                AppMainSceneView(hudState: hudState)
             }
         }
     }
