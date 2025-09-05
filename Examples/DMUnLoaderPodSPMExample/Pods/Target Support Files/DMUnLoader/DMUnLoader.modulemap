@@ -1,6 +1,0 @@
-framework module DMUnLoader {
-  umbrella header "DMUnLoader-umbrella.h"
-
-  export *
-  module * { export * }
-}
