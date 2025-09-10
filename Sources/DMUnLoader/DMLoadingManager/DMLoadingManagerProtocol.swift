@@ -84,4 +84,6 @@ public protocol DMLoadingManagerInteralProtocol: DMLoadingManagerProtocol {
     ///   }
     ///   ```
     var loadableStatePublisher: AnyPublisher<DMLoadableType, Never> { get }
+    
+    init()
 }

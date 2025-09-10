@@ -45,7 +45,6 @@ open class DMLocalLoadingViewUIKit<UIKitView: UIView,
                 loadingManager: LM?) {
         // Create the SwiftUI view and wrap it in an `AnyView`
         let swiftUIView = Self.makeSwiftUIView(provider: provider, view: innerView)
-//        self.loadingManager = swiftUIView.getLoadingManager()
         self.loadingManager = loadingManager
         
         // Initialize the hosting controller with the SwiftUI view
@@ -55,9 +54,6 @@ open class DMLocalLoadingViewUIKit<UIKitView: UIView,
             ))
         
         super.init(frame: .zero)
-        
-        // Update the loading manager reference
-//        self.loadingManager = swiftUIView.getLoadingManager()
         
         // Set up the UI
         setupUI()
@@ -86,16 +82,7 @@ open class DMLocalLoadingViewUIKit<UIKitView: UIView,
         ])
     }
     
-    /// Creates a SwiftUI view (`DMLocalLoadingView`) that wraps the provided UIKit view.
-    /// - Parameters:
-    ///   - provider: The provider responsible for supplying views and settings for loading, error, and success states.
-    ///   - view: The UIKit view to be embedded as the content of the SwiftUI view.
-    /// - Returns: A `DMLocalLoadingView` instance configured with the provided parameters.
-    private static func makeSwiftUIView(provider: Provider, view: UIKitView) -> HostingContent {
-        let newView = DMLocalLoadingView(provider: provider) {
-            DMWrappedViewUIKit(uiView: view)
-        }
-        
-        return newView
+    private static func makeSwiftUIView(provider: Provider, view: UIKitView) -> some View {
+        DMWrappedViewUIKit(uiView: view)
     }
 }

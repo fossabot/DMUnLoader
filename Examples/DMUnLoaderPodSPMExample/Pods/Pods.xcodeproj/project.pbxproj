@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 77;
+	objectVersion = 71;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -111,7 +111,7 @@
 		51D2402EB98551312886B082C0787CC1 /* DMActionResultValue.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DMActionResultValue.swift; path = Sources/DMAction/DMActionResultValue.swift; sourceTree = "<group>"; };
 		543082D3420B9E75275B6151AAC41559 /* Pods-DMUnLoaderPodSPMExample-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-DMUnLoaderPodSPMExample-acknowledgements.plist"; sourceTree = "<group>"; };
 		5702E9C3DF66E97D46F29FF41430DD8D /* Optional+Protocol.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "Optional+Protocol.swift"; sourceTree = "<group>"; };
-		59B2B331A5036826412E601AB23DE841 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE; sourceTree = "<group>"; };
+		59B2B331A5036826412E601AB23DE841 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		5BB84C6675C1773E930AFA4C780AF188 /* DMLoadableTypeSuccess.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DMLoadableTypeSuccess.swift; sourceTree = "<group>"; };
 		5D29D9BDE50567206554D3060F7BB3F4 /* DMUnLoader-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "DMUnLoader-prefix.pch"; sourceTree = "<group>"; };
 		5DD43ADB4188C1D523AF025DF6500661 /* Pods-DMUnLoaderPodSPMExample-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-DMUnLoaderPodSPMExample-Info.plist"; sourceTree = "<group>"; };
@@ -126,20 +126,20 @@
 		7D04B7C1AB553094DDA9BAA6A80119A1 /* DMRootLoadingModifier.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DMRootLoadingModifier.swift; path = Sources/DMUnLoader/DMRootLoadingModifier.swift; sourceTree = "<group>"; };
 		7F26C7F8F0B3F0880530E45D40A55EC0 /* DMAction.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DMAction.swift; path = Sources/DMAction/DMAction.swift; sourceTree = "<group>"; };
 		84A1EA5F070BF3FABF0777DEC0D24576 /* FrameworkExports.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = FrameworkExports.swift; sourceTree = "<group>"; };
-		86BE6BD6410987CDA05DF7A9F15333E8 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; path = README.md; sourceTree = "<group>"; };
+		86BE6BD6410987CDA05DF7A9F15333E8 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		88E9ED2BA1CC76B3B356B62550ED6E52 /* DMLoadingManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DMLoadingManager.swift; sourceTree = "<group>"; };
 		89CCA4EEC2A33E08A3715608C5543C97 /* DMLoadingManagerSettings.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DMLoadingManagerSettings.swift; sourceTree = "<group>"; };
 		8A2AEE91C49871899F0F1E2BB1EF8C85 /* DMLoadingView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DMLoadingView.swift; path = Sources/DMUnLoader/DMLoadingView.swift; sourceTree = "<group>"; };
 		8CD4A0AB5E054FEA1EFA2510FC31D67A /* DMUnLoader.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = DMUnLoader.release.xcconfig; sourceTree = "<group>"; };
 		98EA7A64538524D388DB58C37435FB27 /* DMGlobalLoadingStateManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DMGlobalLoadingStateManager.swift; sourceTree = "<group>"; };
-		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		A847FB93153C4C1C69E33677C52BBD6A /* DMUnLoader.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = DMUnLoader.modulemap; sourceTree = "<group>"; };
 		A9B50368EE4C3003ADA989E526BF6595 /* DMLoadingViewSettings.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DMLoadingViewSettings.swift; sourceTree = "<group>"; };
 		AC445AA7475527C70B5C9B8BC7563459 /* Pods-DMUnLoaderPodSPMExample-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-DMUnLoaderPodSPMExample-frameworks.sh"; sourceTree = "<group>"; };
 		AF58A8E68465366A22051E16F4D7F6D7 /* Atomic.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Atomic.swift; sourceTree = "<group>"; };
 		AFA26E3A804F87994F8361DF6C042A41 /* DMAction */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = DMAction; path = DMAction.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B00B12566C242B879C1A4A39A836DFCF /* Pods-DMUnLoaderPodSPMExample-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-DMUnLoaderPodSPMExample-acknowledgements.markdown"; sourceTree = "<group>"; };
-		B6726F79696C893183064F858832A5A1 /* DMUnLoader.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; path = DMUnLoader.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		B6726F79696C893183064F858832A5A1 /* DMUnLoader.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; path = DMUnLoader.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		B846235113FFF4852B4376F75060F7DE /* GlobalLoadingStateManagerProtocol.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GlobalLoadingStateManagerProtocol.swift; sourceTree = "<group>"; };
 		C94841AB2C45EC458052F297D1C64FEE /* CustomSizeView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CustomSizeView.swift; sourceTree = "<group>"; };
 		D31765F3658DCE69E36758DDCABB8532 /* DMUnLoader */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = DMUnLoader; path = DMUnLoader.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -204,7 +204,6 @@
 				123C83D448113CCF93738C25F06B35DF /* DMSuccessView.swift */,
 				E5DAA435719C9E3223F41577018AD5C6 /* DMSuccessViewSettings.swift */,
 			);
-			name = DMSuccessView;
 			path = DMSuccessView;
 			sourceTree = "<group>";
 		};
@@ -242,7 +241,6 @@
 				1F65B9601325EC266181493453F7ED79 /* String+Pointer.swift */,
 				022559ED8CC09BE48BE31EE306FA8D94 /* View+Loading.swift */,
 			);
-			name = Extensions;
 			path = Extensions;
 			sourceTree = "<group>";
 		};
@@ -290,7 +288,6 @@
 				A9B50368EE4C3003ADA989E526BF6595 /* DMLoadingViewSettings.swift */,
 				0A797DCCA416238B88108FDEE824BAD3 /* DMProgressView.swift */,
 			);
-			name = DMLoadingView;
 			path = DMLoadingView;
 			sourceTree = "<group>";
 		};
@@ -314,7 +311,6 @@
 				98EA7A64538524D388DB58C37435FB27 /* DMGlobalLoadingStateManager.swift */,
 				B846235113FFF4852B4376F75060F7DE /* GlobalLoadingStateManagerProtocol.swift */,
 			);
-			name = DMGlobalLoadingStateManager;
 			path = DMGlobalLoadingStateManager;
 			sourceTree = "<group>";
 		};
@@ -328,7 +324,6 @@
 				17E1E16D1CC83BAEDF84E4C335EFF1A1 /* DMButtonAction.swift */,
 				4F70DDDBD54AC410ACF0C1C9ACC23076 /* Support Files */,
 			);
-			name = DMAction;
 			path = DMAction;
 			sourceTree = "<group>";
 		};
@@ -338,7 +333,6 @@
 				73090EE831215FBF7CBE1EBE3ACAF0FB /* Inspection.swift */,
 				629EA2116B149297945EE671304D9975 /* SchemaArguments.swift */,
 			);
-			name = Debug;
 			path = Debug;
 			sourceTree = "<group>";
 		};
@@ -410,7 +404,6 @@
 			children = (
 				AF58A8E68465366A22051E16F4D7F6D7 /* Atomic.swift */,
 			);
-			name = Atomic;
 			path = Atomic;
 			sourceTree = "<group>";
 		};
@@ -453,7 +446,6 @@
 				084B1321AB1C79ADBAE2FB3DAF24BAC2 /* DMViewControllerTopLevel.swift */,
 				D5A9C5EB2D84E4350C9190C869C8A268 /* DMWrappedViewUIKit.swift */,
 			);
-			name = UIKitBridging;
 			path = UIKitBridging;
 			sourceTree = "<group>";
 		};
@@ -473,7 +465,6 @@
 				E1DF2A0715DAC36941DABF9ACB2274FA /* DMErrorView.swift */,
 				055FEF742FFC1B3A6E90628A671E48FB /* DMErrorViewSettings.swift */,
 			);
-			name = DMErrorView;
 			path = DMErrorView;
 			sourceTree = "<group>";
 		};
@@ -582,8 +573,6 @@
 				en,
 			);
 			mainGroup = CF1408CF629C7361332E53B88F7BD30C;
-			minimizedProjectReferenceProxies = 0;
-			preferredProjectObjectVersion = 77;
 			productRefGroup = EC69359E5398ECD0C43DDB2356ADB669 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";

@@ -137,6 +137,11 @@ public final class DMLoadingManager: DMLoadingManagerInteralProtocol {
         inactivityTimerCancellable?.cancel()
         inactivityTimerCancellable = nil
     }
+    
+    public convenience init() {
+        self.init(state: .none,
+                  settings: DMLoadingManagerDefaultSettings())
+    }
 }
 
 // MARK: - Hashable Conformance

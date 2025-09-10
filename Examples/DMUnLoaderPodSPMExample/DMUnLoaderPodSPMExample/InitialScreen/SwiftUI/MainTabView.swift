@@ -15,7 +15,6 @@ struct MainTabView<LM: DMLoadingManagerInteralProtocol>: View {
         TabView {
             // First Tab - Default Settings
             NavigationStack {
-//                ContentViewDefaultSettings()
                 ContentViewDefaultSettingsTopView(loadingManager: loadingManager)
                     .navigationTitle("Default Settings")
             }
@@ -25,8 +24,7 @@ struct MainTabView<LM: DMLoadingManagerInteralProtocol>: View {
             
             // Second Tab - Custom Settings
             NavigationStack {
-                ContentViewCustomSettings()
-                    .environmentObject(loadingManager)
+                ContentViewCustomSettingsTopView(loadingManager: loadingManager)
                     .navigationTitle("Custom Settings")
             }
             .tabItem {

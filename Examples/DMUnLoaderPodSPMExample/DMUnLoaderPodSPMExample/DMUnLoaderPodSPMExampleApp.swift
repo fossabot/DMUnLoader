@@ -15,28 +15,23 @@ import DMUnLoader
 class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     
-    private typealias DMLoadingManagerType = DMLoadingManager
-    @UIApplicationDelegateAdaptor private var delegate: FSAppDelegate<DMLoadingManagerType>
-    
-    private var loadingManager = DMLoadingManagerType(state: .none,
-                                                      settings: DMLoadingManagerSTSettings())
+    func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
+        
+        let configuration = UISceneConfiguration(name: "Default Configuration",
+                                                 sessionRole: connectingSceneSession.role)
+
+        configuration.delegateClass = FSSceneDelegate<DMLoadingManager>.self
+        connectingSceneSession.userInfo = [
+            "ownerForLoadingManager": true
+        ]
+        
+        return configuration
+    }
     
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         
         AppDelegateHelper.makeAppDescriprtion()
         
-        return true
-    }
-
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        window = UIWindow(frame: UIScreen.main.bounds)
-        
-        let appDelegateHelper = AppDelegateHelper()
-        
-        let rootVC = appDelegateHelper.makeUIKitRootViewHierarhy(loadingManager: loadingManager)
-        
-        window?.rootViewController = rootVC
-        window?.makeKeyAndVisible()
         return true
     }
 }
@@ -48,10 +43,9 @@ struct DMUnLoaderPodSPMExampleApp: App {
     private typealias DMLoadingManagerType = DMLoadingManager
     @UIApplicationDelegateAdaptor private var delegate: FSAppDelegate<DMLoadingManagerType>
     
-    @StateObject private var loadingManager = DMLoadingManagerType(state: .none,
-                                                                   settings: DMLoadingManagerSTSettings())
+    @StateObject private var loadingManager: DMLoadingManagerType = AppDelegateHelper.makeLoadingManager()
     
-    init () {
+    init() {
         AppDelegateHelper.makeAppDescriprtion()
     }
     
@@ -67,6 +61,11 @@ struct DMUnLoaderPodSPMExampleApp: App {
 
 
 internal struct AppDelegateHelper {
+    
+    @MainActor
+    static func makeLoadingManager<LM: DMLoadingManagerInteralProtocol>() -> LM {
+        LM()
+    }
 
     static private(set) internal var appDescriprtion: String = ""
     

@@ -18,7 +18,6 @@ final class LoadingContentViewUIKit<LM: DMLoadingManagerInteralProtocol>: UIView
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
-        bindViewModel()
     }
     
     required init?(coder: NSCoder) {
@@ -90,14 +89,5 @@ final class LoadingContentViewUIKit<LM: DMLoadingManagerInteralProtocol>: UIView
         
         button.addTarget(viewModel, action: action, for: .touchUpInside)
         stackView.addArrangedSubview(button)
-    }
-    
-    private func bindViewModel() {
-        viewModel.$isReady
-            .receive(on: RunLoop.main)
-            .sink { [weak self] isReady in
-                self?.isUserInteractionEnabled = isReady
-            }
-            .store(in: &cancellables)
     }
 }
