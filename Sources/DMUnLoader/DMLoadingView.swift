@@ -72,7 +72,8 @@ public struct DMLoadingView<Provider: DMLoadingViewProviderProtocol,
                     Color.black.opacity(animateTheAppearance ? 0.2 : 0)
                         .ignoresSafeArea()
                     
-                    VStack(spacing: 20) {
+//                    VStack(spacing: 20) {
+                    Group {
                         if case .loading = loadableState {
                             provider.getLoadingView()
                                 .tag(DMLoadingViewOwnSettings.loadingViewTag)

@@ -1,7 +1,7 @@
 //
-//  MultipleScenesWithinSwiftUI-MVP
+//  DMUnLoader
 //
-//  Created by Mykola Dementiev
+// Created by Mykola Dementiev
 //
 // for detail, pls. check the file's github page: https://github.com/nikstar/VariableBlur?tab=readme-ov-file
 
@@ -16,14 +16,16 @@ enum VariableBlurDirection {
 }
 
 struct VariableBlurView: UIViewRepresentable {
-
+    
     var maxBlurRadius: CGFloat = 20
-
+    
     var direction: VariableBlurDirection = .blurredTopClearBottom
-
-    /// By default, variable blur starts from 0 blur radius and linearly increases to `maxBlurRadius`. Setting `startOffset` to a small negative coefficient (e.g. -0.1) will start blur from larger radius value which might look better in some cases.
+    
+    /// By default, variable blur starts from 0 blur radius and linearly increases to `maxBlurRadius`.
+    /// Setting `startOffset` to a small negative coefficient (e.g. -0.1) will start
+    /// blur from larger radius value which might look better in some cases.
     var startOffset: CGFloat = 0
-
+    
     func makeUIView(context: Context) -> VariableBlurUIView {
         do {
             return try VariableBlurUIView(
@@ -34,7 +36,7 @@ struct VariableBlurView: UIViewRepresentable {
             return VariableBlurUIView()
         }
     }
-
+    
     func updateUIView(_ uiView: VariableBlurUIView, context: Context) {}
 }
 
@@ -54,10 +56,13 @@ class VariableBlurUIView: UIVisualEffectView {
         
         // `CAFilter` is a private QuartzCore class that dynamically create using Objective-C runtime.
         guard let CAFilter = NSClassFromString("CAFilter") as? NSObject.Type else {
-            throw VariableBlurError.failedToFindCAFilterFromVariableBlurObject
+            throw VariableBlurError.findFilterFromVariableBlur
         }
-        guard let variableBlur = CAFilter.self.perform(NSSelectorFromString("filterWithType:"), with: "variableBlur").takeUnretainedValue() as? NSObject else {
-            throw VariableBlurError.failedtoFindVariableBlurFromCAFilter
+        guard let variableBlur = CAFilter.self.perform(
+            NSSelectorFromString("filterWithType:"),
+            with: "variableBlur"
+        ).takeUnretainedValue() as? NSObject else {
+            throw VariableBlurError.findVariableBlurFromFilter
         }
         
         // The blur radius at each pixel depends on the alpha value of the corresponding pixel in the gradient mask.
@@ -98,7 +103,7 @@ class VariableBlurUIView: UIVisualEffectView {
         startOffset: CGFloat,
         direction: VariableBlurDirection
     ) throws -> CGImage { // much lower resolution might be acceptable
-        let ciGradientFilter =  CIFilter.linearGradient()
+        let ciGradientFilter = CIFilter.linearGradient()
         //let ciGradientFilter =  CIFilter.smoothLinearGradient()
         ciGradientFilter.color0 = CIColor.black
         ciGradientFilter.color1 = CIColor.clear
@@ -110,34 +115,34 @@ class VariableBlurUIView: UIVisualEffectView {
         }
         
         guard let outputImage = ciGradientFilter.outputImage else {
-            throw VariableBlurError.failedToGetOutputImageFromCIGradientFilter
+            throw VariableBlurError.outputImageFromCIGradientFilter
         }
         
         guard let createCGImage = CIContext().createCGImage(
             outputImage,
             from: CGRect(x: 0, y: 0, width: width, height: height)
         ) else {
-            throw VariableBlurError.failedToCreateCGImageFromCIContext
+            throw VariableBlurError.createImageFromContext
         }
         
         return createCGImage
     }
     
     enum VariableBlurError: Error, LocalizedError {
-        case failedToGetOutputImageFromCIGradientFilter
-        case failedToCreateCGImageFromCIContext
-        case failedToFindCAFilterFromVariableBlurObject
-        case failedtoFindVariableBlurFromCAFilter
+        case outputImageFromCIGradientFilter
+        case createImageFromContext
+        case findFilterFromVariableBlur
+        case findVariableBlurFromFilter
         
         var errorDescription: String {
             switch self {
-            case .failedToGetOutputImageFromCIGradientFilter:
+            case .outputImageFromCIGradientFilter:
                 return "Failed to get output image from CIGradientFilter"
-            case .failedToCreateCGImageFromCIContext:
+            case .createImageFromContext:
                 return "Failed to create CGImage from CIContext"
-            case .failedToFindCAFilterFromVariableBlurObject:
+            case .findFilterFromVariableBlur:
                 return "[VariableBlur] Error: Can't find CAFilter class"
-            case .failedtoFindVariableBlurFromCAFilter:
+            case .findVariableBlurFromFilter:
                 return "[VariableBlur] Error: CAFilter can't create filterWithType: variableBlur"
             }
         }
