@@ -183,3 +183,15 @@ internal extension DMErrorView {
         }
     }
 }
+
+#Preview("Basic") {
+    Group {
+        DMErrorView(settings: DMErrorDefaultViewSettings(),
+                    error: DMAppError.custom("Something went wrong"),
+                    onRetry: DMButtonAction({ _ in }),
+                    onClose: DMButtonAction({ _ in }))
+    }
+    .padding(30)
+    .background(Color.gray.opacity(0.8))
+    .cornerRadius(10)
+}
