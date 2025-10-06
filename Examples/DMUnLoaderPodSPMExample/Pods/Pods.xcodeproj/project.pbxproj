@@ -158,6 +158,10 @@
 		FEA5872D41D4C57A1962B3C9FA38A847 /* Pods-DMUnLoaderPodSPMExample.debug-uikit.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-DMUnLoaderPodSPMExample.debug-uikit.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		2F478A972E93CDA300A92AC4 /* FS */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = FS; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
+
 /* Begin PBXFrameworksBuildPhase section */
 		440548AAD1006F94AD9842A3D85E0D29 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
@@ -333,6 +337,7 @@
 		7152BA8FD15CB47A96432C52CDAFD58F /* HUD */ = {
 			isa = PBXGroup;
 			children = (
+				2F478A972E93CDA300A92AC4 /* FS */,
 				FC35A237D85A2E2618AFE907F907AF0A /* HudSceneView.swift */,
 				340499FA13FA4299D7CEEC775020D34F /* PassThroughWindow.swift */,
 				952AEAE6ADB2B5404742825E910943AA /* VariableBlurView.swift */,
@@ -536,6 +541,9 @@
 			);
 			dependencies = (
 				1ACFF44F068860A4E57A76090B569E6D /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				2F478A972E93CDA300A92AC4 /* FS */,
 			);
 			name = DMUnLoader;
 			productName = DMUnLoader;

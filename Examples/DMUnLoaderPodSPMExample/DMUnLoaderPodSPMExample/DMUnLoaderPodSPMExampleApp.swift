@@ -20,10 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let configuration = UISceneConfiguration(name: "Default Configuration",
                                                  sessionRole: connectingSceneSession.role)
 
-        configuration.delegateClass = FSSceneDelegate<DMLoadingManager>.self
-        connectingSceneSession.userInfo = [
-            "ownerForLoadingManager": true
-        ]
+        configuration.delegateClass = FSSceneDelegateUIKit<DMLoadingManager, AppDelegateHelper>.self
         
         return configuration
     }
@@ -61,12 +58,6 @@ struct DMUnLoaderPodSPMExampleApp: App {
 
 
 internal struct AppDelegateHelper {
-    
-    @MainActor
-    static func makeLoadingManager<LM: DMLoadingManagerInteralProtocol>() -> LM {
-        LM()
-    }
-
     static private(set) internal var appDescriprtion: String = ""
     
     static func makeAppDescriprtion() {
@@ -83,17 +74,8 @@ internal struct AppDelegateHelper {
         appDescriprtion += newString
     }
     
-    func makeUIKitRootViewHierarhy<LM: DMLoadingManagerInteralProtocol>(loadingManager: LM) -> UIViewController {
-        
-        let tabViewController = MainTabViewControllerUIKit(
-            loadingManager: loadingManager
-        )
-        
-        return tabViewController
-    }
-    
     struct RootLoadingView<LM: DMLoadingManagerInteralProtocol>: View {
-        @EnvironmentObject var sceneDelegate: FSSceneDelegate<LM>
+        @EnvironmentObject var sceneDelegate: FSSceneDelegateSwiftUI<LM>
         
         var loadingManager: LM
         
@@ -132,5 +114,16 @@ internal struct AppDelegateHelper {
             print("Error reading .dependency_manager file: \(error)")
             return nil
         }
+    }
+}
+
+extension AppDelegateHelper: FSSceneDelegateHelper {
+    static func makeUIKitRootViewHierarhy<LM: DMLoadingManagerInteralProtocol>(loadingManager: LM) -> UIViewController {
+        
+        let tabViewController = MainTabViewControllerUIKit(
+            loadingManager: loadingManager
+        )
+        
+        return tabViewController
     }
 }
