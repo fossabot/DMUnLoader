@@ -4,7 +4,6 @@
 //  Created by Mykola Dementiev
 //
 
-
 import UIKit
 import SwiftUI
 import DMUnLoader
@@ -40,16 +39,15 @@ struct DMUnLoaderPodSPMExampleApp: App {
     private typealias DMLoadingManagerType = DMLoadingManager
     @UIApplicationDelegateAdaptor private var delegate: FSAppDelegate<DMLoadingManagerType>
     
-    @StateObject private var loadingManager: DMLoadingManagerType = AppDelegateHelper.makeLoadingManager()
-    
     init() {
         AppDelegateHelper.makeAppDescriprtion()
     }
     
     var body: some Scene {
         WindowGroup {
-            AppDelegateHelper
-                .RootLoadingView(loadingManager: loadingManager)
+            AppDelegateHelper.RootLoadingView { (loadingManager: DMLoadingManagerType) in
+                MainTabViewSwiftUI(loadingManager: loadingManager)
+            }
         }
     }
 }
@@ -74,16 +72,21 @@ internal struct AppDelegateHelper {
         appDescriprtion += newString
     }
     
-    struct RootLoadingView<LM: DMLoadingManagerProtocol>: View {
-        @EnvironmentObject var sceneDelegate: FSSceneDelegateSwiftUI<LM>
+    struct RootLoadingView<LM: DMLoadingManagerProtocol, Content: View>: View {
+        @EnvironmentObject private var sceneDelegate: FSSceneDelegateSwiftUI<LM>
+        @StateObject private var loadingManager: LM = AppDelegateHelper.makeLoadingManager()
         
-        var loadingManager: LM
+        private let content: (LM) -> Content
+        
+        init(@ViewBuilder content: @escaping (LM) -> Content) {
+            self.content = content
+        }
         
         var body: some View {
-            MainTabViewSwiftUI(loadingManager: loadingManager)
-            .onAppear {
-                sceneDelegate.loadingManager = loadingManager
-            }
+            content(loadingManager)
+                .onAppear {
+                    sceneDelegate.loadingManager = loadingManager
+                }
         }
     }
     
