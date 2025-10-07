@@ -1,11 +1,11 @@
 import SwiftUI
 
-public final class FSSceneDelegateUIKit<
+public final class DMSceneDelegateUIKit<
     LM: DMLoadingManagerProtocol,
-    Helper: FSSceneDelegateHelper
+    Helper: DMSceneDelegateHelper
 >: UIResponder, UIWindowSceneDelegate, ObservableObject {
     
-    private let decoratee = FSSceneDelegateSwiftUI<LM>()
+    private let decoratee = DMSceneDelegateBase<LM>()
     
     public var loadingManager: LM? {
         get { decoratee.loadingManager }
@@ -57,7 +57,7 @@ public final class FSSceneDelegateUIKit<
     }
 }
 
-public final class FSSceneDelegateSwiftUI<
+public final class DMSceneDelegateBase<
     LM: DMLoadingManagerProtocol
 >: UIResponder, UIWindowSceneDelegate, ObservableObject {
     public var loadingManager: LM? {
@@ -90,11 +90,11 @@ public final class FSSceneDelegateSwiftUI<
             return
         }
         
-        let toastViewController = UIHostingController(rootView: HudSceneView(loadingManager: loadingManager))
+        let toastViewController = UIHostingController(rootView: DMHudSceneView(loadingManager: loadingManager))
         
         toastViewController.view.backgroundColor = .clear
         
-        let toastWindow = PassThroughWindow(windowScene: windowScene)
+        let toastWindow = DMPassThroughWindow(windowScene: windowScene)
         toastWindow.rootViewController = toastViewController
         toastWindow.isHidden = false
         self.toastWindow = toastWindow

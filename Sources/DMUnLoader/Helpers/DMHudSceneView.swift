@@ -6,7 +6,7 @@
 
 import SwiftUI
 
-struct HudSceneView<LM: DMLoadingManagerProtocol>: View {
+struct DMHudSceneView<LM: DMLoadingManagerProtocol>: View {
     @ObservedObject var loadingManager: LM
 
     init(loadingManager: LM) {
@@ -32,7 +32,7 @@ struct HudSceneView<LM: DMLoadingManagerProtocol>: View {
         settings: DMLoadingManagerDefaultSettings()
     )
     
-    HudSceneView(loadingManager: loadingManager)
+    DMHudSceneView(loadingManager: loadingManager)
 }
 
 #Preview("Loading") {
@@ -41,7 +41,7 @@ struct HudSceneView<LM: DMLoadingManagerProtocol>: View {
         settings: DMLoadingManagerDefaultSettings()
     )
     
-    HudSceneView(loadingManager: loadingManager)
+    DMHudSceneView(loadingManager: loadingManager)
 }
 
 #Preview("Success") {
@@ -50,7 +50,7 @@ struct HudSceneView<LM: DMLoadingManagerProtocol>: View {
         settings: DMLoadingManagerDefaultSettings()
     )
     
-    HudSceneView(loadingManager: loadingManager)
+    DMHudSceneView(loadingManager: loadingManager)
 }
 
 #Preview("None") {
@@ -59,5 +59,5 @@ struct HudSceneView<LM: DMLoadingManagerProtocol>: View {
         settings: DMLoadingManagerDefaultSettings()
     )
     
-    HudSceneView(loadingManager: loadingManager)
+    DMHudSceneView(loadingManager: loadingManager)
 }

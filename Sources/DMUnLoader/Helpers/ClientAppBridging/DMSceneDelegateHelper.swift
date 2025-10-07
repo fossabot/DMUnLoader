@@ -3,11 +3,11 @@
 
 import UIKit
 
-public protocol FSSceneDelegateHelper {
+public protocol DMSceneDelegateHelper {
     static func makeUIKitRootViewHierarhy<LM: DMLoadingManagerProtocol>(loadingManager: LM) -> UIViewController
 }
 
-extension FSSceneDelegateHelper {
+extension DMSceneDelegateHelper {
     static func makeUIKitRootViewHierarhy<LM: DMLoadingManagerProtocol>(loadingManager: LM) -> UIViewController {
         
         UIViewController(nibName: nil, bundle: nil)

@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let configuration = UISceneConfiguration(name: "Default Configuration",
                                                  sessionRole: connectingSceneSession.role)
 
-        configuration.delegateClass = FSSceneDelegateUIKit<DMLoadingManager, AppDelegateHelper>.self
+        configuration.delegateClass = DMSceneDelegateUIKit<DMLoadingManager, AppDelegateHelper>.self
         
         return configuration
     }
@@ -37,7 +37,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 @main
 struct DMUnLoaderPodSPMExampleApp: App {
     private typealias DMLoadingManagerType = DMLoadingManager
-    @UIApplicationDelegateAdaptor private var delegate: FSAppDelegate<DMLoadingManagerType>
+    @UIApplicationDelegateAdaptor private var delegate: DMAppDelegate<DMLoadingManagerType>
     
     init() {
         AppDelegateHelper.makeAppDescriprtion()
@@ -102,7 +102,7 @@ internal struct AppDelegateHelper {
     }
 }
 
-extension AppDelegateHelper: FSSceneDelegateHelper {
+extension AppDelegateHelper: DMSceneDelegateHelper {
     static func makeUIKitRootViewHierarhy<LM: DMLoadingManagerProtocol>(loadingManager: LM) -> UIViewController {
         
         let tabViewController = MainTabViewControllerUIKit(

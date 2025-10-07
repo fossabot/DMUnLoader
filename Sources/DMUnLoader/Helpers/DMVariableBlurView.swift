@@ -10,38 +10,38 @@ import UIKit
 import CoreImage.CIFilterBuiltins
 import QuartzCore
 
-enum VariableBlurDirection {
+enum DMVariableBlurDirection {
     case blurredTopClearBottom
     case blurredBottomClearTop
 }
 
-struct VariableBlurView: UIViewRepresentable {
+struct DMVariableBlurView: UIViewRepresentable {
     
     var maxBlurRadius: CGFloat = 20
     
-    var direction: VariableBlurDirection = .blurredTopClearBottom
+    var direction: DMVariableBlurDirection = .blurredTopClearBottom
     
     /// By default, variable blur starts from 0 blur radius and linearly increases to `maxBlurRadius`.
     /// Setting `startOffset` to a small negative coefficient (e.g. -0.1) will start
     /// blur from larger radius value which might look better in some cases.
     var startOffset: CGFloat = 0
     
-    func makeUIView(context: Context) -> VariableBlurUIView {
+    func makeUIView(context: Context) -> DMVariableBlurUIView {
         do {
-            return try VariableBlurUIView(
+            return try DMVariableBlurUIView(
                 maxBlurRadius: maxBlurRadius,
                 direction: direction,
                 startOffset: startOffset)
         } catch {
-            return VariableBlurUIView()
+            return DMVariableBlurUIView()
         }
     }
     
-    func updateUIView(_ uiView: VariableBlurUIView, context: Context) {}
+    func updateUIView(_ uiView: DMVariableBlurUIView, context: Context) {}
 }
 
 /// credit https://github.com/jtrivedi/VariableBlurView
-class VariableBlurUIView: UIVisualEffectView {
+class DMVariableBlurUIView: UIVisualEffectView {
     
     init() {
         super.init(effect: UIBlurEffect(style: .regular))
@@ -49,7 +49,7 @@ class VariableBlurUIView: UIVisualEffectView {
     
     convenience init(
         maxBlurRadius: CGFloat = 20,
-        direction: VariableBlurDirection = .blurredTopClearBottom,
+        direction: DMVariableBlurDirection = .blurredTopClearBottom,
         startOffset: CGFloat = 0
     ) throws {
         self.init()
@@ -101,7 +101,7 @@ class VariableBlurUIView: UIVisualEffectView {
         width: CGFloat = 100,
         height: CGFloat = 100,
         startOffset: CGFloat,
-        direction: VariableBlurDirection
+        direction: DMVariableBlurDirection
     ) throws -> CGImage { // much lower resolution might be acceptable
         let ciGradientFilter = CIFilter.linearGradient()
         // let ciGradientFilter =  CIFilter.smoothLinearGradient()

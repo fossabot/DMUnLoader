@@ -7,7 +7,7 @@ public struct DMRootLoadingView<
     LM: DMLoadingManagerProtocol,
     Content: View
 >: View {
-    @EnvironmentObject private var sceneDelegate: FSSceneDelegateSwiftUI<LM>
+    @EnvironmentObject private var sceneDelegate: DMSceneDelegateBase<LM>
     @StateObject private var loadingManager = LM()
     
     private let content: (LM) -> Content
