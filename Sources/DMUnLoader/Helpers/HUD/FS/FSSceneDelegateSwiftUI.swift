@@ -6,7 +6,6 @@ public final class FSSceneDelegateUIKit<
 >: UIResponder, UIWindowSceneDelegate, ObservableObject {
     
     private let decoratee = FSSceneDelegateSwiftUI<LM>()
-    private typealias helper = Helper
     
     public var loadingManager: LM? {
         get { decoratee.loadingManager }
@@ -32,7 +31,7 @@ public final class FSSceneDelegateUIKit<
                         willConnectTo: session,
                         options: connectionOptions)
         
-        self.loadingManager = helper.makeLoadingManager()
+        self.loadingManager = Helper.makeLoadingManager()
         
         setupMainWindow(in: windowScene)
         setupHudWindow(in: windowScene)
@@ -50,7 +49,7 @@ public final class FSSceneDelegateUIKit<
 
         let window = UIWindow(windowScene: scene)
         
-        let rootVC = helper.makeUIKitRootViewHierarhy(loadingManager: loadingManager)
+        let rootVC = Helper.makeUIKitRootViewHierarhy(loadingManager: loadingManager)
 
         window.rootViewController = rootVC
         self.keyWindow = window
