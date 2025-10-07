@@ -31,7 +31,7 @@ public final class FSSceneDelegateUIKit<
                         willConnectTo: session,
                         options: connectionOptions)
         
-        self.loadingManager = Helper.makeLoadingManager()
+        self.loadingManager = .init()
         
         setupMainWindow(in: windowScene)
         setupHudWindow(in: windowScene)

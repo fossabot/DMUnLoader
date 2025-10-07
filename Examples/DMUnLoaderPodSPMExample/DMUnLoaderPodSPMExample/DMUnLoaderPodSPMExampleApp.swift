@@ -45,7 +45,7 @@ struct DMUnLoaderPodSPMExampleApp: App {
     
     var body: some Scene {
         WindowGroup {
-            AppDelegateHelper.RootLoadingView { (loadingManager: DMLoadingManagerType) in
+            DMRootLoadingView { (loadingManager: DMLoadingManagerType) in
                 MainTabViewSwiftUI(loadingManager: loadingManager)
             }
         }
@@ -70,24 +70,6 @@ internal struct AppDelegateHelper {
     
     static func addAppDescriprtion(_ newString: String) {
         appDescriprtion += newString
-    }
-    
-    struct RootLoadingView<LM: DMLoadingManagerProtocol, Content: View>: View {
-        @EnvironmentObject private var sceneDelegate: FSSceneDelegateSwiftUI<LM>
-        @StateObject private var loadingManager: LM = AppDelegateHelper.makeLoadingManager()
-        
-        private let content: (LM) -> Content
-        
-        init(@ViewBuilder content: @escaping (LM) -> Content) {
-            self.content = content
-        }
-        
-        var body: some View {
-            content(loadingManager)
-                .onAppear {
-                    sceneDelegate.loadingManager = loadingManager
-                }
-        }
     }
     
     static func getDependencyManager() -> String? {
