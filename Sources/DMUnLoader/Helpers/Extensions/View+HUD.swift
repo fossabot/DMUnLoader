@@ -17,7 +17,10 @@ extension View {
                 case .success,
                         .failure,
                         .loading:
-                    DMVariableBlurView(maxBlurRadius: 8)
+                    DMVariableBlurView(
+                        maxBlurRadius: 4,
+                        direction: .blurredCenterClearTopBottom(centerBandProportion: 0.4)
+                    )
                                         
                     content()
                 case .none:

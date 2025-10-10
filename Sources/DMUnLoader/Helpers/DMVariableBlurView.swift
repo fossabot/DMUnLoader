@@ -3,7 +3,7 @@
 //
 // Created by Mykola Dementiev
 //
-// for detail, pls. check the file's github page: https://github.com/nikstar/VariableBlur?tab=readme-ov-file
+// for detail, pls. check the original file github page: https://github.com/nikstar/VariableBlur?tab=readme-ov-file
 
 import SwiftUI
 import UIKit
@@ -13,19 +13,18 @@ import QuartzCore
 enum DMVariableBlurDirection {
     case blurredTopClearBottom
     case blurredBottomClearTop
+    case blurredCenterClearTopBottom(centerBandProportion: CGFloat = 0.3)
+    case blurredFully
 }
 
 struct DMVariableBlurView: UIViewRepresentable {
-    
     var maxBlurRadius: CGFloat = 20
-    
-    var direction: DMVariableBlurDirection = .blurredTopClearBottom
-    
+    var direction: DMVariableBlurDirection = .blurredCenterClearTopBottom()
     /// By default, variable blur starts from 0 blur radius and linearly increases to `maxBlurRadius`.
     /// Setting `startOffset` to a small negative coefficient (e.g. -0.1) will start
     /// blur from larger radius value which might look better in some cases.
     var startOffset: CGFloat = 0
-    
+
     func makeUIView(context: Context) -> DMVariableBlurUIView {
         do {
             return try DMVariableBlurUIView(
@@ -49,7 +48,7 @@ class DMVariableBlurUIView: UIVisualEffectView {
     
     convenience init(
         maxBlurRadius: CGFloat = 20,
-        direction: DMVariableBlurDirection = .blurredTopClearBottom,
+        direction: DMVariableBlurDirection = .blurredCenterClearTopBottom(),
         startOffset: CGFloat = 0
     ) throws {
         self.init()
@@ -67,7 +66,10 @@ class DMVariableBlurUIView: UIVisualEffectView {
         
         // The blur radius at each pixel depends on the alpha value of the corresponding pixel in the gradient mask.
         // An alpha of 1 results in the max blur radius, while an alpha of 0 is completely unblurred.
-        let gradientImage = try makeGradientImage(startOffset: startOffset, direction: direction)
+        let gradientImage = try makeGradientImage(
+            startOffset: startOffset,
+            direction: direction
+        )
         
         variableBlur.setValue(maxBlurRadius, forKey: "inputRadius")
         variableBlur.setValue(gradientImage, forKey: "inputMaskImage")
@@ -102,30 +104,43 @@ class DMVariableBlurUIView: UIVisualEffectView {
         height: CGFloat = 100,
         startOffset: CGFloat,
         direction: DMVariableBlurDirection
-    ) throws -> CGImage { // much lower resolution might be acceptable
-        let ciGradientFilter = CIFilter.linearGradient()
-        // let ciGradientFilter =  CIFilter.smoothLinearGradient()
-        ciGradientFilter.color0 = CIColor.black
-        ciGradientFilter.color1 = CIColor.clear
-        ciGradientFilter.point0 = CGPoint(x: 0, y: height)
-        ciGradientFilter.point1 = CGPoint(x: 0, y: startOffset * height) // small negative value looks better with vertical lines
-        if case .blurredBottomClearTop = direction {
-            ciGradientFilter.point0.y = 0
-            ciGradientFilter.point1.y = height - ciGradientFilter.point1.y
-        }
+    ) throws -> CGImage {
+        let context = CIContext()
         
-        guard let outputImage = ciGradientFilter.outputImage else {
-            throw VariableBlurError.outputImageFromCIGradientFilter
+        switch direction {
+        case .blurredTopClearBottom:
+            
+            return try makeBlurredTopClearBottomImage(
+                width: width,
+                height: height,
+                startOffset: startOffset,
+                context: context
+            )
+        case .blurredBottomClearTop:
+            
+            return try makeBlurredBottomClearTopImage(
+                width: width,
+                height: height,
+                startOffset: startOffset,
+                context: context
+            )
+        case .blurredCenterClearTopBottom(let centerBandProportion):
+            
+            return try makeBlurredCenterClearTopBottomImage(
+                width: width,
+                height: height,
+                startOffset: startOffset,
+                context: context,
+                centerBandProportion: centerBandProportion
+            )
+        case .blurredFully:
+            
+            return try makeFullyBluredImage(
+                width: width,
+                height: height,
+                context: context
+            )
         }
-        
-        guard let createCGImage = CIContext().createCGImage(
-            outputImage,
-            from: CGRect(x: 0, y: 0, width: width, height: height)
-        ) else {
-            throw VariableBlurError.createImageFromContext
-        }
-        
-        return createCGImage
     }
     
     enum VariableBlurError: Error, LocalizedError {
@@ -146,5 +161,145 @@ class DMVariableBlurUIView: UIVisualEffectView {
                 return "[VariableBlur] Error: CAFilter can't create filterWithType: variableBlur"
             }
         }
+    }
+}
+
+private extension DMVariableBlurUIView {
+    func makeBlurredTopClearBottomImage(
+        width: CGFloat,
+        height: CGFloat,
+        startOffset: CGFloat,
+        context: CIContext
+    ) throws -> CGImage {
+        let ciImage = try makeVerticalGradientImage(
+            width: width,
+            height: height,
+            color0: .black,
+            color1: .clear,
+            y0: height,
+            y1: startOffset * height,
+            context: context
+        )
+        
+        return try exportCGImage(from: ciImage, width: width, height: height, context: context)
+    }
+    
+    func makeBlurredBottomClearTopImage(
+        width: CGFloat,
+        height: CGFloat,
+        startOffset: CGFloat,
+        context: CIContext
+    ) throws -> CGImage {
+        let ciImage = try makeVerticalGradientImage(
+            width: width,
+            height: height,
+            color0: .black,
+            color1: .clear,
+            y0: 0,
+            y1: height - startOffset * height,
+            context: context
+        )
+        
+        return try exportCGImage(from: ciImage, width: width, height: height, context: context)
+    }
+    
+    func makeBlurredCenterClearTopBottomImage(
+        width: CGFloat,
+        height: CGFloat,
+        startOffset: CGFloat,
+        context: CIContext,
+        centerBandProportion: CGFloat
+    ) throws -> CGImage {
+        let bandThickness = max(0, min(centerBandProportion, 1.0))
+        let bandHeight = height * bandThickness
+        let bandStart = (height - bandHeight) / 2
+        let bandEnd = bandStart + bandHeight
+
+        let topImage = try makeVerticalGradientImage(
+            width: width,
+            height: height,
+            color0: .clear,
+            color1: .black,
+            y0: 0,
+            y1: bandStart,
+            context: context
+        )
+
+        let bottomImage = try makeVerticalGradientImage(
+            width: width,
+            height: height,
+            color0: .clear,
+            color1: .black,
+            y0: height,
+            y1: bandEnd,
+            context: context
+        )
+
+        // minimumCompositing = intersection for center band
+        let compositeFilter = CIFilter.minimumCompositing()
+        compositeFilter.inputImage = topImage
+        compositeFilter.backgroundImage = bottomImage
+        guard let combinedImage = compositeFilter.outputImage else {
+            throw VariableBlurError.outputImageFromCIGradientFilter
+        }
+        
+        return try exportCGImage(from: combinedImage, width: width, height: height, context: context)
+    }
+    
+    func makeFullyBluredImage(
+        width: CGFloat,
+        height: CGFloat,
+        context: CIContext
+    ) throws -> CGImage {
+        // Fully blurred: solid black mask
+        let ciImage = try makeVerticalGradientImage(
+            width: width,
+            height: height,
+            color0: .black,
+            color1: .black,
+            y0: 0,
+            y1: height,
+            context: context
+        )
+        
+        return try exportCGImage(from: ciImage, width: width, height: height, context: context)
+    }
+    
+    // swiftlint:disable:next function_parameter_count
+    func makeVerticalGradientImage(
+        width: CGFloat,
+        height: CGFloat,
+        color0: CIColor,
+        color1: CIColor,
+        y0: CGFloat,
+        y1: CGFloat,
+        context: CIContext
+    ) throws -> CIImage {
+        let gradient = CIFilter.linearGradient()
+        gradient.color0 = color0
+        gradient.color1 = color1
+        gradient.point0 = CGPoint(x: 0, y: y0)
+        gradient.point1 = CGPoint(x: 0, y: y1)
+        guard let image = gradient.outputImage else {
+            throw VariableBlurError.outputImageFromCIGradientFilter
+        }
+        
+        // Crop to our mask size
+        return image.cropped(to: CGRect(x: 0, y: 0, width: width, height: height))
+    }
+    
+    func exportCGImage(
+        from ciImage: CIImage,
+        width: CGFloat,
+        height: CGFloat,
+        context: CIContext
+    ) throws -> CGImage {
+        guard let cgImage = context.createCGImage(
+            ciImage,
+            from: CGRect(x: 0, y: 0, width: width, height: height)
+        ) else {
+            throw VariableBlurError.createImageFromContext
+        }
+        return cgImage
     }
 }
