@@ -89,7 +89,7 @@ public final class AnyDMLoadingViewProviderTypeErasurer<
 
 public extension DMLoadingViewProviderProtocol {
     @MainActor
-    internal func eraseToAnyProvider() -> AnyDMLoadingViewProviderTypeErasurer<LoadingViewType, ErrorViewType, SuccessViewType> {
+    func eraseToAnyProvider() -> AnyDMLoadingViewProviderTypeErasurer<LoadingViewType, ErrorViewType, SuccessViewType> {
         AnyDMLoadingViewProviderTypeErasurer(provider: self)
     }
     

@@ -8,7 +8,7 @@ import SwiftUI
 
 /// A namespace for constants used in the `DMErrorView`.
 /// These constants define unique tags for views within the error view.
-internal enum DMErrorViewOwnSettings {
+enum DMErrorViewOwnSettings {
     
     /// The tag assigned to the vertical stack view (`VStack`) that holds all content in the error view.
     static let containerVStackViewTag: Int = 3010
@@ -40,19 +40,19 @@ internal enum DMErrorViewOwnSettings {
 
 /// A custom SwiftUI view that displays an error state with an image, error text, and optional action buttons.
 /// This view uses a settings provider to configure the appearance of the error view.
-internal struct DMErrorView: View {
+struct DMErrorView: View {
     
     /// The settings provider responsible for configuring the error view's appearance.
-    internal let settingsProvider: DMErrorViewSettings
+    let settingsProvider: DMErrorViewSettings
     
     /// The error that occurred.
-    internal let error: Error
+    let error: Error
     
     /// An optional action to retry the operation.
-    internal let onRetry: DMAction?
+    let onRetry: DMAction?
     
     /// An action to close the error view.
-    internal let onClose: DMAction
+    let onClose: DMAction
     
     /// Initializes a new instance of `DMErrorView`.
     /// - Parameters:
@@ -67,7 +67,7 @@ internal struct DMErrorView: View {
     ///   let onClose = DMButtonAction({ _ in })
     ///   let errorView = DMErrorView(settings: settings, error: error, onClose: onClose)
     ///   ```
-    internal init(settings settingsProvider: DMErrorViewSettings,
+    init(settings settingsProvider: DMErrorViewSettings,
                   error: Error,
                   onRetry: DMAction? = nil,
                   onClose: DMAction) {
@@ -83,7 +83,7 @@ internal struct DMErrorView: View {
     ///   - Displays an image configured by `errorImageSettings`.
     ///   - Displays optional error text provided by the settings provider or derived from the exception.
     ///   - Displays "Close" and "Retry" buttons if actions are provided.
-    internal var body: some View {
+    var body: some View {
         
         let imageSettings = settingsProvider.errorImageSettings
         VStack {
@@ -122,7 +122,7 @@ internal struct DMErrorView: View {
     }
 }
 
-internal extension DMErrorView {
+extension DMErrorView {
     
     /// A custom SwiftUI view representing an action button in the error view.
     struct ActionButton: View {
@@ -137,8 +137,8 @@ internal extension DMErrorView {
         /// - Parameters:
         ///   - settings: The settings that configure the appearance of the button.
         ///   - action: The action to perform when the button is tapped.
-        internal init(settings: ActionButtonSettings,
-                      action: DMAction) {
+        init(settings: ActionButtonSettings,
+             action: DMAction) {
             self.action = action
             self.settings = settings
         }
@@ -166,8 +166,8 @@ internal extension DMErrorView {
         /// - Parameters:
         ///   - errorText: The error text to display.
         ///   - settings: The settings that configure the appearance of the text.
-        internal init(_ errorText: String,
-                      settings: ErrorTextSettings) {
+        init(_ errorText: String,
+             settings: ErrorTextSettings) {
             self.errorText = errorText
             self.settings = settings
         }
@@ -204,7 +204,7 @@ internal extension DMErrorView {
 private struct PreviewRenderOwner<Content: View>: View {
     @ViewBuilder let content: Content
     
-    internal init(_ content: () -> Content) {
+    init(_ content: () -> Content) {
         self.content = content()
     }
 

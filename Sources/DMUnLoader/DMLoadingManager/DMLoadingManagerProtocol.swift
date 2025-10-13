@@ -68,8 +68,8 @@ public protocol DMLoadingManagerProtocol: Identifiable, ObservableObject {
     init()
 }
 
-/// An internal protocol extending `DMLoadingManagerProtocol` to include additional properties
-/// and functionality required for internal implementation.
+/// An protocol extending `DMLoadingManagerProtocol` to include additional properties
+/// and functionality required for implementation.
 ///
 /// This protocol is intended for use within the module and should not be exposed publicly.
 @MainActor

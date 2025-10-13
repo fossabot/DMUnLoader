@@ -54,8 +54,8 @@ struct DMUnLoaderPodSPMExampleApp: App {
 #endif
 
 
-internal struct AppDelegateHelper {
-    static private(set) internal var appDescriprtion: String = ""
+struct AppDelegateHelper {
+    static private(set) var appDescriprtion: String = ""
     
     static func makeAppDescriprtion() {
 #if UIKIT_APP

@@ -12,7 +12,7 @@ final class MainTabViewControllerUIKit<LM: DMLoadingManagerProtocol>: UITabBarCo
     
     private(set) weak var loadingManager: LM?
     
-    internal init(loadingManager: LM?) {
+    init(loadingManager: LM?) {
         self.loadingManager = loadingManager
         
         super.init(nibName: nil, bundle: nil)
@@ -72,9 +72,7 @@ final class MainTabViewControllerUIKit<LM: DMLoadingManagerProtocol>: UITabBarCo
 final class DefaultSettingsViewController<LM: DMLoadingManagerProtocol>: UIViewController {
     private(set) weak var loadingManager: LM?
     
-    internal init(
-        loadingManager: LM?
-    ) {
+    init(loadingManager: LM?) {
         self.loadingManager = loadingManager
         super.init(nibName: nil, bundle: nil)
     }
@@ -101,7 +99,7 @@ final class DefaultSettingsViewController<LM: DMLoadingManagerProtocol>: UIViewC
 final class CustomSettingsViewController<LM: DMLoadingManagerProtocol>: UIViewController {
     private(set) weak var loadingManager: LM?
     
-    internal init(loadingManager: LM?) {
+    init(loadingManager: LM?) {
         self.loadingManager = loadingManager
         super.init(nibName: nil, bundle: nil)
     }

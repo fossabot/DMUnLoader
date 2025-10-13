@@ -8,7 +8,7 @@ import SwiftUI
 
 /// A namespace for constants used in the `DMLoadingView`.
 /// These constants define unique tags for views within the loading view.
-internal enum DMLoadingViewOwnSettings {
+enum DMLoadingViewOwnSettings {
     
     /// The tag assigned to an empty view when no loading state is active.
     static let emptyViewTag: Int = 0001
@@ -34,7 +34,7 @@ internal enum DMLoadingViewOwnSettings {
 struct DMLoadingView<LLM: DMLoadingManagerProtocol>: View {
     
     /// The loading manager responsible for managing the loadable state.
-    @ObservedObject private(set) internal var loadingManager: LLM
+    @ObservedObject private(set) var loadingManager: LLM
     @State private var animateTheAppearance = false
     
     /// Initializes a new instance of `DMLoadingView`.
