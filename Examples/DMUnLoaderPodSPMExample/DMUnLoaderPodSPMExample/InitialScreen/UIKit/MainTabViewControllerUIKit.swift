@@ -18,6 +18,7 @@ final class MainTabViewControllerUIKit<LM: DMLoadingManagerProtocol>: UITabBarCo
         super.init(nibName: nil, bundle: nil)
     }
    
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -66,13 +67,6 @@ final class MainTabViewControllerUIKit<LM: DMLoadingManagerProtocol>: UITabBarCo
     }
 }
 
-// TODO: got rid this - but check is it needed?
-//extension MainTabViewControllerUIKit: DMViewControllerTopLevel {
-//    func handleLoadingStateChange(_ state: DMUnLoader.DMLoadableType) {
-//        view.isUserInteractionEnabled = state != .loading
-//    }
-//}
-
 // MARK: - View Controllers for tabs
 
 final class DefaultSettingsViewController<LM: DMLoadingManagerProtocol>: UIViewController {
@@ -85,6 +79,7 @@ final class DefaultSettingsViewController<LM: DMLoadingManagerProtocol>: UIViewC
         super.init(nibName: nil, bundle: nil)
     }
     
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -92,11 +87,12 @@ final class DefaultSettingsViewController<LM: DMLoadingManagerProtocol>: UIViewC
     override func loadView() {
         super.loadView()
         
-        // TODO: ugly code: deal with this: ```provider: DefaultDMLoadingViewProvider(), ... LoadingContentViewUIKit<DefaultDMLoadingViewProvider,LM>(),```
+        let newCustedView = configureContentViewSettingsView(
+            provider: DefaultDMLoadingViewProvider(),
+            innerView: LoadingContentViewUIKit(),
+            loadingManager: loadingManager
+        )
         
-        let newCustedView = ContentViewDefaultSettingsUIKit(provider: DefaultDMLoadingViewProvider(),
-                                                            innerView: LoadingContentViewUIKit<DefaultDMLoadingViewProvider,LM>(),
-                                                            loadingManager: loadingManager)
         view = newCustedView
         view.setNeedsUpdateConstraints()
     }
@@ -110,6 +106,7 @@ final class CustomSettingsViewController<LM: DMLoadingManagerProtocol>: UIViewCo
         super.init(nibName: nil, bundle: nil)
     }
     
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -117,10 +114,32 @@ final class CustomSettingsViewController<LM: DMLoadingManagerProtocol>: UIViewCo
     override func loadView() {
         super.loadView()
         
-        let newCustedView = ContentViewCustomSettingsUIKit(provider: CustomDMLoadingViewProvider(),
-                                                           innerView: LoadingContentViewUIKit(),
-                                                           loadingManager: loadingManager)
+        let newCustedView = configureContentViewSettingsView(
+            provider: CustomDMLoadingViewProvider(),
+            innerView: LoadingContentViewUIKit(),
+            loadingManager: loadingManager
+        )
+        
         view = newCustedView
         view.setNeedsUpdateConstraints()
+    }
+}
+
+private extension UIViewController {
+    func configureContentViewSettingsView<
+        LM: DMLoadingManagerProtocol,
+        LVP: DMLoadingViewProviderProtocol
+    >(
+        provider: LVP,
+        innerView: LoadingContentViewUIKit<LVP, LM>,
+        loadingManager: LM?
+    ) -> UIView {
+        
+        innerView.configure(
+            loadingManager: loadingManager,
+            provider: provider
+        )
+        
+        return innerView
     }
 }
