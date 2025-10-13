@@ -1,5 +1,7 @@
 import SwiftUI
 
+public typealias DMSceneDelegateTypeUIKit<Helper: DMSceneDelegateHelper> = DMSceneDelegateUIKit<DMLoadingManager, Helper>
+
 public final class DMSceneDelegateUIKit<
     LM: DMLoadingManagerProtocol,
     Helper: DMSceneDelegateHelper

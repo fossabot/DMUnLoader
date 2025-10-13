@@ -15,6 +15,11 @@ public struct DMRootLoadingView<
     public init(@ViewBuilder content: @escaping (LM) -> Content) {
         self.content = content
     }
+
+    public init(@ViewBuilder content: @escaping (DMLoadingManager) -> Content)
+        where LM == DMLoadingManager {
+        self.content = content
+    }
     
     public var body: some View {
         content(loadingManager)

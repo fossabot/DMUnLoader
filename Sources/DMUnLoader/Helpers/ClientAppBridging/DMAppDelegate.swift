@@ -1,5 +1,7 @@
 import SwiftUI
 
+public typealias DMAppDelegateType = DMAppDelegate<DMLoadingManager>
+
 public final class DMAppDelegate<LM: DMLoadingManagerProtocol>: NSObject, UIApplicationDelegate {
     public func application(
         _ application: UIApplication,
