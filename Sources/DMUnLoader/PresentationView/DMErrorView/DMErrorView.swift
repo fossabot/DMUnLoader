@@ -148,7 +148,7 @@ extension DMErrorView {
         var body: some View {
             Button(settings.text,
                    action: action.simpleAction)
-            .buttonStyle(settings.style)
+            .buttonStyle(settings.styleFactory())
             .tag(DMErrorViewOwnSettings.actionButtonButtoViewTag)
         }
     }
