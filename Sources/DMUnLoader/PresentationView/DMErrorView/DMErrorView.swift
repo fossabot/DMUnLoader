@@ -68,9 +68,9 @@ struct DMErrorView: View {
     ///   let errorView = DMErrorView(settings: settings, error: error, onClose: onClose)
     ///   ```
     init(settings settingsProvider: DMErrorViewSettings,
-                  error: Error,
-                  onRetry: DMAction? = nil,
-                  onClose: DMAction) {
+         error: Error,
+         onRetry: DMAction? = nil,
+         onClose: DMAction) {
         self.settingsProvider = settingsProvider
         self.error = error
         self.onRetry = onRetry
