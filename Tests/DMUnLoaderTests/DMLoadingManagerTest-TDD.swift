@@ -77,7 +77,9 @@ final class LoadingManagerTDD: DMLoadingManagerProtocol {
     }
     
     func hide() {
+        stopInactivityTimer()
         
+        loadableState = .none
     }
     
     // MARK: Timer Management
@@ -93,7 +95,7 @@ final class LoadingManagerTDD: DMLoadingManagerProtocol {
         .delay(for: .seconds(settings.autoHideDelay.timeInterval),
                scheduler: RunLoop.main)
         .sink(receiveValue: { [weak self] _ in
-            self?.loadableState = .none
+            self?.hide()
         })
     }
     
@@ -103,11 +105,16 @@ final class LoadingManagerTDD: DMLoadingManagerProtocol {
     }
 }
 
-@MainActor
 final class DMLoadingManagerTestTDD: XCTestCase {
     
     private var cancellables: Set<AnyCancellable> = []
     
+    override func tearDown() {
+       cancellables.removeAll()
+        super.tearDown()
+    }
+    
+    @MainActor
     func testDefaultInitialization() {
         let sut = makeSUT()
         XCTAssertTrue(
@@ -127,6 +134,7 @@ final class DMLoadingManagerTestTDD: XCTestCase {
         )
     }
     
+    @MainActor
     func testVerifyLoadingState() {
         let sut = makeSUT()
         let provider = TestDMLoadingViewProvider()
@@ -142,6 +150,7 @@ final class DMLoadingManagerTestTDD: XCTestCase {
         )
     }
     
+    @MainActor
     func testVerifySuccessState() {
         let secondsAutoHideDelay: Double = 0.2
         let settings = LoadingManagerDefaultSettingsTDD(autoHideDelay: .seconds(secondsAutoHideDelay))
@@ -154,7 +163,7 @@ final class DMLoadingManagerTestTDD: XCTestCase {
         let expectationSuccess = FulfillmentTestExpectationSpy(
             description: "Loadable state updated to .success"
         )
-        let expectationIdle = FulfillmentTestExpectationSpy(
+        let expectationIdle = XCTestExpectation(
             description: "Loadable state updated to .none after auto-hide delay"
         )
         
@@ -188,6 +197,7 @@ final class DMLoadingManagerTestTDD: XCTestCase {
         )
     }
     
+    @MainActor
     func testVerifyFailureState() {
         let secondsAutoHideDelay: Double = 0.2
         let settings = LoadingManagerDefaultSettingsTDD(autoHideDelay: .seconds(secondsAutoHideDelay))
@@ -206,7 +216,7 @@ final class DMLoadingManagerTestTDD: XCTestCase {
         let expectationFailure = FulfillmentTestExpectationSpy(
             description: "Loadable state updated to .failure"
         )
-        let expectationIdle = FulfillmentTestExpectationSpy(
+        let expectationIdle = XCTestExpectation(
             description: "Loadable state updated to .none after auto-hide delay"
         )
         
@@ -241,8 +251,54 @@ final class DMLoadingManagerTestTDD: XCTestCase {
         )
     }
     
+    @MainActor
+    func testVerifyHideState() {
+        let secondsAutoHideDelay: Double = 0.2
+        let settings = LoadingManagerDefaultSettingsTDD(autoHideDelay: .seconds(secondsAutoHideDelay))
+        let sut = makeSUT(settings: settings)
+        
+        let provider = TestDMLoadingViewProvider()
+        
+        sut.showLoading(provider: provider)
+        
+        let expectationIdle = FulfillmentTestExpectationSpy(
+            description: "Loadable state updated to .none after hide() call"
+        )
+        let expectationAfterwordsIdle = XCTestExpectation(
+            description: "Loadable state remains .none (and doesn't chnaged) after hide() call"
+        )
+        expectationAfterwordsIdle.isInverted = true
+        
+        observeLoadableState(of: sut) { state in
+            if case .none = state {
+                expectationIdle.fulfill()
+            } else {
+                if expectationIdle.isFulfilled {
+                    expectationAfterwordsIdle.fulfill()
+                }
+            }
+        }
+        
+        sut.hide()
+        
+        XCTAssertEqual(
+            sut.loadableState,
+            .none,
+            "After calling `hide()`, `loadableState` should be `.none`"
+        )
+        wait(
+            for: [expectationIdle],
+            timeout: secondsAutoHideDelay
+        )
+        wait(
+            for: [expectationAfterwordsIdle],
+            timeout: secondsAutoHideDelay + 0.2
+        )
+    }
+    
     // MARK: - Helpers
 
+    @MainActor
     private func observeLoadableState(
         of sut: LoadingManagerTDD,
         handler: @escaping (DMLoadableType) -> Void
@@ -253,13 +309,27 @@ final class DMLoadingManagerTestTDD: XCTestCase {
             .store(in: &cancellables)
     }
     
-    private func makeSUT<S>(settings: S) -> LoadingManagerTDD where S: DMLoadingManagerSettings {
-        LoadingManagerTDD(
+    @MainActor
+    private func makeSUT<S>(
+        settings: S,
+        file: StaticString = #filePath,
+        line: UInt = #line
+    ) -> LoadingManagerTDD where S: DMLoadingManagerSettings {
+        let loadingManager = LoadingManagerTDD(
             loadableState: .none,
             settings: settings
         )
+        
+        trackForMemoryLeaks(
+            loadingManager,
+            file: file,
+            line: line
+        )
+        
+        return loadingManager
     }
     
+    @MainActor
     private func makeSUT() -> LoadingManagerTDD {
         makeSUT(settings: LoadingManagerDefaultSettingsTDD())
     }
@@ -269,7 +339,7 @@ final class TestDMLoadingViewProvider: DMLoadingViewProviderProtocol {
     public var id: UUID = UUID()
 }
 
-final class FulfillmentTestExpectationSpy: XCTestExpectation {
+final class FulfillmentTestExpectationSpy: XCTestExpectation, @unchecked Sendable {
     private(set) var currentFulfillmentCount: Int = 0
     
     var isFulfilled: Bool {

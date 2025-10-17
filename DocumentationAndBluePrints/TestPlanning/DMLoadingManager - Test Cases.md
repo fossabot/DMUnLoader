@@ -69,28 +69,16 @@
 
 ---
 
-### Scenario 5: 🚧 Verify Hide State
+### Scenario 5: ✅ Verify Hide State
 - **Description**: Check if the `DMLoadingManager` correctly transitions to the `.none` state when `hide()` is called.
 - **Steps**:
-  - [ ] Set the `loadableState` to `.loading`, `.success`, or `.failure`.
-  - [ ] Call the `hide()` method.
-  - [ ] Verify that the `loadableState` is `.none`.
-  - [ ] Verify that the inactivity timer is stopped.
+  - [✅] Set the `loadableState` to `.loading`, `.success`, or `.failure`.
+  - [✅] Call the `hide()` method.
+  - [✅] Verify that the `loadableState` is `.none`.
+  - [✅] Verify that the inactivity timer is stopped.
 - **Expected Result**:
   - The `loadableState` is `.none`.
   - The inactivity timer is stopped.
-- **Status**: ? / 🚧 / ❌ / ✅
-
----
-
-### Scenario 6: 🚧 Verify Reactive Programming
-- **Description**: Check if the `loadableStatePublisher` emits changes correctly.
-- **Steps**:
-  - [ ] Subscribe to the `loadableStatePublisher`.
-  - [ ] Change the `loadableState` by calling methods like `showLoading`, `showSuccess`, `showFailure`, and `hide`.
-  - [ ] Verify that the publisher emits the correct state changes.
-- **Expected Result**:
-  - The `loadableStatePublisher` emits the correct state changes in real-time.
 - **Status**: ? / 🚧 / ❌ / ✅
 
 ---
@@ -99,9 +87,9 @@
 | Method               | Input Data                          | Expected Output                     |
 |---------------------|--------------------------------------|------------------------------------------|
 | Default Initialization | None                                | `DMLoadingManager` with `.none` state and default settings |
-| Show Loading        | Mock `DMLoadingViewProvider`         | `.loading` state                       |
-| Show Success        | Success message: `"Operation Completed"`, Mock `DMLoadingViewProvider` | `.success` state with auto-hide delay |
-| Show Failure        | Error: `NSError(domain: "Test", code: 404)`, Mock `DMLoadingViewProvider` | `.failure` state with auto-hide delay |
+| Show Loading        | `DMLoadingViewProvider`         | `.loading` state                       |
+| Show Success        | Success message: `"Operation Completed"`, `DMLoadingViewProvider` | `.success` state with auto-hide delay |
+| Show Failure        | Error: `NSError(domain: "Test", code: 404)`, `DMLoadingViewProvider` | `.failure` state with auto-hide delay |
 | Hide                | None                                | `.none` state                         |
 
 ---
