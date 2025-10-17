@@ -5,105 +5,8 @@
 //
 
 import XCTest
-@testable import DMUnLoader
+import DMUnLoader
 import Combine
-
-struct LoadingManagerDefaultSettingsTDD: DMLoadingManagerSettings {
-    let autoHideDelay: Duration
-    
-    init(autoHideDelay: Duration = .seconds(2)) {
-        self.autoHideDelay = autoHideDelay
-    }
-}
-
-final class LoadingManagerTDD: DMLoadingManagerProtocol {
-    @Published var loadableState: DMLoadableType
-    
-    var settings: DMLoadingManagerSettings
-    
-    private var inactivityTimerCancellable: AnyCancellable?
-    
-    init(
-        loadableState: DMLoadableType,
-        settings: DMLoadingManagerSettings
-    ) {
-        self.loadableState = loadableState
-        self.settings = settings
-    }
-    
-    convenience init() {
-        self.init(
-            loadableState: .none,
-            settings: LoadingManagerDefaultSettingsTDD()
-        )
-    }
-    
-    @MainActor
-    func showLoading<PR>(provider: PR) where PR: DMLoadingViewProviderProtocol {
-        loadableState = .loading(
-            provider: provider.eraseToAnyViewProvider()
-        )
-    }
-    
-    @MainActor
-    func showSuccess<PR>(
-        _ message: DMLoadableTypeSuccess,
-        provider: PR
-    ) where PR: DMLoadingViewProviderProtocol {
-        
-        startInactivityTimer()
-        
-        loadableState = .success(
-            message,
-            provider: provider.eraseToAnyViewProvider()
-        )
-    }
-    
-    @MainActor
-    func showFailure<PR>(
-        _ error: Error,
-        provider: PR,
-        onRetry: (DMAction)?
-    ) where PR: DMLoadingViewProviderProtocol {
-        
-        startInactivityTimer()
-        
-        loadableState = .failure(
-            error: error,
-            provider: provider
-                .eraseToAnyViewProvider(),
-            onRetry: onRetry
-        )
-    }
-    
-    func hide() {
-        stopInactivityTimer()
-        
-        loadableState = .none
-    }
-    
-    // MARK: Timer Management
-    
-    private func startInactivityTimer() {
-        stopInactivityTimer()
-        
-        inactivityTimerCancellable = Deferred {
-            Future<Void, Never> { promise in
-                promise(.success(()))
-            }
-        }
-        .delay(for: .seconds(settings.autoHideDelay.timeInterval),
-               scheduler: RunLoop.main)
-        .sink(receiveValue: { [weak self] _ in
-            self?.hide()
-        })
-    }
-    
-    private func stopInactivityTimer() {
-        inactivityTimerCancellable?.cancel()
-        inactivityTimerCancellable = nil
-    }
-}
 
 final class DMLoadingManagerTestTDD: XCTestCase {
     
@@ -296,11 +199,11 @@ final class DMLoadingManagerTestTDD: XCTestCase {
         )
     }
     
-    // MARK: - Helpers
+    // MARK: Helpers
 
     @MainActor
     private func observeLoadableState(
-        of sut: LoadingManagerTDD,
+        of sut: DMLoadingManager,
         handler: @escaping (DMLoadableType) -> Void
     ) {
         sut
@@ -314,9 +217,9 @@ final class DMLoadingManagerTestTDD: XCTestCase {
         settings: S,
         file: StaticString = #filePath,
         line: UInt = #line
-    ) -> LoadingManagerTDD where S: DMLoadingManagerSettings {
-        let loadingManager = LoadingManagerTDD(
-            loadableState: .none,
+    ) -> DMLoadingManager where S: DMLoadingManagerSettings {
+        let loadingManager = DMLoadingManager(
+            state: .none,
             settings: settings
         )
         
@@ -330,24 +233,21 @@ final class DMLoadingManagerTestTDD: XCTestCase {
     }
     
     @MainActor
-    private func makeSUT() -> LoadingManagerTDD {
+    private func makeSUT() -> DMLoadingManager {
         makeSUT(settings: LoadingManagerDefaultSettingsTDD())
     }
 }
 
-final class TestDMLoadingViewProvider: DMLoadingViewProviderProtocol {
-    public var id: UUID = UUID()
+// MARK: - Helpers; Supports
+
+private struct LoadingManagerDefaultSettingsTDD: DMLoadingManagerSettings {
+    let autoHideDelay: Duration
+    
+    init(autoHideDelay: Duration = .seconds(2)) {
+        self.autoHideDelay = autoHideDelay
+    }
 }
 
-final class FulfillmentTestExpectationSpy: XCTestExpectation, @unchecked Sendable {
-    private(set) var currentFulfillmentCount: Int = 0
-    
-    var isFulfilled: Bool {
-        currentFulfillmentCount > 0
-    }
-    
-    override func fulfill() {
-        currentFulfillmentCount += 1
-        super.fulfill()
-    }
+private final class TestDMLoadingViewProvider: DMLoadingViewProviderProtocol {
+    public var id: UUID = UUID()
 }

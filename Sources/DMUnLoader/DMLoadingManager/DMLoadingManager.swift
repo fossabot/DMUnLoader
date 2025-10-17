@@ -108,6 +108,7 @@ public final class DMLoadingManager: DMLoadingManagerProtocol {
     ///   loadingManager.hide()
     ///   ```
     public func hide() {
+        stopInactivityTimer()
         loadableState = .none
     }
     
