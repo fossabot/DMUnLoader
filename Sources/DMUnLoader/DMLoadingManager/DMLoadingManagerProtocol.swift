@@ -13,15 +13,11 @@ import Combine
 /// in a user interface. It provides methods to show or hide these states and supports
 /// optional retry actions for failure states.
 @MainActor
-public protocol DMLoadingManagerProtocol: Identifiable, ObservableObject {
+public protocol DMLoadingManagerProtocol: ObservableObject {
     
     /// The current loadable state of the manager (e.g., `.none`, `.loading`, `.success`, `.failure`).
     /// - Note: This property is mutable and allows the manager to update its state dynamically.
     var loadableState: DMLoadableType { get }
-    
-    /// A unique identifier for the loading manager.
-    /// - Note: This property is required by the `Identifiable` protocol.
-    var id: UUID { get }
     
     /// The settings used by the loading manager to configure its behavior.
     /// - Example:

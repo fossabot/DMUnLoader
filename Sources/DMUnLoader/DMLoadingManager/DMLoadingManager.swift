@@ -13,9 +13,6 @@ import Combine
 @MainActor
 public final class DMLoadingManager: DMLoadingManagerInteralProtocol {
     
-    /// A unique identifier for the loading manager.
-    public let id: UUID
-    
     /// The settings used by the loading manager to configure its behavior, such as auto-hide delay.
     public let settings: DMLoadingManagerSettings
     
@@ -56,10 +53,8 @@ public final class DMLoadingManager: DMLoadingManagerInteralProtocol {
     ///   let settings = DMLoadingManagerDefaultSettings(autoHideDelay: .seconds(3))
     ///   let loadingManager = DMLoadingManager(state: .none, settings: settings)
     ///   ```
-    public init(id: UUID = UUID(),
-                state loadableState: DMLoadableType,
+    public init(state loadableState: DMLoadableType,
                 settings: DMLoadingManagerSettings) {
-        self.id = id
         self.loadableState = loadableState
         self.settings = settings
     }
@@ -177,6 +172,6 @@ extension DMLoadingManager: Hashable {
     /// Hashes the `id` of the `DMLoadingManager` instance into the provided hasher.
     /// - Parameter hasher: The hasher to use for combining the `id`.
     nonisolated public func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
+        hasher.combine(String.pointer(self))
     }
 }

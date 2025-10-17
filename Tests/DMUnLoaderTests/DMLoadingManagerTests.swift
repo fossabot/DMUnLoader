@@ -19,7 +19,7 @@ final class DMLoadingManagerTests: XCTestCase {
         
         XCTAssertEqual(weakLoadingManager.count,
                        0,
-                       "Loading manager should not be deallocated")
+                       "Loading manager should be deallocated")
     }
     
     // Initialization
@@ -46,17 +46,6 @@ final class DMLoadingManagerTests: XCTestCase {
         XCTAssertTrue((manager as Any) is (any Hashable), "DMLoadingManager should conform to Hashable")
     }
     
-    // Test loading manager conforms to Identifiable
-    @MainActor
-    func testDMLoadingManagerConformsToIdentifiable() {
-        let settings = MockDMLoadingManagerSettings()
-        let manager = DMLoadingManager(state: .none, settings: settings)
-        weakLoadingManager.append(manager)
-        
-        // Check if DMLoadingManager conforms to Identifiable
-        XCTAssertTrue((manager as Any) is (any Identifiable), "DMLoadingManager should conform to Identifiable")
-    }
-    
     // Test loading manager conforms to ObservableObject
     @MainActor
     func testDMLoadingManagerConformsToObservableObject() {
@@ -68,42 +57,21 @@ final class DMLoadingManagerTests: XCTestCase {
         XCTAssertTrue((manager as Any) is (any ObservableObject), "DMLoadingManager should conform to ObservableObject")
     }
     
-    // Test loading manager instances conforms to Identifiable
+    // Test loading manager instances conforms to Hashable
     @MainActor
-    func testDMLoadingManagerInstancesConformsToIdentifiable() {
+    func testDMLoadingManagerInstancesConformsToHashable() {
         let settings = MockDMLoadingManagerSettings()
         
-        // Create two DMLoadingManager instances
+        // Create two DMLoadingManager instances with the same ID
         let manager1 = DMLoadingManager(state: .none, settings: settings)
         let manager2 = DMLoadingManager(state: .none, settings: settings)
         
         weakLoadingManager.append(manager1)
         weakLoadingManager.append(manager2)
         
-        // Verify that the IDs are unique
-        XCTAssertNotEqual(manager1.id, manager2.id, "DMLoadingManager instances should have unique IDs")
-    }
-    
-    // Test loading manager instances conforms to Hashable
-    @MainActor
-    func testDMLoadingManagerInstancesConformsToHashable() {
-        let settings = MockDMLoadingManagerSettings()
-        
-        let newTheSameID = UUID()
-        // Create two DMLoadingManager instances with the same ID
-        let manager1 = DMLoadingManager(id: newTheSameID, state: .none, settings: settings)
-        let manager2 = DMLoadingManager(id: newTheSameID, state: .none, settings: settings)
-        
-        weakLoadingManager.append(manager1)
-        weakLoadingManager.append(manager2)
-        
         // Verify equality
-        XCTAssertEqual(manager1, manager2, "DMLoadingManager instances with the same ID should be equal")
-        
-        // Verify hashValue consistency
-        var set = Set<DMLoadingManager>()
-        set.insert(manager1)
-        XCTAssertTrue(set.contains(manager2), "DMLoadingManager instances with the same ID should have the same hashValue")
+        XCTAssertNotEqual(manager1, manager2, "DMLoadingManager instances should not be equal")
+        XCTAssertEqual(manager1, manager1, "DMLoadingManager instances should be equal")
     }
     
     // Show Loading State

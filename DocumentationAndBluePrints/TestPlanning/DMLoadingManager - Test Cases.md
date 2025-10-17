@@ -15,11 +15,9 @@
 - **Steps**:
   - [ ] Create a new instance of `DMLoadingManager`.
   - [ ] Verify that the initial `loadableState` is `.none`.
-  - [ ] Verify that the `id` is unique.
   - [ ] Verify that the `settings` are set to `DMLoadingManagerDefaultSettings`.
 - **Expected Result**:
   - The `loadableState` is `.none`.
-  - The `id` is unique.
   - The `settings` match `DMLoadingManagerDefaultSettings`.
 - **Status**: ? / 🚧 / ❌ / ✅
 
@@ -84,18 +82,7 @@
 
 ---
 
-### Scenario 6: 🚧 Verify Unique ID
-- **Description**: Check if each instance of `DMLoadingManager` has a unique `id`.
-- **Steps**:
-  - [ ] Create two instances of `DMLoadingManager`.
-  - [ ] Compare their `id` values.
-- **Expected Result**:
-  - The `id` values of the two instances are not equal.
-- **Status**: ? / 🚧 / ❌ / ✅
-
----
-
-### Scenario 7: 🚧 Verify Reactive Programming
+### Scenario 6: 🚧 Verify Reactive Programming
 - **Description**: Check if the `loadableStatePublisher` emits changes correctly.
 - **Steps**:
   - [ ] Subscribe to the `loadableStatePublisher`.
@@ -115,7 +102,6 @@
 | Show Success        | Success message: `"Operation Completed"`, Mock `DMLoadingViewProvider` | `.success` state with auto-hide delay |
 | Show Failure        | Error: `NSError(domain: "Test", code: 404)`, Mock `DMLoadingViewProvider` | `.failure` state with auto-hide delay |
 | Hide                | None                                | `.none` state                         |
-| Unique ID           | Two instances of `DMLoadingManager`  | Unique `id` values                    |
 
 ---
 

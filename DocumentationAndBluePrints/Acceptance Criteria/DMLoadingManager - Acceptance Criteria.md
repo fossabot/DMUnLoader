@@ -13,11 +13,9 @@
 - **Description**: The `DMLoadingManager` should initialize correctly with default settings.
 - **Requirements**:
   - The initial state (`loadableState`) must be `.none`.
-  - Each instance must have a unique identifier (`id`).
   - The default settings (`settings`) must match `DMLoadingManagerDefaultSettings`.
 - **Expected Behavior**:
   - When a new instance is created, the `loadableState` is `.none`.
-  - The `id` is unique for each instance.
   - The `settings` are applied correctly from `DMLoadingManagerDefaultSettings`.
 
 ---
@@ -72,16 +70,7 @@
 
 ---
 
-### Criterion 6: Unique ID Generation
-- **Description**: Each instance of `DMLoadingManager` must have a unique identifier (`id`).
-- **Requirements**:
-  - The `id` values of two instances must not be equal.
-- **Expected Behavior**:
-  - When two instances of `DMLoadingManager` are created, their `id` values are different.
-
----
-
-### Criterion 7: Reactive Programming
+### Criterion 6: Reactive Programming
 - **Description**: The `loadableStatePublisher` must emit changes in real-time.
 - **Requirements**:
   - The `loadableStatePublisher` must emit the correct state when `loadableState` changes.
@@ -90,7 +79,7 @@
 
 ---
 
-### Criterion 8: Timer Management
+### Criterion 7: Timer Management
 - **Description**: The inactivity timer must behave correctly based on the current state.
 - **Requirements**:
   - The timer must stop when transitioning to `.loading`.
@@ -101,7 +90,7 @@
 
 ---
 
-### Criterion 9: Localization Support (Optional)
+### Criterion 8: Localization Support (Optional)
 - **Description**: The `DMLoadingManager` should support localized text for success and failure messages.
 - **Requirements**:
   - The success and failure messages must adapt to the system's locale.
