@@ -5,7 +5,8 @@
 //
 
 import XCTest
-import DMUnLoader
+@testable import DMUnLoader
+import Combine
 
 struct LoadingManagerDefaultSettingsTDD: DMLoadingManagerSettings {
     let autoHideDelay: Duration
@@ -16,9 +17,11 @@ struct LoadingManagerDefaultSettingsTDD: DMLoadingManagerSettings {
 }
 
 final class LoadingManagerTDD: DMLoadingManagerProtocol {
-    var loadableState: DMLoadableType
+    @Published var loadableState: DMLoadableType
     
     var settings: DMLoadingManagerSettings
+    
+    private var inactivityTimerCancellable: AnyCancellable?
     
     init(
         loadableState: DMLoadableType,
@@ -48,6 +51,12 @@ final class LoadingManagerTDD: DMLoadingManagerProtocol {
         provider: PR
     ) where PR: DMLoadingViewProviderProtocol {
         
+        startInactivityTimer()
+        
+        loadableState = .success(
+            message,
+            provider: provider.eraseToAnyViewProvider()
+        )
     }
     
     @MainActor
@@ -62,10 +71,34 @@ final class LoadingManagerTDD: DMLoadingManagerProtocol {
     func hide() {
         
     }
+    
+    // MARK: Timer Management
+    
+    private func startInactivityTimer() {
+        stopInactivityTimer()
+        
+        inactivityTimerCancellable = Deferred {
+            Future<Void, Never> { promise in
+                promise(.success(()))
+            }
+        }
+        .delay(for: .seconds(settings.autoHideDelay.timeInterval),
+               scheduler: RunLoop.main)
+        .sink(receiveValue: { [weak self] _ in
+            self?.loadableState = .none
+        })
+    }
+    
+    private func stopInactivityTimer() {
+        inactivityTimerCancellable?.cancel()
+        inactivityTimerCancellable = nil
+    }
 }
 
 @MainActor
 final class DMLoadingManagerTestTDD: XCTestCase {
+    
+    private var cancellables: Set<AnyCancellable> = []
     
     func testDefaultInitialization() {
         let sut = makeSUT()
@@ -99,16 +132,93 @@ final class DMLoadingManagerTestTDD: XCTestCase {
             ),
             "After calling `showLoading(provider:)`, `loadableState` should be `.loading` with the correct provider"
         )
+    }
+    
+    func testVerifySuccessState() {
+        let secondsAutoHideDelay: Double = 0.2
+        let settings = LoadingManagerDefaultSettingsTDD(autoHideDelay: .seconds(secondsAutoHideDelay))
+        let sut = makeSUT(settings: settings)
+        let provider = TestDMLoadingViewProvider()
+        let successsMessage = "Any message"
         
+        sut.showSuccess(successsMessage, provider: provider)
         
+        let expectationSuccess = CountedFulfillmentTestExpectation(
+            description: "Loadable state updated to .success"
+        )
+        let expectationIdle = CountedFulfillmentTestExpectation(
+            description: "Loadable state updated to .none after auto-hide delay"
+        )
+        
+        observeLoadableState(of: sut) { state in
+            if case .success(let message, _) = state {
+                XCTAssertEqual(message.description,
+                               successsMessage,
+                               "loadableState should be updated to .success with the correct message")
+                expectationSuccess.fulfill()
+            } else if case .none = state, expectationSuccess.isFulfilled {
+                expectationIdle.fulfill()
+            }
+        }
+        
+        XCTAssertEqual(
+            sut.loadableState,
+            .success(
+                successsMessage,
+                provider: provider.eraseToAnyViewProvider()
+            ),
+            "After calling `showSuccess(_:provider:)`, `loadableState` should be `.success` with the correct message and provider"
+        )
+        
+        wait(
+            for: [expectationSuccess],
+            timeout: secondsAutoHideDelay
+        )
+        wait(
+            for: [expectationIdle],
+            timeout: secondsAutoHideDelay + 0.05
+        )
     }
     
     // MARK: - Helpers
+
+    private func observeLoadableState(
+        of sut: LoadingManagerTDD,
+        handler: @escaping (DMLoadableType) -> Void
+    ) {
+        sut
+            .$loadableState
+            .sink(receiveValue: handler)
+            .store(in: &cancellables)
+    }
+    
+    private func makeSUT<S>(settings: S) -> LoadingManagerTDD where S: DMLoadingManagerSettings {
+        LoadingManagerTDD(
+            loadableState: .none,
+            settings: settings
+        )
+    }
+    
     private func makeSUT() -> LoadingManagerTDD {
-        LoadingManagerTDD()
+        makeSUT(settings: LoadingManagerDefaultSettingsTDD())
     }
 }
 
 final class TestDMLoadingViewProvider: DMLoadingViewProviderProtocol {
     public var id: UUID = UUID()
 }
+
+
+final class CountedFulfillmentTestExpectation: XCTestExpectation {
+    private(set) var currentFulfillmentCount: Int = 0
+    
+    var isFulfilled: Bool {
+        currentFulfillmentCount > 0
+    }
+    
+    override func fulfill() {
+        currentFulfillmentCount += 1
+        super.fulfill()
+    }
+}
+
