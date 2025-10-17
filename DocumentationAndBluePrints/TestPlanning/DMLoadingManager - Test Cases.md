@@ -52,14 +52,14 @@
 
 ---
 
-### Scenario 4: 🚧 Verify Failure State
+### Scenario 4: ✅ Verify Failure State
 - **Description**: Check if the `DMLoadingManager` correctly transitions to the `.failure` state.
 - **Steps**:
-  - [ ] Call the `showFailure(_:provider:onRetry:)` method with an error and optional retry action.
-  - [ ] Verify that the `loadableState` is `.failure`.
-  - [ ] Verify that the inactivity timer is started with the delay specified in `settings.autoHideDelay`.
-  - [ ] If `onRetry` is provided, verify that the retry action is callable.
-  - [ ] Wait for the auto-hide delay and verify that the `loadableState` transitions back to `.none`.
+  - [✅] Call the `showFailure(_:provider:onRetry:)` method with an error and optional retry action.
+  - [✅] Verify that the `loadableState` is `.failure`.
+  - [✅] Verify that the inactivity timer is started with the delay specified in `settings.autoHideDelay`.
+  - [❌] If `onRetry` is provided, verify that the retry action is callable.
+  - [✅] Wait for the auto-hide delay and verify that the `loadableState` transitions back to `.none`.
 - **Expected Result**:
   - The `loadableState` is `.failure` immediately after the call.
   - The inactivity timer is started.

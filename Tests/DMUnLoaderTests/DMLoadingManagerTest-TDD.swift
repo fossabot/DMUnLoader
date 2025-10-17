@@ -61,11 +61,19 @@ final class LoadingManagerTDD: DMLoadingManagerProtocol {
     
     @MainActor
     func showFailure<PR>(
-        _ error: any Error,
+        _ error: Error,
         provider: PR,
         onRetry: (DMAction)?
     ) where PR: DMLoadingViewProviderProtocol {
         
+        startInactivityTimer()
+        
+        loadableState = .failure(
+            error: error,
+            provider: provider
+                .eraseToAnyViewProvider(),
+            onRetry: onRetry
+        )
     }
     
     func hide() {
@@ -172,6 +180,59 @@ final class DMLoadingManagerTestTDD: XCTestCase {
         
         wait(
             for: [expectationSuccess],
+            timeout: secondsAutoHideDelay
+        )
+        wait(
+            for: [expectationIdle],
+            timeout: secondsAutoHideDelay + 0.05
+        )
+    }
+    
+    func testVerifyFailureState() {
+        let secondsAutoHideDelay: Double = 0.2
+        let settings = LoadingManagerDefaultSettingsTDD(autoHideDelay: .seconds(secondsAutoHideDelay))
+        let sut = makeSUT(settings: settings)
+        let provider = TestDMLoadingViewProvider()
+        
+        let errorDescription = "Test Error"
+        let error = NSError(
+            domain: "TestDomain",
+            code: 100500,
+            userInfo: [NSLocalizedDescriptionKey: errorDescription]
+        )
+        
+        sut.showFailure(error, provider: provider, onRetry: nil)
+        
+        let expectationFailure = FulfillmentTestExpectationSpy(
+            description: "Loadable state updated to .failure"
+        )
+        let expectationIdle = FulfillmentTestExpectationSpy(
+            description: "Loadable state updated to .none after auto-hide delay"
+        )
+        
+        observeLoadableState(of: sut) { state in
+            if case .failure(let error, _, _) = state {
+                XCTAssertEqual(error.localizedDescription,
+                               errorDescription,
+                               "loadableState should be updated to .failure with the correct error")
+                expectationFailure.fulfill()
+            } else if case .none = state,
+                        expectationFailure.isFulfilled {
+                expectationIdle.fulfill()
+            }
+        }
+        
+        XCTAssertEqual(
+            sut.loadableState,
+            .failure(
+                error: error,
+                provider: provider.eraseToAnyViewProvider()
+            ),
+            "After calling `showFailure(_:provider:)`, `loadableState` should be `.failure` with the correct error and provider"
+        )
+        
+        wait(
+            for: [expectationFailure],
             timeout: secondsAutoHideDelay
         )
         wait(
