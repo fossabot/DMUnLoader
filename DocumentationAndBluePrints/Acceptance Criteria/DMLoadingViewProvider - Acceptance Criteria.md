@@ -35,12 +35,7 @@
 
 ### Criterion 4: Success View Behavior
 - **Description**: The `getSuccessView` method should return a `DMSuccessView` configured with the provided `successViewSettings` and `object`.
-- **Requirements**:
-  - The success view must display a checkmark circle icon.
-  - The success message must match the provided `object` or default text.
-- **Expected Behavior**:
-  - The returned view is a `DMSuccessView`.
-  - The icon and success message match the provided settings and object.
+**[> Acceptance Criteria available here <](../Acceptance%20Criteria/Success%20View%20-%20Acceptance%20Criteria.md)**
 
 ---
 

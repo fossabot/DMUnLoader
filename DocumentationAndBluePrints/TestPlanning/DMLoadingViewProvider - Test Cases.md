@@ -57,14 +57,7 @@ protocol DMLoadingViewProvider: ObservableObject, Hashable {
 
 ### Scenario 4: ? Verify Success View
 - **Description**: Check if the `getSuccessView` method returns a `DMSuccessView` configured with the provided `successViewSettings` and `object`.
-- **Steps**:
-  - [?] Call the `getSuccessView` method with a sample success message (`"Operation Completed!"`).
-  - [?] Verify that the returned view is a `DMSuccessView`.
-  - [?] Verify that the checkmark circle icon is displayed.
-  - [?] Verify that the success message matches the provided object.
-- **Expected Result**:
-  - The returned view is a `DMSuccessView`.
-  - The icon and success message match the provided settings and object.
+**[> test plan available here <](../TestPlanning/Success%20View%20-%20TestCases.md)**
 - **Status**: ? / 🚧 / ❌ / ✅
 
 ---
