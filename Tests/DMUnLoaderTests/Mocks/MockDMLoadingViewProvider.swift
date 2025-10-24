@@ -33,8 +33,8 @@ final class MockDMLoadingViewProvider: @MainActor DMLoadingViewProvider {
         MockDMLoadingManagerSettings(autoHideDelay: .seconds(2))
     }
 
-    var loadingViewSettings: DMLoadingViewSettings {
-        MockDMLoadingViewSettings()
+    var loadingViewSettings: DMProgressViewSettings {
+        MockDMProgressViewSettings()
     }
 
     var errorViewSettings: DMErrorViewSettings {

@@ -7,11 +7,11 @@
 import SwiftUI
 @testable import DMUnLoader
 
-struct MockLoadingViewSettingsProvider: DMLoadingViewSettings {
+struct MockLoadingViewSettingsProvider: DMProgressViewSettings {
     var frameGeometrySize: CGSize = CGSize(width: 200,
                                            height: 200)
     
-    var loadingTextProperties: LoadingTextProperties = .init(
+    var loadingTextProperties: ProgressTextProperties = .init(
         text: "Loading...",
         foregroundColor: .blue,
         font: .system(size: 16),

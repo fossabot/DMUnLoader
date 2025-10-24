@@ -7,8 +7,8 @@
 import SwiftUI
 @testable import DMUnLoader
 
-struct MockDMLoadingViewSettings: DMLoadingViewSettings {
-    var loadingTextProperties: LoadingTextProperties = LoadingTextProperties(
+struct MockDMProgressViewSettings: DMProgressViewSettings {
+    var loadingTextProperties: ProgressTextProperties = ProgressTextProperties(
         text: "Mock Loading...",
         alignment: .center,
         foregroundColor: .black,
@@ -27,7 +27,7 @@ struct MockDMLoadingViewSettings: DMLoadingViewSettings {
     var frameGeometrySize: CGSize = CGSize(width: 200, height: 200)
 }
 
-extension MockDMLoadingViewSettings: Hashable {
+extension MockDMProgressViewSettings: Hashable {
     func hash(into hasher: inout Hasher) {
         hasher.combine(loadingTextProperties)
         hasher.combine(progressIndicatorProperties)

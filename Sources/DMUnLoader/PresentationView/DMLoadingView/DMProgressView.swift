@@ -29,7 +29,7 @@ enum DMProgressViewOwnSettings {
 struct DMProgressView: View {
     
     /// The settings provider responsible for configuring the progress view's appearance.
-    let settingsProvider: DMLoadingViewSettings
+    let settingsProvider: DMProgressViewSettings
     
     /// Initializes a new instance of `DMProgressView`.
     /// - Parameter settingsProvider: The settings provider responsible for configuring the progress view's appearance.
@@ -38,7 +38,7 @@ struct DMProgressView: View {
     ///   let settings = DMLoadingDefaultViewSettings()
     ///   let progressView = DMProgressView(settings: settings)
     ///   ```
-    init(settings settingsProvider: DMLoadingViewSettings) {
+    init(settings settingsProvider: DMProgressViewSettings) {
         self.settingsProvider = settingsProvider
     }
     

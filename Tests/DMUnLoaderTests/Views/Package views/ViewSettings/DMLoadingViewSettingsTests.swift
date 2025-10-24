@@ -13,7 +13,7 @@ final class DMLoadingViewSettingsTests: XCTestCase {
     // MARK: LoadingTextProperties Tests
     
     func testLoadingTextPropertiesDefaultInitialization() {
-        let textProperties = LoadingTextProperties()
+        let textProperties = ProgressTextProperties()
         
         XCTAssertEqual(textProperties.text,
                        "Loading...",
@@ -55,7 +55,7 @@ final class DMLoadingViewSettingsTests: XCTestCase {
                                            bottom: 5,
                                            trailing: 15)
         
-        let textProperties = LoadingTextProperties(
+        let textProperties = ProgressTextProperties(
             text: customText,
             alignment: customAlignment,
             foregroundColor: customForegroundColor,
@@ -132,7 +132,7 @@ final class DMLoadingViewSettingsTests: XCTestCase {
     // MARK: DMLoadingDefaultViewSettings Tests
     
     func testDMLoadingDefaultViewSettingsDefaultInitialization() {
-        let settings = DMLoadingDefaultViewSettings()
+        let settings = DMProgressViewDefaultSettings()
         
         XCTAssertEqual(settings.loadingTextProperties.text,
                        "Loading...",
@@ -155,7 +155,7 @@ final class DMLoadingViewSettingsTests: XCTestCase {
     }
     
     func testDMLoadingDefaultViewSettingsCustomInitialization() {
-        let customTextProperties = LoadingTextProperties(
+        let customTextProperties = ProgressTextProperties(
             text: "Please wait...",
             alignment: .leading,
             foregroundColor: Color.red,
@@ -174,7 +174,7 @@ final class DMLoadingViewSettingsTests: XCTestCase {
         let customFrameGeometrySize = CGSize(width: 400,
                                              height: 400)
         
-        let settings = DMLoadingDefaultViewSettings(
+        let settings = DMProgressViewDefaultSettings(
             loadingTextProperties: customTextProperties,
             progressIndicatorProperties: customIndicatorProperties,
             loadingContainerForegroundColor: customContainerForegroundColor,

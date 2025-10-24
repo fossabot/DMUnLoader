@@ -1,5 +1,9 @@
 # Acceptance Criteria: "Loading View (`DMProgressView`)"
 
+## 0.0 The Mockup design
+
+![](../Assets/Loading-on-empty-screen.png)
+
 ## 1. General Information
 - **Module**: DMProgressView
 - **Description**: A custom SwiftUI view that displays a progress indicator with optional text. It uses a settings provider (`DMLoadingViewSettings`) to configure its appearance.
