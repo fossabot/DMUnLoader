@@ -38,46 +38,61 @@ extension DMLoadingViewProviderTDD {
     
     @MainActor
     func getLoadingView() -> some View {
-        MockProgressView(settings: loadingViewSettings)
+        DMProgressView(settings: loadingViewSettings)
     }
     
     @MainActor
     func getErrorView(error: Error,
                       onRetry: DMAction?,
                       onClose: DMAction) -> some View {
-        MockErrorView(settings: errorViewSettings,
-                      error: error,
-                      onRetry: onRetry,
-                      onClose: onClose)
+        DMErrorView(settings: errorViewSettings,
+                    error: error,
+                    onRetry: onRetry,
+                    onClose: onClose)
     }
     
     @MainActor
     func getSuccessView(object: DMLoadableTypeSuccess) -> some View {
-        MockSuccessView(settings: successViewSettings,
-                        assosiatedObject: object)
+        DMSuccessView(settings: successViewSettings,
+                      assosiatedObject: object)
     }
     
     // MARK: - Default Settings
     
     var loadingManagerSettings: DMLoadingManagerSettings {
-        MockDMLoadingManagerSettings()
+        DMLoadingManagerDefaultSettings()
     }
     
     var loadingViewSettings: DMLoadingViewSettings {
-        MockDMLoadingViewSettings()
+        DMLoadingDefaultViewSettings()
     }
     
     var errorViewSettings: DMErrorViewSettings {
-        MockDMErrorViewSettings()
+        DMErrorDefaultViewSettings()
     }
     
     var successViewSettings: DMSuccessViewSettings {
-        MockDMSuccessViewSettings()
+        DMSuccessDefaultViewSettings()
     }
 }
 
 class DefaultDMLoadingViewProviderTDD: @MainActor DMLoadingViewProviderTDD {
+    let loadingManagerSettings: DMLoadingManagerSettings
+    let loadingViewSettings: DMLoadingViewSettings
+    let errorViewSettings: DMErrorViewSettings
+    let successViewSettings: DMSuccessViewSettings
     
+    init(
+        loadingManagerSettings: DMLoadingManagerSettings? = nil,
+        loadingViewSettings: DMLoadingViewSettings? = nil,
+        errorViewSettings: DMErrorViewSettings? = nil,
+        successViewSettings: DMSuccessViewSettings? = nil
+    ) {
+        self.loadingManagerSettings = loadingManagerSettings ?? DMLoadingManagerDefaultSettings()
+        self.loadingViewSettings = loadingViewSettings ?? DMLoadingDefaultViewSettings()
+        self.errorViewSettings = errorViewSettings ?? DMErrorDefaultViewSettings()
+        self.successViewSettings = successViewSettings ?? DMSuccessDefaultViewSettings()
+    }
 }
 
 struct MockProgressView: View {
@@ -129,26 +144,26 @@ struct MockSuccessView: View {
 }
 
 final class DMLoadingViewProviderTests_TDD: XCTestCase {
-
+    
     @MainActor
     func testVerifyDefaultInitialization() {
-        let sut1 = DefaultDMLoadingViewProviderTDD()
+        let sut = DefaultDMLoadingViewProviderTDD()
         
         XCTAssertTrue(
-            sut1.loadingManagerSettings is MockDMLoadingManagerSettings,
-            "Default loadingManagerSettings should be of type MockDMLoadingManagerSettings."
+            sut.loadingManagerSettings is DMLoadingManagerDefaultSettings,
+            "Default loadingManagerSettings should be of type DMLoadingManagerDefaultSettings."
         )
         XCTAssertTrue(
-            sut1.loadingViewSettings is MockDMLoadingViewSettings,
-            "Default loadingViewSettings should be of type MockDMLoadingViewSettings."
+            sut.loadingViewSettings is DMLoadingDefaultViewSettings,
+            "Default loadingViewSettings should be of type DMLoadingDefaultViewSettings."
         )
         XCTAssertTrue(
-            sut1.errorViewSettings is MockDMErrorViewSettings,
-            "Default errorViewSettings should be of type MockDMErrorViewSettings."
+            sut.errorViewSettings is DMErrorDefaultViewSettings,
+            "Default errorViewSettings should be of type DMErrorDefaultViewSettings."
         )
         XCTAssertTrue(
-            sut1.successViewSettings is MockDMSuccessViewSettings,
-            "Default successViewSettings should be of type MockDMSuccessViewSettings."
+            sut.successViewSettings is DMSuccessDefaultViewSettings,
+            "Default successViewSettings should be of type DMSuccessDefaultViewSettings."
         )
     }
     
@@ -159,5 +174,127 @@ final class DMLoadingViewProviderTests_TDD: XCTestCase {
         
         XCTAssertNotEqual(sut1, sut2, "Two different instances should have different hash.")
         XCTAssertEqual(sut1, sut1, "Same instance should have different hash.")
+    }
+    
+    @MainActor
+    func testVerifyCustomizationViaSettings() {
+        let sut = DefaultDMLoadingViewProviderTDD()
+        
+        checkVerifyCustomizationViaSettingsForProgressView(sut: sut)
+        checkVerifyCustomizationViaSettingsForErrorView(sut: sut)
+        checkVerifyCustomizationViaSettingsForSuccessView(sut: sut)
+    }
+    
+    @MainActor
+    private func checkVerifyCustomizationViaSettingsForProgressView<SUT: DMLoadingViewProviderTDD>(
+        sut: SUT,
+        file: StaticString = #filePath,
+        line: UInt = #line
+    ) {
+        let loadingView = sut.getLoadingView() as? DMProgressView
+        XCTAssertNotNil(
+            loadingView,
+            "Loading view should be of type DMProgressView.",
+            file: file,
+            line: line
+        )
+        
+        let settings = loadingView?.settingsProvider as? DMLoadingDefaultViewSettings
+        XCTAssertNotNil(
+            settings,
+            "Loading view settings should be of type DMLoadingDefaultViewSettings.",
+            file: file,
+            line: line
+        )
+        
+        XCTAssertEqual(
+            settings,
+            sut.loadingViewSettings as? DMLoadingDefaultViewSettings,
+            "Loading view settings should match the provider's loadingViewSettings.",
+            file: file,
+            line: line
+        )
+    }
+    
+    @MainActor
+    private func checkVerifyCustomizationViaSettingsForErrorView<SUT: DMLoadingViewProviderTDD>(
+        sut: SUT,
+        file: StaticString = #filePath,
+        line: UInt = #line
+    ) {
+        let errorView = sut.getErrorView(
+            error: NSError(domain: "Test", code: 404),
+            onRetry: nil,
+            onClose: DMButtonAction {}
+        ) as? DMErrorView
+        
+        XCTAssertNotNil(
+            errorView,
+            "Error view should be of type DMErrorView.",
+            file: file,
+            line: line
+        )
+        
+        let settingsFromView = errorView?.settingsProvider as? DMErrorDefaultViewSettings
+        XCTAssertNotNil(
+            settingsFromView,
+            "Error view settings should be of type DMErrorDefaultViewSettings.",
+            file: file,
+            line: line
+        )
+        let settingsFromProvider = sut.errorViewSettings as? DMErrorDefaultViewSettings
+        XCTAssertNotNil(
+            settingsFromProvider,
+            "Error view settings from provider should be of type DMErrorDefaultViewSettings.",
+            file: file,
+            line: line
+        )
+        
+        XCTAssertEqual(
+            settingsFromView,
+            settingsFromProvider,
+            "Error view settings should match the provider's errorViewSettings.",
+            file: file,
+            line: line
+        )
+    }
+    
+    @MainActor
+    private func checkVerifyCustomizationViaSettingsForSuccessView<SUT: DMLoadingViewProviderTDD>(
+        sut: SUT,
+        file: StaticString = #filePath,
+        line: UInt = #line
+    ) {
+        let successView = sut.getSuccessView(object: "Some object") as? DMSuccessView
+        
+        XCTAssertNotNil(
+            successView,
+            "Success view should be of type DMSuccessView.",
+            file: file,
+            line: line
+        )
+        
+        let settingsFromView = successView?.settingsProvider as? DMSuccessDefaultViewSettings
+        XCTAssertNotNil(
+            settingsFromView,
+            "Success view settings should be of type DMSuccessDefaultViewSettings.",
+            file: file,
+            line: line
+        )
+        let settingsFromProvider = sut.successViewSettings as? DMSuccessDefaultViewSettings
+        XCTAssertNotNil(
+            settingsFromProvider,
+            "Success view settings from provider should be of type DMSuccessDefaultViewSettings.",
+            file: file,
+            line: line
+        )
+        
+        XCTAssertEqual(
+            settingsFromView,
+            settingsFromProvider,
+            "Success view settings should match the provider's successViewSettings.",
+            file: file,
+            line: line
+        )
     }
 }

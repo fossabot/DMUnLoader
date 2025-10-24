@@ -74,12 +74,12 @@ protocol DMLoadingViewProvider: ObservableObject, Hashable {
 
 ---
 
-### Scenario 6: ? Verify Customization via Settings
+### Scenario 6: ✅ Verify Customization via Settings
 - **Description**: Check if the provider allows customization of views through settings.
 - **Steps**:
-  - [?] Create custom settings for `loadingViewSettings`, `errorViewSettings`, and `successViewSettings`.
-  - [?] Call the `getLoadingView`, `getErrorView`, and `getSuccessView` methods with the custom settings.
-  - [?] Verify that the views reflect the custom settings.
+  - [✅] Create custom settings for `loadingViewSettings`, `errorViewSettings`, and `successViewSettings`.
+  - [✅] Call the `getLoadingView`, `getErrorView`, and `getSuccessView` methods with the custom settings.
+  - [✅] Verify that the views reflect the custom settings.
 - **Expected Result**:
   - Views reflect the custom settings provided.
 - **Status**: ? / 🚧 / ❌ / ✅
@@ -89,7 +89,7 @@ protocol DMLoadingViewProvider: ObservableObject, Hashable {
 ## 3. Test Data
 | Method               | Input Data                          | Expected Output                     |
 |---------------------|--------------------------------------|------------------------------------------|
-| Default Initialization | None                                | `DefaultDMLoadingViewProvider` with unique `id` and default settings |
+| Default Initialization | None                                | `DefaultDMLoadingViewProvider` with default settings |
 | Get Loading View    | None                                | `DMProgressView` with default settings |
 | Get Error View      | Error: `NSError(domain: "Test", code: 404)`, `onRetry`, `onClose` | `DMErrorView` with error message, icon, and buttons |
 | Get Success View    | Success message: `"Operation Completed!"` | `DMSuccessView` with checkmark icon and success message |
