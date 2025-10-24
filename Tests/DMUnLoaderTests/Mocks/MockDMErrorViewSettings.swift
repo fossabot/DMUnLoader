@@ -24,5 +24,6 @@ struct MockDMErrorViewSettings: DMErrorViewSettings {
         image: Image(systemName: "exclamationmark.circle.fill"),
         foregroundColor: .red,
         frameSize: CustomSizeView(width: 50, height: 50)
+        frameSize: CustomViewSize(width: 50, height: 50)
     )
 }

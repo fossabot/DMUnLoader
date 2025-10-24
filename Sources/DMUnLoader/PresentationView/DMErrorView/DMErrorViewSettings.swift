@@ -165,6 +165,7 @@ public struct ErrorImageSettings {
     
     /// The size of the image frame.
     let frameSize: CustomSizeView
+    let frameSize: CustomViewSize
     
     /// Initializes a new instance of `ErrorImageSettings` with optional customizations.
     /// - Parameters:
@@ -182,6 +183,7 @@ public struct ErrorImageSettings {
     public init(image: Image,
                 foregroundColor: Color? = .red,
                 frameSize: CustomSizeView = CustomSizeView(width: 50, height: 50)) {
+                frameSize: CustomViewSize = CustomViewSize(width: 50, height: 50)) {
         self.image = image
         self.foregroundColor = foregroundColor
         self.frameSize = frameSize

@@ -54,6 +54,7 @@ public struct SuccessImageProperties {
     
     /// The size of the image frame.
     public var frame: CustomSizeView
+    public let frame: CustomViewSize
     
     /// The foreground color of the image.
     public var foregroundColor: Color?
@@ -74,6 +75,7 @@ public struct SuccessImageProperties {
     public init(
         image: Image = Image(systemName: "checkmark.circle.fill"),
         frame: CustomSizeView = .init(width: 50, height: 50),
+        frame: CustomViewSize = .init(width: 50, height: 50),
         foregroundColor: Color? = .green
     ) {
         self.image = image
