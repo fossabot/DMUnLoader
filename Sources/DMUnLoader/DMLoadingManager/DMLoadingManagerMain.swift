@@ -8,7 +8,7 @@ import Foundation
 import Combine
 
 /// A `ViewModel` responsible for managing and handling loading states in a user interface.
-/// This class conforms to `DMLoadingManagerProtocol` and provides functionality to
+/// This class conforms to `DMLoadingManager` and provides functionality to
 /// show loading, success, failure, and hidden states, as well as manage an inactivity timer.
 @MainActor
 public final class DMLoadingManagerMain: DMLoadingManager {
