@@ -79,7 +79,7 @@
 
 ---
 
-### Scenario 6: ? Verify Snapshot Testing
+### Scenario 7: ? Verify Snapshot Testing
 - **Description**: Use snapshot testing to verify the visual appearance of the `DMProgressView`.
 - **Steps**:
   - [?] Create a new instance of `DMProgressView` with default and fully custom settings.
