@@ -17,6 +17,7 @@ struct DMProgressViewTDD: View {
     }
     
     var body: some View {
+        let geometry = settingsProvider.frameGeometrySize
         let loadingTextProperties = settingsProvider.loadingTextProperties
         let progressIndicatorProperties = settingsProvider.progressIndicatorProperties
         
@@ -38,9 +39,12 @@ struct DMProgressViewTDD: View {
                     .tag(DMProgressViewOwnSettings.progressViewTag)
             }
             .frame(minWidth: minSize,
-                   maxWidth: 150,
+                   maxWidth: geometry.width / 2,
                    minHeight: minSize,
-                   maxHeight: 300)
+                   maxHeight: geometry.height / 2)
+            .fixedSize()
+            .foregroundColor(settingsProvider.loadingContainerForegroundColor)
+            .tag(DMProgressViewOwnSettings.vStackViewTag)
             .fixedSize()
         }
     }
@@ -201,6 +205,57 @@ final class DMProgressViewTests_TDD: XCTestCase {
         XCTAssertEqual(try text.padding(),
                        loadingTextProperties.linePadding,
                        "The Text view should have the correct padding")
+    }
+    
+    // MARK: Scenario 4: Verify Container Appearance
+    
+    @MainActor
+    func testThatContainerHasCorrectForegroundColor() throws {
+        let settings = DMProgressViewDefaultSettings(
+            loadingContainerForegroundColor: .blue
+        )
+        let sut = makeSUT(settings: settings)
+        
+        let vStack = try sut
+            .inspect()
+            .find(viewWithTag: DMProgressViewOwnSettings.vStackViewTag)
+            .vStack()
+        
+        XCTAssertEqual(try? vStack.foregroundColor(),
+                       settings.loadingContainerForegroundColor,
+                       "The foreground color of the VStack should match the loading container foreground color")
+    }
+    
+    @MainActor
+    func testThatContainerRespectsLayoutConstraints() throws {
+        let settings = DMProgressViewDefaultSettings(
+            frameGeometrySize: CGSize(width: 500, height: 500)
+        )
+        let geometry = settings.frameGeometrySize
+        let minSize = min(geometry.width - 20,
+                          geometry.height - 20,
+                          30)
+        
+        let sut = makeSUT(settings: settings)
+        
+        let vStack = try sut
+            .inspect()
+            .find(viewWithTag: DMProgressViewOwnSettings.vStackViewTag)
+            .vStack()
+        let flexFrame = try? vStack.flexFrame()
+        
+        XCTAssertEqual(flexFrame?.minWidth,
+                       minSize,
+                       "The VStack should have the correct minimum width")
+        XCTAssertEqual(flexFrame?.maxWidth,
+                       geometry.width / 2,
+                       "The VStack should have the correct maximum width")
+        XCTAssertEqual(flexFrame?.minHeight,
+                       minSize,
+                       "The VStack should have the correct minimum height")
+        XCTAssertEqual(flexFrame?.maxHeight,
+                       geometry.height / 2,
+                       "The VStack should have the correct maximum height")
     }
     
     // MARK: - Helpers
