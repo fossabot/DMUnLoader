@@ -7,6 +7,7 @@ import XCTest
 @testable import DMUnLoader
 import SwiftUI
 import ViewInspector
+import SnapshotTesting
 
 struct DMProgressViewTDD: View {
     let settingsProvider: DMProgressViewSettings
@@ -42,6 +43,15 @@ struct DMProgressViewTDD: View {
 }
 
 final class DMProgressViewTests_TDD: XCTestCase {
+    
+    override func invokeTest() {
+        withSnapshotTesting(
+            record: .failed,
+            diffTool: .ksdiff
+        ) {
+            super.invokeTest()
+        }
+    }
     
     // MARK: Scenario 1: Verify Default Initialization
     
@@ -119,16 +129,34 @@ final class DMProgressViewTests_TDD: XCTestCase {
         */
     }
     
-//    @MainActor
-//    func testThatProgressIndicatorHasCorrctSize() throws {
-//        let settings = DMProgressViewDefaultSettings(
-//            progressIndicatorProperties: ProgressIndicatorProperties(
-//                size: .small
-//            )
-//        )
-//        let sut = makeSUT(settings: settings)
-//        
-//    }
+    @MainActor
+    func testThatProgressIndicatorHasSmallSize() throws {
+        let settings = DMProgressViewDefaultSettings(
+            progressIndicatorProperties: ProgressIndicatorProperties(
+                size: .small
+            )
+        )
+        let sut = makeSUT(settings: settings)
+        
+        assertSnapshot(
+            of: sut,
+            as: .image(
+                layout: .device(config: .iPhone13Pro),
+                traits: .init(userInterfaceStyle: .dark)
+            ),
+            named: "iPhone13Pro-dark"
+        )
+        /*
+        assertSnapshot(
+            of: sut,
+            as: .image(
+                layout: .sizeThatFits,
+                traits: .init(userInterfaceStyle: .dark)
+            ),
+            named: "size-that-fits-dark"
+        )
+        */
+    }
     
     // MARK: - Helpers
     

@@ -33,7 +33,7 @@
 - **Steps**:
   - [✅] Create a new instance of `DMProgressView` with custom `progressIndicatorProperties`.
   - [✅] Set the `size` to `.small` and `tintColor` to `.green`.
-  - [🚧] Verify that the progress indicator size is small. -> Can't Verify directly due to `ViewInspector` doesn't provide how to read `controlSize` for iOS. Should Be verified via SnapshotTesting.
+  - [✅] Verify that the progress indicator size is small. -> Can't Verify directly due to `ViewInspector` doesn't provide how to read `controlSize` for iOS. Is verified via SnapshotTesting.
   - [✅] Verify that the tint color is green.
   - [✅] Verify that the style is `.circular`
 - **Expected Result**:
