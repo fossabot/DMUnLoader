@@ -22,45 +22,34 @@ enum DMProgressViewOwnSettings {
     
     /// The tag assigned to the vertical stack view (`VStack`) that organizes the content.
     static let vStackViewTag: Int = 2205
+    
+    /// The tag assigned to the ztack view (`ZStack`) that organizes the content.
+    static let zStackViewTag: Int = 2206
+    
+    /// The tag assigned to the container color
+    static let containerbackgroundColorViewTag: Int = 2107
 }
 
 /// A custom SwiftUI view that displays a progress indicator with optional text.
 /// This view uses a settings provider to configure the appearance of the progress view.
 struct DMProgressView: View {
+    let settingsProvider: DMProgressViewSettings
     
-    /// The settings provider responsible for configuring the progress view's appearance.
-    let settingsProvider: DMLoadingViewSettings
-    
-    /// Initializes a new instance of `DMProgressView`.
-    /// - Parameter settingsProvider: The settings provider responsible for configuring the progress view's appearance.
-    /// - Example:
-    ///   ```swift
-    ///   let settings = DMLoadingDefaultViewSettings()
-    ///   let progressView = DMProgressView(settings: settings)
-    ///   ```
-    init(settings settingsProvider: DMLoadingViewSettings) {
+    init(settings settingsProvider: DMProgressViewSettings) {
         self.settingsProvider = settingsProvider
     }
     
-    /// The body of the `DMProgressView`.
-    /// - Returns: A view that displays a progress indicator and optional text based on the provided settings.
-    /// - Behavior:
-    ///   - Displays a `ProgressView` styled as a circular progress indicator.
-    ///   - Displays optional text derived from the `loadingTextProperties` of the settings provider.
-    ///   - Ensures the layout adapts dynamically based on the provided geometry and constraints.
     var body: some View {
         let geometry = settingsProvider.frameGeometrySize
         let loadingTextProperties = settingsProvider.loadingTextProperties
         let progressIndicatorProperties = settingsProvider.progressIndicatorProperties
         
+        let minSize: CGFloat = 30
         ZStack(alignment: .center) {
-            
-            let minSize = min(geometry.width - 20,
-                              geometry.height - 20,
-                              30)
+            Color(settingsProvider.loadingContainerBackgroundColor)
+                .tag(DMProgressViewOwnSettings.containerbackgroundColorViewTag)
             VStack {
                 Text(loadingTextProperties.text)
-                    .multilineTextAlignment(.center)
                     .foregroundColor(loadingTextProperties.foregroundColor)
                     .font(loadingTextProperties.font)
                     .lineLimit(loadingTextProperties.lineLimit)
@@ -69,19 +58,17 @@ struct DMProgressView: View {
                 
                 ProgressView()
                     .controlSize(progressIndicatorProperties.size)
-                    .progressViewStyle(.circular) // .linear
+                    .progressViewStyle(progressIndicatorProperties.style)
                     .tint(progressIndicatorProperties.tintColor)
                     .layoutPriority(1)
                     .tag(DMProgressViewOwnSettings.progressViewTag)
             }
-            .frame(minWidth: minSize,
-                   maxWidth: geometry.width / 2,
-                   minHeight: minSize,
-                   maxHeight: geometry.height / 2)
-            .fixedSize()
-            .foregroundColor(settingsProvider.loadingContainerForegroundColor)
-            .tag(DMProgressViewOwnSettings.vStackViewTag)
         }
-        .tag(DMProgressViewOwnSettings.containerViewTag)
+        .frame(minWidth: minSize,
+               maxWidth: geometry.width / 2,
+               minHeight: minSize,
+               maxHeight: geometry.height / 2)
+        .fixedSize()
+        .tag(DMProgressViewOwnSettings.zStackViewTag)
     }
 }

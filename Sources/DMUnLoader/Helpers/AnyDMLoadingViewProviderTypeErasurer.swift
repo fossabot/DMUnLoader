@@ -15,12 +15,12 @@ public final class AnyDMLoadingViewProviderTypeErasurer<
     private let _getErrorView: (Error, DMAction?, DMAction) -> ErrorViewType
     private let _getSuccessView: (DMLoadableTypeSuccess) -> SuccessViewType
     private let _loadingManagerSettings: () -> DMLoadingManagerSettings
-    private let _loadingViewSettings: () -> DMLoadingViewSettings
+    private let _loadingViewSettings: () -> DMProgressViewSettings
     private let _errorViewSettings: () -> DMErrorViewSettings
     private let _successViewSettings: () -> DMSuccessViewSettings
     
     public var loadingManagerSettings: DMLoadingManagerSettings { _loadingManagerSettings() }
-    public var loadingViewSettings: DMLoadingViewSettings { _loadingViewSettings() }
+    public var loadingViewSettings: DMProgressViewSettings { _loadingViewSettings() }
     public var errorViewSettings: DMErrorViewSettings { _errorViewSettings() }
     public var successViewSettings: DMSuccessViewSettings { _successViewSettings() }
     
@@ -45,7 +45,7 @@ public final class AnyDMLoadingViewProviderTypeErasurer<
         getErrorView: @escaping (Error, DMAction?, DMAction) -> ErrorViewType,
         getSuccessView: @escaping (DMLoadableTypeSuccess) -> SuccessViewType,
         loadingManagerSettings: DMLoadingManagerSettings,
-        loadingViewSettings: DMLoadingViewSettings,
+        loadingViewSettings: DMProgressViewSettings,
         errorViewSettings: DMErrorViewSettings,
         successViewSettings: DMSuccessViewSettings
     ) {

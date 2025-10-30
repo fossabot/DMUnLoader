@@ -19,7 +19,7 @@ final class DMLoadingViewProviderTests: XCTestCase {
             "Default loadingManagerSettings should be of type DMLoadingManagerDefaultSettings."
         )
         XCTAssertTrue(
-            sut.loadingViewSettings is DMLoadingDefaultViewSettings,
+            sut.loadingViewSettings is DMProgressViewDefaultSettings,
             "Default loadingViewSettings should be of type DMLoadingDefaultViewSettings."
         )
         XCTAssertTrue(
@@ -64,7 +64,7 @@ final class DMLoadingViewProviderTests: XCTestCase {
             line: line
         )
         
-        let settings = loadingView?.settingsProvider as? DMLoadingDefaultViewSettings
+        let settings = loadingView?.settingsProvider as? DMProgressViewDefaultSettings
         XCTAssertNotNil(
             settings,
             "Loading view settings should be of type DMLoadingDefaultViewSettings.",
@@ -74,7 +74,7 @@ final class DMLoadingViewProviderTests: XCTestCase {
         
         XCTAssertEqual(
             settings,
-            sut.loadingViewSettings as? DMLoadingDefaultViewSettings,
+            sut.loadingViewSettings as? DMProgressViewDefaultSettings,
             "Loading view settings should match the provider's loadingViewSettings.",
             file: file,
             line: line

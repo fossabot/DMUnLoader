@@ -23,7 +23,11 @@ let package = Package(
         .package(url: "https://github.com/GayleDunham/SwiftLintPlugin.git", branch: "main"),
         .package(url: "https://github.com/nalexn/ViewInspector", from: "0.10.1"),
         .package(url: "https://github.com/nikolay-dementiev/DMAction.git", branch: "main"),
-        .package(url: "https://github.com/nikolay-dementiev/DMVariableBlurView.git", branch: "main")
+        .package(url: "https://github.com/nikolay-dementiev/DMVariableBlurView.git", branch: "main"),
+        .package(
+            url: "https://github.com/pointfreeco/swift-snapshot-testing",
+            from: "1.12.0"
+        ),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -44,7 +48,8 @@ let package = Package(
                 "DMUnLoader",
                 "ViewInspector",
                 "DMAction",
-                "DMVariableBlurView"
+                "DMVariableBlurView",
+                .product(name: "SnapshotTesting", package: "swift-snapshot-testing"),
             ],
             path: "Tests",
             plugins: [ .plugin(name: "SwiftLintBuildTool", package: "SwiftLintPlugin") ]

@@ -1,4 +1,3 @@
-//
 //  DMUnLoader
 //
 //  Created by Mykola Dementiev
@@ -8,68 +7,53 @@ import XCTest
 @testable import DMUnLoader
 import SwiftUI
 import ViewInspector
+import SnapshotTesting
 
 final class DMProgressViewTests: XCTestCase {
-
-    // MARK: Initialization Tests
     
-    @MainActor
-    func testInitialization() {
-        let settingsProvider = MockLoadingViewSettingsProvider()
-        let view = DMProgressView(settings: settingsProvider)
-        
-        XCTAssertNotNil(view.settingsProvider,
-                        "The settingsProvider should be initialized")
+    override func invokeTest() {
+        withSnapshotTesting(
+            record: .missing,
+            diffTool: .ksdiff
+        ) {
+            super.invokeTest()
+        }
     }
     
-    // MARK: Rendering Tests
+    // MARK: Scenario 1: Verify Default Initialization
     
     @MainActor
-    func testRendersContainerView() throws {
-        let settingsProvider = MockLoadingViewSettingsProvider()
-        let view = DMProgressView(settings: settingsProvider)
-        
-        let containerView = try view
-            .inspect()
-            .find(viewWithTag: DMProgressViewOwnSettings.containerViewTag)
-            .zStack()
-        XCTAssertNotNil(containerView,
-                        "The container view should be rendered")
+    func testThatViewConfirmToViewProtocol() {
+        let sut = makeSUT()
+        XCTAssertTrue((sut as Any) is (any View), "DMProgressView should conform to View protocol")
     }
     
     @MainActor
-    func testRendersVStack() throws {
-        let settingsProvider = MockLoadingViewSettingsProvider()
-        let view = DMProgressView(settings: settingsProvider)
+    func testThatTextIsDisplayed() throws {
+        let settings = DMProgressViewDefaultSettings()
+        let sut = makeSUT(settings: settings)
         
-        let vStack = try view
-            .inspect()
-            .find(viewWithTag: DMProgressViewOwnSettings.vStackViewTag)
-            .vStack()
-        XCTAssertNotNil(vStack,
-                        "The VStack should be rendered")
-    }
-    
-    @MainActor
-    func testRendersText() throws {
-        let settingsProvider = MockLoadingViewSettingsProvider()
-        let view = DMProgressView(settings: settingsProvider)
-        
-        let text = try view
+        let text = try sut
             .inspect()
             .find(viewWithTag: DMProgressViewOwnSettings.textTag)
             .text()
-        XCTAssertEqual(try text.string(),
+            .string()
+        
+        XCTAssertEqual(text,
+                       settings.loadingTextProperties.text,
+                       "The Text view should display the correct text")
+        
+        XCTAssertEqual(text,
                        "Loading...",
                        "The Text view should display the correct text")
     }
     
     @MainActor
-    func testRendersProgressView() throws {
-        let settingsProvider = MockLoadingViewSettingsProvider()
-        let view = DMProgressView(settings: settingsProvider)
+    func testThatProgressIndicatorIsDisplayed() throws {
+        let settings = DMProgressViewDefaultSettings()
+        let sut = makeSUT(settings: settings)
         
-        let progressView = try view
+        let progressView = try sut
             .inspect()
             .find(viewWithTag: DMProgressViewOwnSettings.progressViewTag)
             .progressView()
@@ -77,41 +61,18 @@ final class DMProgressViewTests: XCTestCase {
                         "The ProgressView should be rendered")
     }
     
-    // MARK: Customization Tests
+    // MARK: Scenario 2: Verify Progress Indicator Behavior
     
     @MainActor
-    func testAppliesTextProperties() throws {
-        let settingsProvider = MockLoadingViewSettingsProvider()
-        let view = DMProgressView(settings: settingsProvider)
+    func testThatProgressIndicatorHasCorrectStyle() throws {
+        let settings = DMProgressViewDefaultSettings(
+            progressIndicatorProperties: ProgressIndicatorProperties(
+                tintColor: .green
+            )
+        )
+        let sut = makeSUT(settings: settings)
         
-        let text = try view
-            .inspect()
-            .find(viewWithTag: DMProgressViewOwnSettings.textTag)
-            .text()
-        
-        XCTAssertEqual(try text.string(),
-                       "Loading...",
-                       "The Text view should display the correct text")
-        XCTAssertEqual(try text.attributes().foregroundColor(),
-                       .blue,
-                       "The Text view should have the correct foreground color")
-        XCTAssertEqual(try text.attributes().font(),
-                       Font.system(size: 16),
-                       "The Text view should have the correct font")
-        XCTAssertEqual(try text.lineLimit(),
-                       1,
-                       "The Text view should have the correct line limit")
-        XCTAssertEqual(try text.padding(.horizontal),
-                       8,
-                       "The Text view should have the correct padding")
-    }
-    
-    @MainActor
-    func testAppliesProgressViewProperties() throws {
-        let settingsProvider = MockLoadingViewSettingsProvider()
-        let view = DMProgressView(settings: settingsProvider)
-        
-        let progressView = try view
+        let progressView = try sut
             .inspect()
             .find(viewWithTag: DMProgressViewOwnSettings.progressViewTag)
             .progressView()
@@ -125,33 +86,124 @@ final class DMProgressViewTests: XCTestCase {
                        1,
                        "The ProgressView should have layout priority equal `1`")
         XCTAssertEqual(try progressView.tint(),
-                       .green,
+                       settings.progressIndicatorProperties.tintColor,
                        "The ProgressView should have the correct tint color")
-        /* Not implemented in ViewInspector for iOS
+        
+        /* `controlSize` - Not implemented in ViewInspector for iOS
         XCTAssertEqual(try progressView.controlSize(),
                        .regular,
                        "The ProgressView should have the correct control size")
         */
     }
     
-    // MARK: Layout Tests
+    @MainActor
+    func testThatProgressIndicatorHasSmallSize() throws {
+        let settings = DMProgressViewDefaultSettings(
+            progressIndicatorProperties: ProgressIndicatorProperties(
+                size: .small
+            )
+        )
+        let sut = makeSUT(settings: settings)
+        
+        assertSnapshot(
+            of: LoadingViewContainer<DMProgressView>(overlayView: { sut }),
+            as: .image(
+                layout: .device(config: .iPhone13Pro),
+                traits: .init(userInterfaceStyle: .dark)
+            ),
+            named: "iPhone13Pro-dark"
+        )
+        
+        assertSnapshot(
+            of: sut,
+            as: .image(
+                layout: .sizeThatFits,
+                traits: .init(userInterfaceStyle: .dark)
+            ),
+            named: "size-that-fits-dark"
+        )
+    }
+    
+    // MARK: Scenario 3: Verify Loading Text Behavior
     
     @MainActor
-    func testRespectsLayoutConstraints() throws {
-        let settingsProvider = MockLoadingViewSettingsProvider()
-        let view = DMProgressView(settings: settingsProvider)
+    func testThatLoadingTextHasCorrectStyle() throws {
+        let settings = DMProgressViewDefaultSettings(
+            loadingTextProperties: .init(
+                text: "Please wait...",
+                foregroundColor: .red,
+                font: .headline,
+                lineLimit: 1,
+                linePadding: .init(top: 8,
+                                   leading: 8,
+                                   bottom: 8,
+                                   trailing: 8)
+            )
+        )
+        let sut = makeSUT(settings: settings)
         
-        let geometry = settingsProvider.frameGeometrySize
+        let text = try sut
+            .inspect()
+            .find(viewWithTag: DMProgressViewOwnSettings.textTag)
+            .text()
+        
+        let loadingTextProperties = settings.loadingTextProperties
+        XCTAssertEqual(try text.string(),
+                       loadingTextProperties.text,
+                       "The Text view should display the correct text")
+        XCTAssertEqual(try text.attributes().foregroundColor(),
+                       loadingTextProperties.foregroundColor,
+                       "The Text view should have the correct foreground color")
+        XCTAssertEqual(try text.attributes().font(),
+                       loadingTextProperties.font,
+                       "The Text view should have the correct font")
+        XCTAssertEqual(try text.lineLimit(),
+                       loadingTextProperties.lineLimit,
+                       "The Text view should have the correct line limit")
+        XCTAssertEqual(try text.padding(),
+                       loadingTextProperties.linePadding,
+                       "The Text view should have the correct padding")
+    }
+    
+    // MARK: Scenario 4: Verify Container Appearance
+    
+    @MainActor
+    func testThatContainerHasCorrectForegroundColor() throws {
+        let settings = DMProgressViewDefaultSettings(
+            loadingContainerBackgroundColor: .blue
+        )
+        let sut = makeSUT(settings: settings)
+        
+        let containerBackgroundColor = try sut
+            .inspect()
+            .find(viewWithTag: DMProgressViewOwnSettings.zStackViewTag)
+            .find(viewWithTag: DMProgressViewOwnSettings.containerbackgroundColorViewTag)
+            .color()
+        
+        XCTAssertEqual(try? containerBackgroundColor.value().hashValue,
+                       settings.loadingContainerBackgroundColor.hashValue,
+                       "The foreground color of the container should match the loading container foreground color")
+    }
+    
+    // MARK: Scenario 5: Verify Geometry and Layout
+    
+    @MainActor
+    func testThatViewAdaptsToDifferentGeometrySizes() throws {
+        let settings = DMProgressViewDefaultSettings(
+            frameGeometrySize: CGSize(width: 400, height: 400)
+        )
+        let geometry = settings.frameGeometrySize
         let minSize = min(geometry.width - 20,
                           geometry.height - 20,
                           30)
         
-        let vStack = try view
-            .inspect()
-            .find(viewWithTag: DMProgressViewOwnSettings.vStackViewTag)
-            .vStack()
+        let sut = makeSUT(settings: settings)
         
-        let flexFrame = try? vStack.flexFrame()
+        let zStack = try sut
+            .inspect()
+            .find(viewWithTag: DMProgressViewOwnSettings.zStackViewTag)
+            .zStack()
+        let flexFrame = try? zStack.flexFrame()
         
         XCTAssertEqual(flexFrame?.minWidth,
                        minSize,
@@ -165,9 +217,69 @@ final class DMProgressViewTests: XCTestCase {
         XCTAssertEqual(flexFrame?.maxHeight,
                        geometry.height / 2,
                        "The VStack should have the correct maximum height")
+    }
+    
+    // MARK: Scenario 7: Verify Snapshot Testing
+    
+    @MainActor
+    func testThatViewMatchesSnapshotWithDefaultSettings() {
+        let settings = DMProgressViewDefaultSettings()
+        let sut = makeSUTWithContainer(settings: settings)
         
-        XCTAssertEqual(try? vStack.foregroundColor(),
-                       settingsProvider.loadingContainerForegroundColor,
-                       "The foreground color of the VStack should match the loading container foreground color")
+        assertSnapshot(
+            of: sut,
+            as: .image(
+                layout: .device(config: .iPhone13Pro),
+                traits: .init(userInterfaceStyle: .dark)
+            ),
+            named: "iPhone13Pro-dark"
+        )
+    }
+    
+    @MainActor
+    func testThatViewMatchesSnapshotWithCustomSettings() {
+        let settings = DMProgressViewDefaultSettings(
+            loadingTextProperties: ProgressTextProperties(
+                text: "Wait a bit...\nsecond line...\nthird line...",
+                foregroundColor: .yellow,
+                font: .title2,
+                lineLimit: 2,
+                linePadding: EdgeInsets(top: 2, leading: 6, bottom: 3, trailing: 6)
+            ),
+            progressIndicatorProperties: ProgressIndicatorProperties(
+                size: .large,
+                tintColor: .orange
+            ),
+            loadingContainerBackgroundColor: .blue.opacity(0.5),
+            frameGeometrySize: CGSize(width: 400, height: 400)
+        )
+        let sut = makeSUTWithContainer(settings: settings)
+        
+        assertSnapshot(
+            of: sut,
+            as: .image(
+                layout: .device(config: .iPhone13Pro),
+                traits: .init(userInterfaceStyle: .dark)
+            ),
+            named: "iPhone13Pro-dark"
+        )
+    }
+    
+    // MARK: - Helpers
+    
+    @MainActor
+    private func makeSUT(
+        settings: DMProgressViewSettings = MockDMProgressViewSettings()
+    ) -> DMProgressView {
+        DMProgressView(settings: settings)
+    }
+    
+    @MainActor
+    private func makeSUTWithContainer(
+        settings: DMProgressViewSettings = MockDMProgressViewSettings()
+    ) -> LoadingViewContainer<DMProgressView> {
+        LoadingViewContainer {
+            DMProgressView(settings: settings)
+        }
     }
 }
