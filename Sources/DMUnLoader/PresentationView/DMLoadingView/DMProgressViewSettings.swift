@@ -8,16 +8,16 @@ import SwiftUI
 
 /// A protocol defining settings for a loading view (`DMProgressView`).
 /// Conforming types must provide properties for text, progress indicator, container appearance, and geometry.
-public protocol DMLoadingViewSettings {
+public protocol DMProgressViewSettings {
     
     /// Properties related to the loading text displayed in the loading view.
-    var loadingTextProperties: LoadingTextProperties { get }
+    var loadingTextProperties: ProgressTextProperties { get }
     
     /// Properties related to the progress indicator displayed in the loading view.
     var progressIndicatorProperties: ProgressIndicatorProperties { get }
     
-    /// The foreground color of the loading container.
-    var loadingContainerForegroundColor: Color { get }
+    /// The background color of the loading container.
+    var loadingContainerBackgroundColor: Color { get }
     
     /// The size of the frame geometry for the loading view.
     var frameGeometrySize: CGSize { get }
@@ -25,16 +25,16 @@ public protocol DMLoadingViewSettings {
 
 /// A concrete implementation of the `DMLoadingViewSettings` protocol.
 /// This struct provides default settings for a loading view, with customizable properties.
-public struct DMLoadingDefaultViewSettings: DMLoadingViewSettings {
+public struct DMProgressViewDefaultSettings: DMProgressViewSettings {
     
     /// Properties related to the loading text displayed in the loading view.
-    public let loadingTextProperties: LoadingTextProperties
+    public let loadingTextProperties: ProgressTextProperties
     
     /// Properties related to the progress indicator displayed in the loading view.
     public let progressIndicatorProperties: ProgressIndicatorProperties
     
     /// The foreground color of the loading container.
-    public let loadingContainerForegroundColor: Color
+    public let loadingContainerBackgroundColor: Color
     
     /// The size of the frame geometry for the loading view.
     public let frameGeometrySize: CGSize
@@ -54,23 +54,23 @@ public struct DMLoadingDefaultViewSettings: DMLoadingViewSettings {
     ///       frameGeometrySize: CGSize(width: 400, height: 400)
     ///   )
     ///   ```
-    public init(loadingTextProperties: LoadingTextProperties = LoadingTextProperties(),
+    public init(loadingTextProperties: ProgressTextProperties = ProgressTextProperties(),
                 progressIndicatorProperties: ProgressIndicatorProperties = ProgressIndicatorProperties(),
-                loadingContainerForegroundColor: Color = Color.primary,
+                loadingContainerBackgroundColor: Color = Color.clear,
                 frameGeometrySize: CGSize = CGSize(width: 300, height: 300)) {
         
         self.loadingTextProperties = loadingTextProperties
         self.progressIndicatorProperties = progressIndicatorProperties
-        self.loadingContainerForegroundColor = loadingContainerForegroundColor
+        self.loadingContainerBackgroundColor = loadingContainerBackgroundColor
         self.frameGeometrySize = frameGeometrySize
     }
 }
 
-extension DMLoadingDefaultViewSettings: Hashable {
+extension DMProgressViewDefaultSettings: Hashable {
     
     public static func == (
-        lhs: DMLoadingDefaultViewSettings,
-        rhs: DMLoadingDefaultViewSettings
+        lhs: DMProgressViewDefaultSettings,
+        rhs: DMProgressViewDefaultSettings
     ) -> Bool {
         lhs.hashValue == rhs.hashValue
     }
@@ -78,13 +78,13 @@ extension DMLoadingDefaultViewSettings: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(loadingTextProperties)
         hasher.combine(progressIndicatorProperties)
-        hasher.combine(loadingContainerForegroundColor)
+        hasher.combine(loadingContainerBackgroundColor)
         hasher.combine(frameGeometrySize)
     }
 }
 
 /// A struct defining properties for the loading text displayed in a loading view.
-public struct LoadingTextProperties {
+public struct ProgressTextProperties {
     
     /// The text to display in the loading view.
     public var text: String
@@ -141,7 +141,7 @@ public struct LoadingTextProperties {
     }
 }
 
-extension LoadingTextProperties: Hashable {
+extension ProgressTextProperties: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(text)
         hasher.combine(alignment)
@@ -156,10 +156,12 @@ extension LoadingTextProperties: Hashable {
 public struct ProgressIndicatorProperties {
     
     /// The size of the progress indicator.
-    public var size: ControlSize
+    public let size: ControlSize
     
     /// The tint color of the progress indicator.
-    public var tintColor: Color?
+    public let tintColor: Color?
+    
+    public let style = CircularProgressViewStyle()
     
     /// Initializes a new instance of `ProgressIndicatorProperties` with optional customizations.
     /// - Parameters:
@@ -182,6 +184,10 @@ public struct ProgressIndicatorProperties {
 }
 
 extension ProgressIndicatorProperties: Hashable {
+    public static func == (lhs: Self, rhs: Self) -> Bool {
+        lhs.hashValue == rhs.hashValue
+    }
+    
     public func hash(into hasher: inout Hasher) {
         hasher.combine(size)
         hasher.combine(tintColor)

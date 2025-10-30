@@ -19,7 +19,7 @@ public protocol DMLoadingViewProvider: ObservableObject, Hashable {
     func getSuccessView(object: DMLoadableTypeSuccess) -> SuccessViewType
 
     var loadingManagerSettings: DMLoadingManagerSettings { get }
-    var loadingViewSettings: DMLoadingViewSettings { get }
+    var loadingViewSettings: DMProgressViewSettings { get }
     var errorViewSettings: DMErrorViewSettings { get }
     var successViewSettings: DMSuccessViewSettings { get }
 }
@@ -64,8 +64,8 @@ public extension DMLoadingViewProvider {
         DMLoadingManagerDefaultSettings()
     }
     
-    var loadingViewSettings: DMLoadingViewSettings {
-        DMLoadingDefaultViewSettings()
+    var loadingViewSettings: DMProgressViewSettings {
+        DMProgressViewDefaultSettings()
     }
     
     var errorViewSettings: DMErrorViewSettings {
@@ -79,18 +79,18 @@ public extension DMLoadingViewProvider {
 
 public class DefaultDMLoadingViewProvider: @MainActor DMLoadingViewProvider {
     public let loadingManagerSettings: DMLoadingManagerSettings
-    public let loadingViewSettings: DMLoadingViewSettings
+    public let loadingViewSettings: DMProgressViewSettings
     public let errorViewSettings: DMErrorViewSettings
     public let successViewSettings: DMSuccessViewSettings
     
     public init(
         loadingManagerSettings: DMLoadingManagerSettings? = nil,
-        loadingViewSettings: DMLoadingViewSettings? = nil,
+        loadingViewSettings: DMProgressViewSettings? = nil,
         errorViewSettings: DMErrorViewSettings? = nil,
         successViewSettings: DMSuccessViewSettings? = nil
     ) {
         self.loadingManagerSettings = loadingManagerSettings ?? DMLoadingManagerDefaultSettings()
-        self.loadingViewSettings = loadingViewSettings ?? DMLoadingDefaultViewSettings()
+        self.loadingViewSettings = loadingViewSettings ?? DMProgressViewDefaultSettings()
         self.errorViewSettings = errorViewSettings ?? DMErrorDefaultViewSettings()
         self.successViewSettings = successViewSettings ?? DMSuccessDefaultViewSettings()
     }
