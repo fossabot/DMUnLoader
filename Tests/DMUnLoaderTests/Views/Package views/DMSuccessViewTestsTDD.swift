@@ -8,6 +8,7 @@ import XCTest
 @testable import DMUnLoader
 import SwiftUI
 import ViewInspector
+import SnapshotTesting
 
 private struct DMSuccessViewTDD: View {
     let settingsProvider: DMSuccessViewSettings
@@ -42,6 +43,15 @@ private struct DMSuccessViewTDD: View {
 
 @MainActor
 final class DMSuccessViewTestsTDD: XCTestCase {
+    
+    override func invokeTest() {
+        withSnapshotTesting(
+            record: .missing,
+            diffTool: .ksdiff
+        ) {
+            super.invokeTest()
+        }
+    }
 
     // MARK: Scenario 1: Verify Default Initialization
     
@@ -319,6 +329,66 @@ final class DMSuccessViewTestsTDD: XCTestCase {
         )
     }
     
+    // MARK: Scenario 5: Verify Snapshot Testing
+    
+    func testSnapshotDefaultSuccessView() async throws {
+        let settings = DMSuccessDefaultViewSettings()
+        let sut = makeSUTWithContainer(settings: settings)
+        
+        assertSnapshot(
+            of: sut,
+            as: .image(
+                layout: .device(config: .iPhone13Pro),
+                traits: .init(userInterfaceStyle: .dark)
+            ),
+            named: "iPhone13Pro-dark"
+        )
+        
+        assertSnapshot(
+            of: sut,
+            as: .image(
+                layout: .device(config: .iPhone13Pro),
+                traits: .init(userInterfaceStyle: .light)
+            ),
+            named: "iPhone13Pro-light"
+        )
+    }
+    
+    func testSnapshotCustomSuccessView() async throws {
+        let settings = DMSuccessDefaultViewSettings(
+            successImageProperties: .init(
+                image: Image(systemName: "star.fill"),
+                frame: CustomViewSize(width: 61, height: 70),
+                foregroundColor: .cyan
+            ),
+            successTextProperties: .init(
+                text: "Operation Completed!",
+                foregroundColor: .pink
+            ),
+            spacingBetweenElements: 22.2
+        )
+        
+        let sut = makeSUTWithContainer(settings: settings)
+        
+        assertSnapshot(
+            of: sut,
+            as: .image(
+                layout: .device(config: .iPhone13Pro),
+                traits: .init(userInterfaceStyle: .dark)
+            ),
+            named: "iPhone13Pro-dark"
+        )
+        
+        assertSnapshot(
+            of: sut,
+            as: .image(
+                layout: .device(config: .iPhone13Pro),
+                traits: .init(userInterfaceStyle: .light)
+            ),
+            named: "iPhone13Pro-light"
+        )
+    }
+    
     // MARK: - Helpers
     
     private func makeSUT(
@@ -331,4 +401,11 @@ final class DMSuccessViewTestsTDD: XCTestCase {
         return sut
     }
     
+    private func makeSUTWithContainer(
+        settings: DMSuccessViewSettings
+    ) -> LoadingViewContainer<DMSuccessViewTDD> {
+        LoadingViewContainer {
+            DMSuccessViewTDD(settings: settings)
+        }
+    }
 }
