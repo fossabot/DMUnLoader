@@ -11,10 +11,14 @@ import ViewInspector
 import SnapshotTesting
 
 private struct DMSuccessViewTDD: View {
-    let settingsProvider: DMSuccessViewSettings
     
-    init(settings settingsProvider: DMSuccessViewSettings) {
+    let settingsProvider: DMSuccessViewSettings
+    let assosiatedObject: DMLoadableTypeSuccess?
+    
+    init(settings settingsProvider: DMSuccessViewSettings,
+         assosiatedObject: DMLoadableTypeSuccess? = nil) {
         self.settingsProvider = settingsProvider
+        self.assosiatedObject = assosiatedObject
     }
     
     var body: some View {
@@ -30,7 +34,7 @@ private struct DMSuccessViewTDD: View {
                 .tag(DMSuccessViewOwnSettings.imageTag)
             
             let successTextProperties = settingsProvider.successTextProperties
-            if let successText = successTextProperties.text {
+            if let successText = assosiatedObject?.description ?? successTextProperties.text {
                 Text(successText)
                     .foregroundColor(successTextProperties.foregroundColor)
                     .frame(alignment: successTextProperties.alignment)
@@ -255,6 +259,25 @@ final class DMSuccessViewTestsTDD: XCTestCase {
         )
     }
     
+    func testCustomSuccessTextRederedAssosiatedObject() throws {
+        let expectedText = "Operation Completed!"
+        let sut = makeSUT(
+            settings: DMSuccessDefaultViewSettings(),
+            assosiatedObject: MockDMLoadableTypeSuccess(description: expectedText)
+        )
+        
+        let text = try sut
+            .inspect()
+            .find(viewWithTag: DMSuccessViewOwnSettings.textTag)
+            .text()
+        
+        XCTAssertEqual(
+            try text.string(),
+            expectedText,
+            "The custom success text should match the `\(expectedText)`"
+        )
+    }
+    
     // MARK: Scenario 4: Verify Layout and Alignment
     
     func testThatTheImageVerticallyAligned() throws {
@@ -368,7 +391,10 @@ final class DMSuccessViewTestsTDD: XCTestCase {
             spacingBetweenElements: 22.2
         )
         
-        let sut = makeSUTWithContainer(settings: settings)
+        let sut = makeSUTWithContainer(
+            settings: settings,
+            assosiatedObject: MockDMLoadableTypeSuccess(description: "All tasks finished successfully.")
+        )
         
         assertSnapshot(
             of: sut,
@@ -392,20 +418,26 @@ final class DMSuccessViewTestsTDD: XCTestCase {
     // MARK: - Helpers
     
     private func makeSUT(
-        settings: DMSuccessViewSettings
+        settings: DMSuccessViewSettings,
+        assosiatedObject: DMLoadableTypeSuccess? = nil
     ) -> DMSuccessViewTDD {
         let sut = DMSuccessViewTDD(
-            settings: settings
+            settings: settings,
+            assosiatedObject: assosiatedObject
         )
         
         return sut
     }
     
     private func makeSUTWithContainer(
-        settings: DMSuccessViewSettings
+        settings: DMSuccessViewSettings,
+        assosiatedObject: DMLoadableTypeSuccess? = nil
     ) -> LoadingViewContainer<DMSuccessViewTDD> {
         LoadingViewContainer {
-            DMSuccessViewTDD(settings: settings)
+            DMSuccessViewTDD(
+                settings: settings,
+                assosiatedObject: assosiatedObject
+            )
         }
     }
 }
