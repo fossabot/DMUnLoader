@@ -21,7 +21,7 @@ private struct DMSuccessViewTDD: View {
         
         VStack {
             successImageProperties.image
-//                .resizable()
+                .resizable()
                 .frame(width: successImageProperties.frame.width,
                        height: successImageProperties.frame.height,
                        alignment: successImageProperties.frame.alignment)
@@ -123,6 +123,8 @@ final class DMSuccessViewTestsTDD: XCTestCase {
             expectedSizeInSettings: settings.successImageProperties.frame,
             expectedsize: CustomViewSize(width: 60, height: 60)
         )
+        
+        try sutImageResizableParametersConfirmToExpectedDefault(sutImage: image)
     }
     
     private func sutImageNameConfirmToExpectedImage(
@@ -191,6 +193,24 @@ final class DMSuccessViewTestsTDD: XCTestCase {
                                value.alignment,
                                "The ImageView `\(key)` frame should have the correct frame alignment")
             }
+    }
+    
+    private func sutImageResizableParametersConfirmToExpectedDefault(
+        sutImage: InspectableView<ViewType.Image>,
+        file: StaticString = #filePath,
+        line: UInt = #line
+    ) throws {
+        let resizableParameters = try sutImage.actualImage().resizableParameters()
+        XCTAssertEqual(
+            resizableParameters.capInsets,
+            EdgeInsets(),
+            "The resizable image capInsets should be equal to EdgeInsets()"
+        )
+        XCTAssertEqual(
+            resizableParameters.resizingMode,
+            .stretch,
+            "The resizable image resizingMode should be .stretch"
+        )
     }
     
     // MARK: - Helpers
