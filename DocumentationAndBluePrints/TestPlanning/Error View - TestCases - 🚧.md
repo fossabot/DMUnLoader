@@ -1,5 +1,9 @@
 # Test Scenarios: "Error View (`DMErrorView`)"
 
+## 0.0 The Mockup design
+
+![](../Assets/Error-on-empty-screen.png)
+
 ## 1. General Information
 - **Module**: DMErrorView
 - **Description**: A custom SwiftUI view that displays an error state with an image, error text, and optional action buttons. It uses a settings provider (`DMErrorViewSettings`) to configure its appearance.
