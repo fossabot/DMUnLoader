@@ -19,7 +19,7 @@
 - **Steps**:
   - [✅] Create a new instance of `DMErrorView` with default settings (`DMErrorDefaultViewSettings`).
   - [✅] Verify that the error image is displayed as an exclamation mark triangle icon (probably: `exclamationmark.triangle`).
-  - [?] Verify that the error text is `"An error has occurred!"`.
+  - [✅] Verify that the error text is `"An error has occurred!"`.
   - [?] Verify that the "Close" button is present.
   - [?] Verify that the "Retry" button is absent when `onRetry` is not provided.
 - **Expected Result**:

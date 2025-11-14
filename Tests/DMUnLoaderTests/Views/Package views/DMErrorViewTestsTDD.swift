@@ -21,6 +21,11 @@ struct DMErrorViewTDD: View {
         
         imageSettings.image
             .tag(DMErrorViewOwnSettings.imageViewTag)
+        
+        if let errorText = settingsProvider.errorText {
+            Text(errorText)
+                .tag(DMErrorViewOwnSettings.errorTextViewTag)
+        }
     }
 }
 
@@ -40,6 +45,17 @@ final class DMErrorViewTestsTDD: XCTestCase {
             sut: sut,
             expectedImageSettings: defaultSettings.errorImageSettings
         )
+        
+        try checkErrorTextCorrespondsToSettings(
+            sut: sut,
+            expectedTextFromSettings: defaultSettings.errorText,
+            expectedTextString: "An error has occured!"
+        )
+        try checkErrorTextCorrespondsToSettings(
+            sut: sut,
+            expectedTextFromSettings: nil,
+            expectedTextString: nil
+        )
     }
     
     private func checkErrorViewImageCorrespondsToSettings(
@@ -58,6 +74,33 @@ final class DMErrorViewTestsTDD: XCTestCase {
             expectedImage: expectedImageSettings.image,
             expectedImageName: "exclamationmark.triangle"
         )
+    }
+    
+    private func checkErrorTextCorrespondsToSettings(
+        sut: DMErrorViewTDD,
+        expectedTextFromSettings: String?,
+        expectedTextString: String?
+    ) throws {
+        guard expectedTextFromSettings?.isEmpty == false
+                || expectedTextString?.isEmpty == false else {
+            return
+        }
+        
+        // When
+        let text = try sut
+            .inspect()
+            .find(viewWithTag: DMErrorViewOwnSettings.errorTextViewTag)
+            .text()
+
+        // Then
+        let textFormSUT = try? text.string()
+        XCTAssertEqual(textFormSUT,
+                       expectedTextFromSettings,
+                       "The \(sut.self) text should match the settings")
+        
+        XCTAssertEqual(textFormSUT,
+                       expectedTextString,
+                       "The \(sut.self) text should match the expected text: `\(String(describing: expectedTextString))`")
     }
     
     // MARK: - Helpers
