@@ -38,6 +38,14 @@ struct DMErrorViewTDD: View {
         Button(closeButtonSettings.text,
                action: onClose.simpleAction)
         .tag(DMErrorViewOwnSettings.actionButtonCloseViewTag)
+        
+        if let onRetry = onRetry {
+            let retryButtonSettings = settingsProvider.actionButtonRetrySettings
+            
+            Button(retryButtonSettings.text,
+                   action: onRetry.simpleAction)
+            .tag(DMErrorViewOwnSettings.actionButtonRetryViewTag)
+        }
     }
 }
 
@@ -46,7 +54,7 @@ final class DMErrorViewTestsTDD: XCTestCase {
     
     // MARK: Scenario 1: Verify Default Initialization
     
-    func testErrorViewImageCorrespondsToDefaultSettings() throws {
+    func test_ErrorView_ImageCorrespondsTo_DefaultSettings() throws {
         // Given
         let defaultSettings = DMErrorDefaultViewSettings()
         
@@ -63,7 +71,7 @@ final class DMErrorViewTestsTDD: XCTestCase {
         )
     }
     
-    func testErrorTextCorrespondsToDefaultSettings() throws {
+    func test_ErrorText_CorrespondsTo_DefaultSettings() throws {
         // Given
         let defaultSettings = DMErrorDefaultViewSettings()
         
@@ -81,7 +89,7 @@ final class DMErrorViewTestsTDD: XCTestCase {
        )
     }
     
-    func testErrorTextCorrespondsToAnEmptySettings() throws {
+    func test_ErrorText_CorrespondsTo_AnEmpty_Settings() throws {
         // Given
         let defaultSettings = DMErrorDefaultViewSettings()
         
@@ -133,25 +141,47 @@ final class DMErrorViewTestsTDD: XCTestCase {
         // When
         let sut = makeSUT(
             settings: defaultSettings,
-            onClose: DMButtonAction { }
+            onClose: DMButtonAction { },
+            
         )
+        let button = try? sut
+            .inspect()
+            .find(viewWithTag: DMErrorViewOwnSettings.actionButtonRetryViewTag)
+            .button()
         
         // Then
-        try verifyThatTheCloseButtonIsPresent(
-            sut: sut,
-            expectedTextFromSettings: defaultSettings.actionButtonCloseSettings.text,
-            expectedTextString: "Close"
+        XCTAssertNil(button, "The Retry Button should not be present")
+    }
+    
+    func testThatThe_RetryButton_IsPresentWhen_OnRetry_IsProvided() throws {
+        // Given
+        let defaultSettings = DMErrorDefaultViewSettings()
+        
+        // When
+        let sut = makeSUT(
+            settings: defaultSettings,
+            onRetry: DMButtonAction { },
+            onClose: DMButtonAction { }
         )
+        let button = try? sut
+            .inspect()
+            .find(viewWithTag: DMErrorViewOwnSettings.actionButtonRetryViewTag)
+            .button()
+        
+        // Then
+        XCTAssertNotNil(button, "The Retry Button should be present")
     }
     
     // MARK: - Helpers
     
     private func makeSUT(
         settings: DMErrorViewSettings,
+        onRetry: DMAction? = nil,
         onClose: DMAction
     ) -> DMErrorViewTDD {
         let sut = DMErrorViewTDD(
             settings: settings,
+            onRetry: onRetry,
             onClose: onClose
         )
         

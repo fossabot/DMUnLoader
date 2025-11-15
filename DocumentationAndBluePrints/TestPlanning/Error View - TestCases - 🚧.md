@@ -14,14 +14,14 @@
 
 ## 2. Test Scenarios
 
-### Scenario 1: 🚧 Verify Default Initialization
+### Scenario 1: ✅ Verify Default Initialization
 - **Description**: Check if the `DMErrorView` is initialized correctly with default settings.
 - **Steps**:
   - [✅] Create a new instance of `DMErrorView` with default settings (`DMErrorDefaultViewSettings`).
   - [✅] Verify that the error image is displayed as an exclamation mark triangle icon (probably: `exclamationmark.triangle`).
   - [✅] Verify that the error text is `"An error has occurred!"`.
-  - [🚧] Verify that the "Close" button is present.
-  - [?] Verify that the "Retry" button is absent when `onRetry` is not provided.
+  - [✅] Verify that the "Close" button is present.
+  - [✅] Verify that the "Retry" button is absent when `onRetry` is not provided.
 - **Expected Result**:
   - The view is initialized correctly with default settings.
   - The error image, text, and buttons match the expected behavior.
