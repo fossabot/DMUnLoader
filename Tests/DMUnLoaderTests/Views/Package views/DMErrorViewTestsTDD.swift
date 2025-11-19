@@ -180,7 +180,7 @@ final class DMErrorViewTestsTDD: XCTestCase {
     
     func testThatThe_ErrorImage_IsDisplayedWithTheCorrectImage() throws {
         // Given
-        let imageSettings = makeCustomImageSettings()
+        let imageSettings = makeCustomImageSettingsForScenario2()
         let customSettings = DMErrorDefaultViewSettings(
             errorImageSettings: imageSettings
         )
@@ -202,7 +202,7 @@ final class DMErrorViewTestsTDD: XCTestCase {
     
     func testThatThe_ErrorImage_ForegroundColor_CorresponsToSettings() throws {
         // Given
-        let imageSettings = makeCustomImageSettings()
+        let imageSettings = makeCustomImageSettingsForScenario2()
         let customSettings = DMErrorDefaultViewSettings(
             errorImageSettings: imageSettings
         )
@@ -225,7 +225,7 @@ final class DMErrorViewTestsTDD: XCTestCase {
     
     func testThatThe_ErrorImage_FrameSize_CorresponsToSettings() throws {
         // Given
-        let imageSettings = makeCustomImageSettings()
+        let imageSettings = makeCustomImageSettingsForScenario2()
         let customSettings = DMErrorDefaultViewSettings(
             errorImageSettings: imageSettings
         )
@@ -254,7 +254,7 @@ final class DMErrorViewTestsTDD: XCTestCase {
     
     func testThatThe_ErrorImage_Aligment_CorresponsToSettings() throws {
         // Given
-        let imageSettings = makeCustomImageSettings()
+        let imageSettings = makeCustomImageSettingsForScenario2()
         let customSettings = DMErrorDefaultViewSettings(
             errorImageSettings: imageSettings
         )
@@ -346,7 +346,7 @@ final class DMErrorViewTestsTDD: XCTestCase {
                        line: line)
     }
     
-    private func makeCustomImageSettings() -> ErrorImageSettings {
+    private func makeCustomImageSettingsForScenario2() -> ErrorImageSettings {
         let errorImage = Image("xmark.octagon")
         let expectedForegroudColor = Color.orange
         let expectedFrameSize = CustomViewSize(
