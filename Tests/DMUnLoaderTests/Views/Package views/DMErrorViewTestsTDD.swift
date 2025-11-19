@@ -27,6 +27,8 @@ struct DMErrorViewTDD: View {
         let imageSettings = settingsProvider.errorImageSettings
         
         imageSettings.image
+            .frame(width: imageSettings.frameSize.width,
+                   height: imageSettings.frameSize.height)
             .foregroundStyle(imageSettings.foregroundColor)
             .tag(DMErrorViewOwnSettings.imageViewTag)
         
@@ -208,8 +210,37 @@ final class DMErrorViewTestsTDD: XCTestCase {
         
         XCTAssertEqual(
             try imageView.foregroundStyleShapeStyle(Color.self),
-            expectedForegroudColor,
-            "The image view should display the custom image foreground color: `\(expectedForegroudColor)`)`"
+            customSettings.errorImageSettings.foregroundColor,
+            "The image view should display the custom image foreground color: `\(String(describing: expectedForegroudColor))`)`"
+        )
+    }
+    
+    func testThatThe_ErrorImage_FrameSize_CorresponsToSettings() throws {
+        // Given
+        let imageSettings = makeCustomImageSettings()
+        let customSettings = DMErrorDefaultViewSettings(
+            errorImageSettings: imageSettings
+        )
+        let expectedFrameSize = customSettings.errorImageSettings.frameSize
+        
+        // When
+        let sut = makeSUT(settings: customSettings)
+        let imageView = try sut
+            .inspect()
+            .find(viewWithTag: DMErrorViewOwnSettings.imageViewTag)
+            .image()
+        
+        // Then
+        XCTAssertEqual(
+            try imageView.fixedFrame().width,
+            expectedFrameSize.width,
+            "The image view should have the correct width from settings: `\(String(describing: expectedFrameSize.width))`"
+        )
+        
+        XCTAssertEqual(
+            try imageView.fixedFrame().height,
+            expectedFrameSize.height,
+            "The image view should have the correct height from settings: `\(String(describing: expectedFrameSize.height))`"
         )
     }
     
@@ -282,5 +313,19 @@ final class DMErrorViewTestsTDD: XCTestCase {
                        "The \(sut.self) text should match the expected text: `\(String(describing: expectedTextString))`",
                        file: file,
                        line: line)
+    }
+    
+    private func makeCustomImageSettings() -> ErrorImageSettings {
+        let errorImage = Image("xmark.octagon")
+        let expectedForegroudColor = Color.orange
+        let expectedFrameSize = CustomViewSize(width: 60, height: 60)
+        
+        let imageSettings = ErrorImageSettings(
+            image: errorImage,
+            foregroundColor: expectedForegroudColor,
+            frameSize: expectedFrameSize
+        )
+        
+        return imageSettings
     }
 }
