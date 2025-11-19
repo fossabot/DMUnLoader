@@ -29,7 +29,7 @@
 
 ---
 
-### Scenario 2: 🚧 Verify Error Image Behavior
+### Scenario 2: ✅ Verify Error Image Behavior
 - **Description**: Check if the error image is styled correctly based on the `errorImageSettings`.
 - **Steps**:
   - [✅] Create a new instance of `DMErrorView` with custom `errorImageSettings`.
