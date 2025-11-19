@@ -177,19 +177,9 @@ final class DMErrorViewTestsTDD: XCTestCase {
     
     // MARK: Scenario 2: Verify Error Image Behavior
     
-    func testThatThe_ErrorImage_IsDisplayedWithTheCorrectImage_WithCustomImageSettings() throws {
+    func testThatThe_ErrorImage_IsDisplayedWithTheCorrectImage() throws {
         // Given
-        let errorImage = Image("xmark.octagon")
-        let expectedForegroudColor: Color = .orange
-        
-        let imageSettings = ErrorImageSettings(
-            image: errorImage,
-            foregroundColor: expectedForegroudColor,
-            frameSize: .init(
-                width: 60,
-                height: 60
-            )
-        )
+        let imageSettings = makeCustomImageSettings()
         let customSettings = DMErrorDefaultViewSettings(
             errorImageSettings: imageSettings
         )
@@ -204,10 +194,27 @@ final class DMErrorViewTestsTDD: XCTestCase {
         // Then
         XCTAssertEqual(
             try imageView.actualImage(),
-            errorImage,
+            imageSettings.image,
             "The image view should display the custom image"
         )
+    }
+    
+    func testThatThe_ErrorImage_ForegroundColor_CorresponsToSettings() throws {
+        // Given
+        let imageSettings = makeCustomImageSettings()
+        let customSettings = DMErrorDefaultViewSettings(
+            errorImageSettings: imageSettings
+        )
+        let expectedForegroudColor = customSettings.errorImageSettings.foregroundColor
         
+        // When
+        let sut = makeSUT(settings: customSettings)
+        let imageView = try sut
+            .inspect()
+            .find(viewWithTag: DMErrorViewOwnSettings.imageViewTag)
+            .image()
+        
+        // Then
         XCTAssertEqual(
             try imageView.foregroundStyleShapeStyle(Color.self),
             customSettings.errorImageSettings.foregroundColor,
