@@ -65,7 +65,7 @@
   - [✅] Set the title `errorText` to `"Oops! Something went wrong."`, `foregroundColor` to `.red`, and `multilineTextAlignment` to `.leading` and padding to `EdgeInsets(top: 11,leading: 16,bottom: 12,trailing: 17)`.
   - [✅] Verify that the error text is `"Something went wrong"`.
   - [✅] Verify that the error text title is `"Oops! Something went wrong."`.
-  - [] Verify that the foreground color is red.
+  - [✅] Verify that the foreground color is red.
   - [] Verify that the alignment is leading.
   - [] Verify that the padding is `EdgeInsets(top: 11,leading: 16,bottom: 12,trailing: 17)`.
 

@@ -503,6 +503,32 @@ final class DMErrorViewTestsTDD: XCTestCase {
         )
     }
     
+    func testThatThe_Error_IsDisplayedWithThe_Alignment_BasedOnSetings() throws {
+        // Given
+        let customSettings = makeCustomSettingsForScenario3And4()
+        let error = makeNSErrorForScenario4()
+        
+        // When
+        let sut = makeSUT(
+            settings: customSettings,
+            error: error
+        )
+        let errorTextView = try sut
+            .inspect()
+            .find(viewWithTag: DMErrorViewOwnSettings.errorTextFormExeptionContainerViewTag)
+            .text()
+        
+        // Then
+        XCTAssertEqual(
+            try errorTextView.multilineTextAlignment(),
+            customSettings.errorTextSettings.multilineTextAlignment,
+            """
+            The error text view should display the custom alignment from settings: 
+            `\(String(describing: customSettings.errorTextSettings.multilineTextAlignment))`
+            """
+        )
+    }
+    
     // MARK: - Helpers
     
     private func makeSUT(
