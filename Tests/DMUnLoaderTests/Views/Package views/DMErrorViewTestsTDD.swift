@@ -529,6 +529,32 @@ final class DMErrorViewTestsTDD: XCTestCase {
         )
     }
     
+    func testThatThe_ErrorText_IsDisplayedWithThe_Padding_BasedOnSetings() throws {
+        // Given
+        let customSettings = makeCustomSettingsForScenario3And4()
+        let error = makeNSErrorForScenario4()
+        
+        // When
+        let sut = makeSUT(
+            settings: customSettings,
+            error: error
+        )
+        let errorTextView = try sut
+            .inspect()
+            .find(viewWithTag: DMErrorViewOwnSettings.errorTextFormExeptionContainerViewTag)
+            .text()
+        
+        // Then
+        XCTAssertEqual(
+            try errorTextView.padding(),
+            customSettings.errorTextSettings.padding,
+            """
+            The error text view should display the custom padding from settings:
+            `\(String(describing: customSettings.errorTextSettings.padding))`
+            """
+        )
+    }
+    
     // MARK: - Helpers
     
     private func makeSUT(

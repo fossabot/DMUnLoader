@@ -66,8 +66,8 @@
   - [✅] Verify that the error text is `"Something went wrong"`.
   - [✅] Verify that the error text title is `"Oops! Something went wrong."`.
   - [✅] Verify that the foreground color is red.
-  - [] Verify that the alignment is leading.
-  - [] Verify that the padding is `EdgeInsets(top: 11,leading: 16,bottom: 12,trailing: 17)`.
+  - [✅] Verify that the alignment is leading.
+  - [✅] Verify that the padding is `EdgeInsets(top: 11,leading: 16,bottom: 12,trailing: 17)`.
 
 - **Expected Result**:
   - The error and error description are styled correctly with the specified properties.
