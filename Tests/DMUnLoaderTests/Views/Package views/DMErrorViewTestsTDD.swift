@@ -39,6 +39,7 @@ struct DMErrorViewTDD: View {
             Text(errorText)
                 .foregroundStyle(textSettings.foregroundColor)
                 .multilineTextAlignment(textSettings.multilineTextAlignment)
+                .padding(textSettings.padding)
                 .tag(DMErrorViewOwnSettings.errorTextViewTag)
         }
         
@@ -376,6 +377,28 @@ final class DMErrorViewTestsTDD: XCTestCase {
         )
     }
     
+    func testThatThe_ErrorText_IsDisplayedWithThe_Padding_BasedOnSetings() throws {
+        // Given
+        let customSettings = makeCustomSettingsForScenario3()
+        
+        // When
+        let sut = makeSUT(settings: customSettings)
+        let errorTextView = try sut
+            .inspect()
+            .find(viewWithTag: DMErrorViewOwnSettings.errorTextViewTag)
+            .text()
+        
+        // Then
+        XCTAssertEqual(
+            try errorTextView.padding(),
+            customSettings.errorTextSettings.padding,
+            """
+            The error text view should display the custom padding from settings:
+            `\(String(describing: customSettings.errorTextSettings.padding))`
+            """
+        )
+    }
+    
     // MARK: - Helpers
     
     private func makeSUT(
@@ -468,7 +491,13 @@ final class DMErrorViewTestsTDD: XCTestCase {
     private func makeCustomSettingsForScenario3() -> DMErrorDefaultViewSettings {
         let textSettings = ErrorTextSettings(
             foregroundColor: Color.red,
-            multilineTextAlignment: .leading
+            multilineTextAlignment: .leading,
+            padding: EdgeInsets(
+                top: 11,
+                leading: 16,
+                bottom: 12,
+                trailing: 17
+            )
         )
         
         return DMErrorDefaultViewSettings(
