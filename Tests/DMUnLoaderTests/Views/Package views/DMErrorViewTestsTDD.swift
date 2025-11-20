@@ -125,6 +125,7 @@ extension DMErrorViewTDD {
 }
 
 @MainActor
+// swiftlint:disable:next type_body_length
 final class DMErrorViewTestsTDD: XCTestCase {
     
     override func invokeTest() {
@@ -734,11 +735,10 @@ final class DMErrorViewTestsTDD: XCTestCase {
                 .button()
                 .tap()
         }
-        
-        // Then
         ViewHosting.host(view: sut)
         defer { ViewHosting.expel() }
         
+        // Then
         wait(for: [expInspection], timeout: 0.05)
         wait(for: [buttonTapExp], timeout: 0.055)
     }
@@ -762,11 +762,10 @@ final class DMErrorViewTestsTDD: XCTestCase {
                 .button()
                 .tap()
         }
-        
-        // Then
         ViewHosting.host(view: sut)
         defer { ViewHosting.expel() }
         
+        // Then
         wait(for: [expInspection], timeout: 0.05)
         wait(for: [buttonTapExp], timeout: 0.055)
     }
