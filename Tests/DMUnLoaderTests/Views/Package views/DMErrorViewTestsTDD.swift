@@ -38,6 +38,7 @@ struct DMErrorViewTDD: View {
         if let errorText = settingsProvider.errorText {
             Text(errorText)
                 .foregroundStyle(textSettings.foregroundColor)
+                .multilineTextAlignment(textSettings.multilineTextAlignment)
                 .tag(DMErrorViewOwnSettings.errorTextViewTag)
         }
         
@@ -309,7 +310,7 @@ final class DMErrorViewTestsTDD: XCTestCase {
     
     // MARK: Scenario 3: Verify Error Text Behavior
     
-    func testThatThe_ErrorText_IsDisplayedWithTheTextBasedOnSetings() throws {
+    func testThatThe_ErrorText_IsDisplayedWithThe_Text_BasedOnSetings() throws {
         // Given
         let customSettings = makeCustomSettingsForScenario3()
         
@@ -331,7 +332,7 @@ final class DMErrorViewTestsTDD: XCTestCase {
         )
     }
     
-    func testThatThe_ErrorText_IsDisplayedWithTheForegroundColorBasedOnSetings() throws {
+    func testThatThe_ErrorText_IsDisplayedWithThe_ForegroundColor_BasedOnSetings() throws {
         // Given
         let customSettings = makeCustomSettingsForScenario3()
         
@@ -349,6 +350,28 @@ final class DMErrorViewTestsTDD: XCTestCase {
             """
             The error text view should display the custom foreground color 
             from settings: `\(String(describing: customSettings.errorTextSettings.foregroundColor))`
+            """
+        )
+    }
+    
+    func testThatThe_ErrorText_IsDisplayedWithThe_Alignment_BasedOnSetings() throws {
+        // Given
+        let customSettings = makeCustomSettingsForScenario3()
+        
+        // When
+        let sut = makeSUT(settings: customSettings)
+        let errorTextView = try sut
+            .inspect()
+            .find(viewWithTag: DMErrorViewOwnSettings.errorTextViewTag)
+            .text()
+        
+        // Then
+        XCTAssertEqual(
+            try errorTextView.multilineTextAlignment(),
+            customSettings.errorTextSettings.multilineTextAlignment,
+            """
+            The error text view should display the custom alignment from settings: 
+            `\(String(describing: customSettings.errorTextSettings.multilineTextAlignment))`
             """
         )
     }
