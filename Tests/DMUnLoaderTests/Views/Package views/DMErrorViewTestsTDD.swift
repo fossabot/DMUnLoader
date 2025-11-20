@@ -3,17 +3,23 @@
 //
 //  Created by Mykola Dementiev
 //
+// swiftlint:disable file_length
 
 import XCTest
 @testable import DMUnLoader
 import SwiftUI
 import ViewInspector
+import SnapshotTesting
 
 struct DMErrorViewTDD: View {
     let settingsProvider: DMErrorViewSettings
     let error: Error
     let onRetry: DMAction?
     let onClose: DMAction
+    
+    #if DEBUG
+    let inspection: Inspection<Self>? = getInspectionIfAvailable()
+    #endif
     
     init(settings settingsProvider: DMErrorViewSettings,
          error: Error,
@@ -30,36 +36,51 @@ struct DMErrorViewTDD: View {
         let imageSettings = settingsProvider.errorImageSettings
         let textSettings = settingsProvider.errorTextSettings
         
-        imageSettings.image
-            .resizable()
-            .frame(width: imageSettings.frameSize.width,
-                   height: imageSettings.frameSize.height,
-                   alignment: imageSettings.frameSize.alignment)
-            .foregroundStyle(imageSettings.foregroundColor)
-            .tag(DMErrorViewOwnSettings.imageViewTag)
-        
-        if let errorText = settingsProvider.errorText {
-            ErrorText(errorText,
-                      settings: textSettings)
-                .tag(DMErrorViewOwnSettings.errorTextViewTag)
-        }
-        
-        ErrorText(error.localizedDescription,
-                  settings: settingsProvider.errorTextSettings)
-        .tag(DMErrorViewOwnSettings.errorTextFormExeptionContainerViewTag)
-        
-        let closeButtonSettings = settingsProvider.actionButtonCloseSettings
-        Button(closeButtonSettings.text,
-               action: onClose.simpleAction)
-        .tag(DMErrorViewOwnSettings.actionButtonCloseViewTag)
-        
-        if let onRetry = onRetry {
-            let retryButtonSettings = settingsProvider.actionButtonRetrySettings
+        VStack {
+            imageSettings.image
+                .resizable()
+                .frame(width: imageSettings.frameSize.width,
+                       height: imageSettings.frameSize.height,
+                       alignment: imageSettings.frameSize.alignment)
+                .foregroundStyle(imageSettings.foregroundColor)
+                .tag(DMErrorViewOwnSettings.imageViewTag)
             
-            Button(retryButtonSettings.text,
-                   action: onRetry.simpleAction)
-            .tag(DMErrorViewOwnSettings.actionButtonRetryViewTag)
+            if let errorText = settingsProvider.errorText {
+                ErrorText(errorText,
+                          settings: textSettings)
+                .tag(DMErrorViewOwnSettings.errorTextViewTag)
+            }
+            
+            ErrorText(error.localizedDescription,
+                      settings: settingsProvider.errorTextSettings)
+            .tag(DMErrorViewOwnSettings.errorTextFormExeptionContainerViewTag)
+            
+            let closeButtonSettings = settingsProvider.actionButtonCloseSettings
+            HStack {
+                Button(closeButtonSettings.text,
+                       action: onClose.simpleAction)
+                .buttonStyle(closeButtonSettings.styleFactory())
+                .tag(DMErrorViewOwnSettings.actionButtonCloseViewTag)
+                
+                if let onRetry = onRetry {
+                    let retryButtonSettings = settingsProvider.actionButtonRetrySettings
+                    
+                    Button(retryButtonSettings.text,
+                           action: onRetry.simpleAction)
+                    .tag(DMErrorViewOwnSettings.actionButtonRetryViewTag)
+                }
+            }
+            .padding(.top, 5)
+            .tag(DMErrorViewOwnSettings.buttonContainersHStackViewTag)
         }
+        .fixedSize(horizontal: true, vertical: false)
+        .tag(DMErrorViewOwnSettings.containerVStackViewTag)
+        
+        #if DEBUG
+        .onReceive(inspection?.notice ?? EmptyPublisher().notice) { [weak inspection] in
+            inspection?.visit(self, $0)
+        }
+        #endif
     }
     
     struct ErrorText: View {
@@ -84,6 +105,15 @@ struct DMErrorViewTDD: View {
 
 @MainActor
 final class DMErrorViewTestsTDD: XCTestCase {
+    
+    override func invokeTest() {
+        withSnapshotTesting(
+            record: .missing,
+            diffTool: .ksdiff
+        ) {
+            super.invokeTest()
+        }
+    }
     
     // MARK: Scenario 1: Verify Default Initialization
     
@@ -595,6 +625,35 @@ final class DMErrorViewTestsTDD: XCTestCase {
         // Then
         XCTAssertNil(retryButton,
                      "The retry button should NOT be displayed when onRetry action is not provided")
+    }
+    
+    func testThatThe_CloseButton_IsStyledCorrectlyAccordingToSettings() throws {
+        // Given
+        let customSettings = DMErrorDefaultViewSettings(
+            errorText: "",
+            actionButtonCloseSettings: ActionButtonSettings(
+                text: "Dismiss"
+            ),
+            actionButtonRetrySettings: ActionButtonSettings(
+                text: "Try Again"
+            )
+        )
+        
+        // When
+        let sut = makeSUT(
+            settings: customSettings,
+            error: DMAppError.custom(nil),
+            onClose: DMButtonAction { }
+        )
+        
+        assertSnapshot(
+            of: LoadingViewContainer<DMErrorViewTDD>(overlayView: { sut }),
+            as: .image(
+                layout: .sizeThatFits,
+                traits: .init(userInterfaceStyle: .light)
+            ),
+            named: "CloseButton-sizeThatFits-light"
+        )
     }
     
     // MARK: - Helpers
