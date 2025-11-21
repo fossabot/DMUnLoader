@@ -823,6 +823,62 @@ final class DMErrorViewTestsTDD: XCTestCase {
         )
     }
     
+    func testThat_ErrorView_Renders_Correctly_When_CustomSettings_Provided() throws {
+        // Given
+        let customSettings = DMErrorDefaultViewSettings(
+            errorText: "Oops! Looks like something went wrong...",
+            actionButtonCloseSettings: ActionButtonSettings(
+                text: "X"
+            ),
+            actionButtonRetrySettings: ActionButtonSettings(
+                text: "Try Again"
+            ),
+            errorTextSettings: ErrorTextSettings(
+                foregroundColor: Color.mint,
+                multilineTextAlignment: .leading,
+                padding: EdgeInsets(
+                    top: 11,
+                    leading: 16,
+                    bottom: 12,
+                    trailing: 17
+                    )
+                ),
+            errorImageSettings: ErrorImageSettings(
+                image: Image(systemName: "exclamationmark.triangle"),
+                foregroundColor: Color.orange,
+                frameSize: CustomViewSize(
+                    width: 54,
+                    height: 54,
+                    alignment: .bottomTrailing
+                )
+            )
+        )
+        
+        // When
+        let sut = makeSUT(
+            settings: customSettings,
+            onRetry: DMButtonAction {},
+        )
+        
+        // Then
+        assertSnapshot(
+            of: LoadingViewContainer<DMErrorViewTDD>(overlayView: { sut }),
+            as: .image(
+                layout: .device(config: .iPhone13Pro),
+                traits: .init(userInterfaceStyle: .light)
+            ),
+            named: "CustomSettingsSettings-iPhone13Pro-light"
+        )
+        assertSnapshot(
+            of: LoadingViewContainer<DMErrorViewTDD>(overlayView: { sut }),
+            as: .image(
+                layout: .device(config: .iPhone13Pro),
+                traits: .init(userInterfaceStyle: .dark)
+            ),
+            named: "CustomSettingsSettings-iPhone13Pro-dark"
+        )
+    }
+    
     // MARK: - Helpers
     
     private func makeSUT(
