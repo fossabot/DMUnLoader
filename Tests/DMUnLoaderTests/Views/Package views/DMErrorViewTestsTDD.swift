@@ -704,16 +704,31 @@ final class DMErrorViewTestsTDD: XCTestCase {
             error: DMAppError.custom(nil),
             onRetry: DMButtonAction { },
         )
+        guard let sutInspection = sut.inspection else {
+            XCTFail("Inspection not available on SUT")
+            return
+        }
+        
+        let expInspection = sutInspection.inspect { view in
+            let updatedView = try XCTUnwrap(
+                try view.actualView(),
+                "Failed to extract the actual view from the inspect"
+            )
+            assertSnapshot(
+                of: LoadingViewContainer<DMErrorViewTDD>(overlayView: { updatedView }),
+                as: .image(
+                    layout: .sizeThatFits,
+                    traits: .init(userInterfaceStyle: .light)
+                ),
+                named: "ViewWith-RetryButton-sizeThatFits-light"
+            )
+        }
+        
+        ViewHosting.host(view: sut)
+        defer { ViewHosting.expel() }
         
         // Then
-        assertSnapshot(
-            of: LoadingViewContainer<DMErrorViewTDD>(overlayView: { sut }),
-            as: .image(
-                layout: .sizeThatFits,
-                traits: .init(userInterfaceStyle: .light)
-            ),
-            named: "ViewWith-RetryButton-sizeThatFits-light"
-        )
+        wait(for: [expInspection], timeout: 0.05)
     }
     
     func testThat_TapOnTheCloseButton_Trigger_OnCloseAction() throws {
