@@ -9,11 +9,11 @@
 
 ## 2. Test Scenarios
 
-### Scenario 1: Verify Empty State (`.none`)
+### Scenario 1: 🚧 Verify Empty State (`.none`)
 - **Description**: Check if the `DMLoadingView` correctly displays the empty state.
 - **Steps**:
-  - [?] Initialize the `DMLoadingView` with `loadableState = .none`.
-  - [?] Use snapshot testing to verify that no overlay or background is visible.
+  - [✅] Initialize the `DMLoadingView` with `loadableState = .none`.
+  - [✅] Use snapshot testing to verify that no overlay or background is visible.
   - [?] Inspect the view hierarchy to ensure the tag `0001` is assigned to the empty view.
 - **Expected Result**:
   - The view displays an empty state.
