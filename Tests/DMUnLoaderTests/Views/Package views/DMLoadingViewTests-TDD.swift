@@ -21,6 +21,7 @@ struct DMLoadingView_TDD<LLM: DMLoadingManager>: View {
         switch loadableState {
         case .none:
             EmptyView()
+                .tag(DMLoadingViewOwnSettings.emptyViewTag)
         default:
             EmptyView()
         }
@@ -59,6 +60,22 @@ final class DMLoadingViewTests_TDD: XCTestCase {
             record: false
         )
 
+    }
+    
+    func testLoadingView_AssignTagFromSettingsToEmptyView_WhenLoadingStateIsNone() throws {
+        // Given
+        let loadingManager = MockDMLoadingManager(loadableState: .none)
+        
+        // When
+        let sut = makeSUT(manager: loadingManager)
+        let tagToFindTheView = DMLoadingViewOwnSettings.emptyViewTag
+        let emptyView = try sut
+            .inspect()
+            .find(viewWithTag: tagToFindTheView)
+        
+        // Then
+        XCTAssertNotNil(emptyView,
+                        "The EmptyView should have the correct tag assigned from settings: `\(tagToFindTheView)`")
     }
     
     // MARK: - Helpers
