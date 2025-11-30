@@ -23,10 +23,10 @@
 
 ---
 
-### Scenario 2: Verify Loading State (`.loading`)
+### Scenario 2: 🚧 Verify Loading State (`.loading`)
 - **Description**: Check if the `DMLoadingView` correctly displays the loading state.
 - **Steps**:
-  - [?] Initialize the `DMLoadingView` with `loadableState = .loading`.
+  - [✅] Initialize the `DMLoadingView` with `loadableState = .loading`.
   - [?] Use snapshot testing to verify the appearance of the loading view.
   - [?] Inspect the view hierarchy to ensure the tag `0203` is assigned to the loading view.
   - [?] Verify that the overlay animates smoothly into view.

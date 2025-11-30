@@ -22,6 +22,8 @@ struct DMLoadingView_TDD<LLM: DMLoadingManager>: View {
         case .none:
             EmptyView()
                 .tag(DMLoadingViewOwnSettings.emptyViewTag)
+        case .loading(let provider):
+            provider.getLoadingView()
         default:
             EmptyView()
         }
@@ -59,7 +61,6 @@ final class DMLoadingViewTests_TDD: XCTestCase {
             named: "View-EmptyState-No-Overlay-or-Background-iPhone13Pro-light",
             record: false
         )
-
     }
     
     func testLoadingView_AssignTagFromSettingsToEmptyView_WhenLoadingStateIsNone() throws {
@@ -76,6 +77,32 @@ final class DMLoadingViewTests_TDD: XCTestCase {
         // Then
         XCTAssertNotNil(emptyView,
                         "The EmptyView should have the correct tag assigned from settings: `\(tagToFindTheView)`")
+    }
+    
+    // MARK: - Scenario 2: Verify Loading State (`.loading`)
+    
+    func testLoadingView_ShowsLoadingView_WhenLoadingStateIsLoading() throws {
+        // Given
+        let provider = StubDMLoadingViewProvider()
+        let loadingManager = StubDMLoadingManager(
+            loadableState: .loading(
+                provider: provider.eraseToAnyViewProvider()
+            )
+        )
+        
+        // When
+        let sut = makeSUT(manager: loadingManager)
+        
+        // Then
+        assertSnapshot(
+            of: sut,
+            as: .image(
+                layout: .device(config: .iPhone13Pro),
+                traits: .init(userInterfaceStyle: .light)
+            ),
+            named: "View-LoadingState-iPhone13Pro-light",
+            record: false
+        )
     }
     
     // MARK: - Helpers

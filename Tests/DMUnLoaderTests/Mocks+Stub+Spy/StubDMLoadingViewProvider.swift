@@ -16,17 +16,17 @@ final class StubDMLoadingViewProvider: @MainActor DMLoadingViewProvider {
     
     @MainActor
     func getLoadingView() -> LoadingViewType {
-        Text("Mock Loading View")
+        Text("Stub Loading View")
     }
 
     @MainActor
     func getErrorView(error: Error, onRetry: DMAction?, onClose: DMAction) -> ErrorViewType {
-        Text("Mock Error View")
+        Text("Stub Error View")
     }
 
     @MainActor
     func getSuccessView(object: DMLoadableTypeSuccess) -> SuccessViewType {
-        Text("Mock Success View")
+        Text("Stub Success View")
     }
 
     var loadingManagerSettings: DMLoadingManagerSettings {
