@@ -84,17 +84,12 @@ public final class AnyDMLoadingViewProviderTypeErasurer<
 
 public extension DMLoadingViewProvider {
     @MainActor
-    func eraseToAnyProvider() -> AnyDMLoadingViewProviderTypeErasurer<LoadingViewType, ErrorViewType, SuccessViewType> {
-        AnyDMLoadingViewProviderTypeErasurer(provider: self)
-    }
-    
-    @MainActor
-    func eraseToAnyViewProvider() -> AnyDMLoadingAnyViewProvider {
-        if let castedSelf = self as? AnyDMLoadingAnyViewProvider {
+    func eraseToAnyViewProvider() -> AnyDMLoadingViewProvider {
+        if let castedSelf = self as? AnyDMLoadingViewProvider {
             return castedSelf
         }
         
-        return AnyDMLoadingAnyViewProvider(
+        return AnyDMLoadingViewProvider(
             getLoadingView: {
                 AnyView(
                     self.getLoadingView()
@@ -120,4 +115,4 @@ public extension DMLoadingViewProvider {
     }
 }
 
-public typealias AnyDMLoadingAnyViewProvider = AnyDMLoadingViewProviderTypeErasurer<AnyView, AnyView, AnyView>
+public typealias AnyDMLoadingViewProvider = AnyDMLoadingViewProviderTypeErasurer<AnyView, AnyView, AnyView>
