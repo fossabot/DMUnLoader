@@ -223,7 +223,7 @@ final class DMSuccessViewTests: XCTestCase {
         let expectedText = "Operation Completed!"
         let sut = makeSUT(
             settings: DMSuccessDefaultViewSettings(),
-            assosiatedObject: MockDMLoadableTypeSuccess(description: expectedText)
+            assosiatedObject: StubDMLoadableTypeSuccess(description: expectedText)
         )
         
         let text = try sut
@@ -353,7 +353,7 @@ final class DMSuccessViewTests: XCTestCase {
         
         let sut = makeSUTWithContainer(
             settings: settings,
-            assosiatedObject: MockDMLoadableTypeSuccess(description: "All tasks finished successfully.")
+            assosiatedObject: StubDMLoadableTypeSuccess(description: "All tasks finished successfully.")
         )
         
         assertSnapshot(

@@ -44,7 +44,7 @@ final class DMLoadingViewTests_TDD: XCTestCase {
     
     func testLoadingView_ShowsEmptyStateWith_NoOverlayOrBackground_WhenLoadingStateIsNone() {
         // Given
-        let loadingManager = MockDMLoadingManager(loadableState: .none)
+        let loadingManager = StubDMLoadingManager(loadableState: .none)
         
         // When
         let sut = makeSUT(manager: loadingManager)
@@ -64,7 +64,7 @@ final class DMLoadingViewTests_TDD: XCTestCase {
     
     func testLoadingView_AssignTagFromSettingsToEmptyView_WhenLoadingStateIsNone() throws {
         // Given
-        let loadingManager = MockDMLoadingManager(loadableState: .none)
+        let loadingManager = StubDMLoadingManager(loadableState: .none)
         
         // When
         let sut = makeSUT(manager: loadingManager)

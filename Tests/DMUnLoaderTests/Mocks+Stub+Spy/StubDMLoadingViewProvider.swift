@@ -9,7 +9,7 @@ import XCTest
 import Combine
 @testable import DMUnLoader
 
-final class MockDMLoadingViewProvider: @MainActor DMLoadingViewProvider {
+final class StubDMLoadingViewProvider: @MainActor DMLoadingViewProvider {
     typealias LoadingViewType = Text
     typealias ErrorViewType = Text
     typealias SuccessViewType = Text
@@ -30,18 +30,18 @@ final class MockDMLoadingViewProvider: @MainActor DMLoadingViewProvider {
     }
 
     var loadingManagerSettings: DMLoadingManagerSettings {
-        MockDMLoadingManagerSettings(autoHideDelay: .seconds(2))
+        StubDMLoadingManagerSettings(autoHideDelay: .seconds(2))
     }
 
     var loadingViewSettings: DMProgressViewSettings {
-        MockDMProgressViewSettings()
+        StubDMProgressViewSettings()
     }
 
     var errorViewSettings: DMErrorViewSettings {
-        MockDMErrorViewSettings()
+        StubDMErrorViewSettings()
     }
 
     var successViewSettings: DMSuccessViewSettings {
-        MockDMSuccessViewSettings()
+        StubDMSuccessViewSettings()
     }
 }

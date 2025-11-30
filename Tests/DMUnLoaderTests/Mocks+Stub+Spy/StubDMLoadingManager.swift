@@ -8,18 +8,18 @@ import Combine
 @testable import DMUnLoader
 
 @MainActor
-final class MockDMLoadingManager: DMLoadingManager {
+final class StubDMLoadingManager: DMLoadingManager {
     public let settings: DMLoadingManagerSettings
     
     @Published var loadableState: DMLoadableType = .none
     
     convenience init() {
         self.init(loadableState: .none,
-                  settings: MockDMLoadingManagerSettings(autoHideDelay: .seconds(0.2)))
+                  settings: StubDMLoadingManagerSettings(autoHideDelay: .seconds(0.2)))
     }
     
     init(loadableState: DMLoadableType = .none,
-         settings: DMLoadingManagerSettings = MockDMLoadingManagerSettings(autoHideDelay: .seconds(0.2))) {
+         settings: DMLoadingManagerSettings = StubDMLoadingManagerSettings(autoHideDelay: .seconds(0.2))) {
         self.settings = settings
         self.loadableState = loadableState
     }

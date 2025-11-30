@@ -15,7 +15,7 @@ final class DMLoadingViewTests: XCTestCase {
     
     @MainActor
     func testInitialization() {
-        let loadingManager = MockDMLoadingManager()
+        let loadingManager = StubDMLoadingManager()
         let view = DMLoadingView(loadingManager: loadingManager)
         
         XCTAssertNotNil(view.loadingManager,
@@ -26,7 +26,7 @@ final class DMLoadingViewTests: XCTestCase {
     
     @MainActor
     func testNoneStateRendersEmptyView() {
-        let loadingManager = MockDMLoadingManager()
+        let loadingManager = StubDMLoadingManager()
         let testView = DMLoadingView(loadingManager: loadingManager)
         
         XCTAssertEqual(loadingManager.loadableState,
@@ -43,8 +43,8 @@ final class DMLoadingViewTests: XCTestCase {
     
     @MainActor
     func testLoadingStateRendersLoadingView() {
-        let loadingManager = MockDMLoadingManager()
-        let provider = MockDMLoadingViewProvider()
+        let loadingManager = StubDMLoadingManager()
+        let provider = StubDMLoadingViewProvider()
         let testView = DMLoadingView(loadingManager: loadingManager)
         
         let loadableState = DMLoadableType.loading(provider: provider.eraseToAnyViewProvider())
@@ -75,8 +75,8 @@ final class DMLoadingViewTests: XCTestCase {
     
     @MainActor
     func testFailureStateRendersErrorView() {
-        let loadingManager = MockDMLoadingManager()
-        let provider = MockDMLoadingViewProvider()
+        let loadingManager = StubDMLoadingManager()
+        let provider = StubDMLoadingViewProvider()
         let testView = DMLoadingView(loadingManager: loadingManager)
         
         let currentState: DMLoadableType = .failure(
@@ -114,11 +114,11 @@ final class DMLoadingViewTests: XCTestCase {
     
     @MainActor
     func testSuccessStateRendersSuccessView() {
-        let loadingManager = MockDMLoadingManager()
-        let provider = MockDMLoadingViewProvider()
+        let loadingManager = StubDMLoadingManager()
+        let provider = StubDMLoadingViewProvider()
         let testView = DMLoadingView(loadingManager: loadingManager)
         
-        let currentState: DMLoadableType = .success(MockDMLoadableTypeSuccess(),
+        let currentState: DMLoadableType = .success(StubDMLoadableTypeSuccess(),
                                                     provider: provider.eraseToAnyViewProvider())
         loadingManager.loadableState = currentState
         
@@ -151,12 +151,12 @@ final class DMLoadingViewTests: XCTestCase {
     
     @MainActor
     func testTapGestureHidesLoadingManager() {
-        let loadingManager = MockDMLoadingManager()
-        let provider = MockDMLoadingViewProvider()
+        let loadingManager = StubDMLoadingManager()
+        let provider = StubDMLoadingViewProvider()
         let testView = DMLoadingView(loadingManager: loadingManager)
         
         let currentState: DMLoadableType = .success(
-            MockDMLoadableTypeSuccess(),
+            StubDMLoadableTypeSuccess(),
             provider: provider.eraseToAnyViewProvider()
         )
         loadingManager.loadableState = currentState
@@ -185,8 +185,8 @@ final class DMLoadingViewTests: XCTestCase {
     
     @MainActor
     func testTapGestureHidesLoadingManagerLoadingState() {
-        let loadingManager = MockDMLoadingManager()
-        let provider = MockDMLoadingViewProvider()
+        let loadingManager = StubDMLoadingManager()
+        let provider = StubDMLoadingViewProvider()
         let testView = DMLoadingView(loadingManager: loadingManager)
         
         let currentState = DMLoadableType.loading(provider: provider.eraseToAnyViewProvider())
