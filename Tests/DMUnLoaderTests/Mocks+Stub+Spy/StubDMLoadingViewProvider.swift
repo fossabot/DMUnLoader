@@ -10,38 +10,58 @@ import Combine
 @testable import DMUnLoader
 
 final class StubDMLoadingViewProvider: @MainActor DMLoadingViewProvider {
-    typealias LoadingViewType = Text
-    typealias ErrorViewType = Text
-    typealias SuccessViewType = Text
+    typealias LoadingViewType = StubDMLoadingViewResult<Text>
+    typealias ErrorViewType = StubDMLoadingViewResult<Text>
+    typealias SuccessViewType = StubDMLoadingViewResult<Text>
     
     @MainActor
     func getLoadingView() -> LoadingViewType {
-        Text("Stub Loading View")
+        StubDMLoadingViewResult {
+            Text("Stub Loading View")
+        }
     }
-
+    
     @MainActor
     func getErrorView(error: Error, onRetry: DMAction?, onClose: DMAction) -> ErrorViewType {
-        Text("Stub Error View")
+        StubDMLoadingViewResult {
+            Text("Stub Error View")
+        }
     }
-
+    
     @MainActor
     func getSuccessView(object: DMLoadableTypeSuccess) -> SuccessViewType {
-        Text("Stub Success View")
+        StubDMLoadingViewResult {
+            Text("Stub Success View")
+        }
     }
-
+    
     var loadingManagerSettings: DMLoadingManagerSettings {
         StubDMLoadingManagerSettings(autoHideDelay: .seconds(2))
     }
-
+    
     var loadingViewSettings: DMProgressViewSettings {
         StubDMProgressViewSettings()
     }
-
+    
     var errorViewSettings: DMErrorViewSettings {
         StubDMErrorViewSettings()
     }
-
+    
     var successViewSettings: DMSuccessViewSettings {
         StubDMSuccessViewSettings()
+    }
+    
+    struct StubDMLoadingViewResult<Content: View>: View {
+        @ViewBuilder let content: () -> Content
+        
+        init(_ content: @escaping () -> Content) {
+            self.content = content
+        }
+        
+        var body: some View {
+            content()
+                .background(Color.orange.opacity(0.3))
+                .border(Color.orange, width: 1)
+        }
     }
 }

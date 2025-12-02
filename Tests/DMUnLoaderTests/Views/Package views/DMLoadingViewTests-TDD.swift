@@ -24,6 +24,7 @@ struct DMLoadingView_TDD<LLM: DMLoadingManager>: View {
                 .tag(DMLoadingViewOwnSettings.emptyViewTag)
         case .loading(let provider):
             provider.getLoadingView()
+                .tag(DMLoadingViewOwnSettings.loadingViewTag)
         default:
             EmptyView()
         }
@@ -63,7 +64,7 @@ final class DMLoadingViewTests_TDD: XCTestCase {
         )
     }
     
-    func testLoadingView_AssignTagFromSettingsToEmptyView_WhenLoadingStateIsNone() throws {
+    func testLoadingView_AssignTagFromSettingsToEmptyStateView_WhenLoadingStateIsNone() throws {
         // Given
         let loadingManager = StubDMLoadingManager(loadableState: .none)
         
@@ -103,6 +104,27 @@ final class DMLoadingViewTests_TDD: XCTestCase {
             named: "View-LoadingState-iPhone13Pro-light",
             record: false
         )
+    }
+    
+    func testLoadingView_AssignTagFromSettingsToEmptyStateView_WhenLoadingStateIsLoading() throws {
+        // Given
+        let provider = StubDMLoadingViewProvider()
+        let loadingManager = StubDMLoadingManager(
+            loadableState: .loading(
+                provider: provider.eraseToAnyViewProvider()
+            )
+        )
+        
+        // When
+        let sut = makeSUT(manager: loadingManager)
+        let tagToFindTheView = DMLoadingViewOwnSettings.loadingViewTag
+        let loadingView = try sut
+            .inspect()
+            .find(viewWithTag: tagToFindTheView)
+        
+        // Then
+        XCTAssertNotNil(loadingView,
+                        "The LoadingView should have the correct tag assigned from settings: `\(tagToFindTheView)`")
     }
     
     // MARK: - Helpers
