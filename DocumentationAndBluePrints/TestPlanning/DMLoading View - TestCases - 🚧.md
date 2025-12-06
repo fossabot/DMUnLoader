@@ -38,7 +38,7 @@
 
 ---
 
-### Scenario 3: Verify Failure State (`.failure`)
+### Scenario 3: ✅ Verify Failure State (`.failure`)
 - **Description**: Check if the `DMLoadingView` correctly displays the failure state.
 - **Steps**:
   - [✅] Initialize the `DMLoadingView` with `loadableState = .failure`.
