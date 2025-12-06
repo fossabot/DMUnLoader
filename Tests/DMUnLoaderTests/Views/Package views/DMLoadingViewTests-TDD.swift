@@ -39,6 +39,7 @@ struct DMLoadingView_TDD<LLM: DMLoadingManager>: View {
                     onRetry: onRetry,
                     onClose: DMButtonAction(loadingManager.hide)
                 )
+                .scaleEffect(animateTheAppearance ? 1 : 0.9)
                 .tag(DMLoadingViewOwnSettings.failureViewTag)
             default:
                 EmptyView()
@@ -168,52 +169,12 @@ final class DMLoadingViewTests_TDD: XCTestCase {
                         "The LoadingView should have the correct tag assigned from settings: `\(tagToFindTheView)`")
     }
     
-    func testLoadingView_TheOverlayAnimatesSmoothly_IntoView() throws {
-        // Given
-        let provider = StubDMLoadingViewProvider()
-        let loadingManager = StubDMLoadingManager(
-            loadableState: .loading(
-                provider: provider.eraseToAnyViewProvider()
-            )
-        )
-        let animationDuration: Double = 0.2
-        
-        // When
-        let sut = makeSUT(manager: loadingManager)
-        
-        let inspection = try XCTUnwrap(
-            sut.inspection,
-            "Inspection should be available in debug mode"
-        )
-        
-        // Then
-        assertSnapshot(
-            of: sut,
-            as: .image(
-                layout: .device(config: .iPhone13Pro),
-                traits: .init(userInterfaceStyle: .light)
-            ),
-            named: "BeforeAnimation-iPhone13Pro-light",
-            record: false
-        )
-        
-        let exp = inspection.inspect(after: animationDuration + 0.01) { view in
-            let actualView = try view.actualView()
-            
-            assertSnapshot(
-                of: actualView,
-                as: .image(
-                    layout: .device(config: .iPhone13Pro),
-                    traits: .init(userInterfaceStyle: .light)
-                ),
-                named: "AfterAnimation-iPhone13Pro-light",
-                record: false
-            )
-        }
-        
-        ViewHosting.host(view: sut)
-        defer { ViewHosting.expel() }
-        wait(for: [exp], timeout: animationDuration + 0.05)
+    func testLoadingView_TheOverlayAnimatesSmoothly_IntoView_forState_Loading() throws {
+        try testLoadingView_TheOverlayAnimatesSmoothly_IntoView(state:
+                .loading(
+                    provider: StubDMLoadingViewProvider()
+                        .eraseToAnyViewProvider()
+        ))
     }
     
     // MARK: - Scenario 3: Verify Failure State (`.failure`)
@@ -279,6 +240,18 @@ final class DMLoadingViewTests_TDD: XCTestCase {
                         "The FailureView should have the correct tag assigned from settings: `\(tagToFindTheView)`")
     }
     
+    func testLoadingView_TheOverlayAnimatesSmoothly_IntoView_forState_Failure() throws {
+        let provider = StubDMLoadingViewProvider()
+        try testLoadingView_TheOverlayAnimatesSmoothly_IntoView(
+            state:
+                    .failure(
+                        error: DMUnLoader.DMAppError.custom("Test Error"),
+                        provider: provider.eraseToAnyViewProvider()
+                    ),
+            record: false
+        )
+    }
+    
     // MARK: - Helpers
     
     private func makeSUT<LM: DMLoadingManager>(manager loadingManager: LM) -> DMLoadingView_TDD<LM> {
@@ -288,6 +261,63 @@ final class DMLoadingViewTests_TDD: XCTestCase {
         trackForMemoryLeaks(loadingManager)
         
         return sut
+    }
+    
+    private func testLoadingView_TheOverlayAnimatesSmoothly_IntoView(
+        state: DMLoadableType,
+        record recording: Bool = false,
+        file: StaticString = #filePath,
+        line: UInt = #line
+    ) throws {
+        // Given
+        let loadingManager = StubDMLoadingManager(
+            loadableState: state
+        )
+        let animationDuration: Double = 0.2
+        
+        // When
+        let sut = makeSUT(manager: loadingManager)
+        
+        let inspection = try XCTUnwrap(
+            sut.inspection,
+            "Inspection should be available in debug mode",
+            file: file,
+            line: line
+        )
+        
+        // Then
+        assertSnapshot(
+            of: sut,
+            as: .image(
+                layout: .device(config: .iPhone13Pro),
+                traits: .init(userInterfaceStyle: .light)
+            ),
+            named: "BeforeAnimation-\(state.rawValue)-iPhone13Pro-light",
+            record: recording,
+            file: file,
+            line: line
+        )
+        
+        let exp = inspection.inspect(after: animationDuration + 0.01) { view in
+            let actualView = try view.actualView()
+            
+            assertSnapshot(
+                of: actualView,
+                as: .image(
+                    layout: .device(config: .iPhone13Pro),
+                    traits: .init(userInterfaceStyle: .light)
+                ),
+                named: "AfterAnimation-\(state.rawValue)-iPhone13Pro-light",
+                record: recording,
+                file: file,
+                line: line
+            )
+        }
+        
+        ViewHosting.host(view: sut)
+        defer { ViewHosting.expel() }
+        
+        wait(for: [exp], timeout: animationDuration + 0.05)
     }
     
 }

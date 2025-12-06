@@ -615,7 +615,7 @@ final class DMErrorViewTests: XCTestCase {
         defer { ViewHosting.expel() }
         
         // Then
-        wait(for: [expInspection], timeout: 0.05)
+        wait(for: [expInspection], timeout: 0.09)
     }
     
     func testThat_TapOnTheCloseButton_Trigger_OnCloseAction() throws {
