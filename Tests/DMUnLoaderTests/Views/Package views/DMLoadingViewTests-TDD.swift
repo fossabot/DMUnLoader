@@ -83,6 +83,7 @@ struct DMLoadingView_TDD<LLM: DMLoadingManager>: View {
             inspection?.visit(self, $0)
         }
 #endif
+        .tag(DMLoadingViewOwnSettings.tapGestureViewTag)
     }
 }
 
@@ -458,7 +459,8 @@ final class DMLoadingViewTests_TDD: XCTestCase {
             // When
             let sut = makeSUT(manager: loadingManager)
             
-            let inspectableView = try sut.inspect().zStack()
+            let inspectableView = try sut.inspect()
+                .find(viewWithTag: DMLoadingViewOwnSettings.tapGestureViewTag)
             
             // Then
             XCTAssertEqual(sut.loadingManager.loadableState,
