@@ -58,12 +58,12 @@
 - **Steps**:
   - [✅] Initialize the `DMLoadingView` with `loadableState = .success`.
   - [✅] Use snapshot testing to verify the appearance of the success view.
-  - [?] Inspect the view hierarchy to ensure the tag `0405` is assigned to the success view.
-  - [?] Verify that the success view includes a success message and optional call-to-action elements.
+  - [✅] Inspect the view hierarchy to ensure the tag `0405` is assigned to the success view.
+  - [?] Verify that the overlay animates smoothly into view. call-to-action elements.
 - **Expected Result**:
   - The success view is displayed with a semi-transparent overlay.
   - The tag `0405` is assigned to the success view.
-  - The success view includes a success message and optional elements.
+  - The overlay animates smoothly.
 - **Status**: ? / 🚧 / ❌ / ✅
 
 ---

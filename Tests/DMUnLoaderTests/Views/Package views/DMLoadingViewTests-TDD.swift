@@ -29,6 +29,9 @@ struct DMLoadingView_TDD<LLM: DMLoadingManager>: View {
         case .none:
             EmptyView()
                 .tag(DMLoadingViewOwnSettings.emptyViewTag)
+        case let .loading(provider):
+            provider.getLoadingView()
+                .tag(DMLoadingViewOwnSettings.loadingViewTag)
         case let .failure(error, provider, onRetry):
             provider.getErrorView(
                 error: error,
@@ -36,11 +39,9 @@ struct DMLoadingView_TDD<LLM: DMLoadingManager>: View {
                 onClose: DMButtonAction(loadingManager.hide)
             )
             .tag(DMLoadingViewOwnSettings.failureViewTag)
-        case let .loading(provider):
-            provider.getLoadingView()
-                .tag(DMLoadingViewOwnSettings.loadingViewTag)
         case let .success(object, provider):
             provider.getSuccessView(object: object)
+                .tag(DMLoadingViewOwnSettings.successViewTag)
         }
     }
     
@@ -300,6 +301,28 @@ final class DMLoadingViewTests_TDD: XCTestCase {
         ViewHosting.host(view: sut)
         defer { ViewHosting.expel() }
         wait(for: [exp], timeout: 0.3)
+    }
+    
+    func testLoadingView_AssignTagFromSettingsToSuccessStateView_WhenLoadingStateIsSuccess() throws {
+        // Given
+        let provider = StubDMLoadingViewProvider()
+        let loadingManager = StubDMLoadingManager(
+            loadableState: .success(
+                "Test Success",
+                provider: provider.eraseToAnyViewProvider()
+            )
+        )
+        
+        // When
+        let sut = makeSUT(manager: loadingManager)
+        let tagToFindTheView = DMLoadingViewOwnSettings.successViewTag
+        let actualView = try sut
+            .inspect()
+            .find(viewWithTag: tagToFindTheView)
+        
+        // Then
+        XCTAssertNotNil(actualView,
+                        "The SuccessView should have the correct tag assigned from settings: `\(tagToFindTheView)`")
     }
     
     // MARK: - Helpers
