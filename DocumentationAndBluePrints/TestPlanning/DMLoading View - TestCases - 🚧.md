@@ -68,13 +68,13 @@
 
 ---
 
-### Scenario 5: Verify Tap Gesture Behavior
+### Scenario 5: ? Verify Tap Gesture Behavior
 - **Description**: Check if the tap gesture behaves correctly.
 - **Steps**:
-  - [?] Tap on the overlay when the state is `.success`.
-  - [?] Verify that the view transitions back to `.none`.
-  - [?] Tap on the overlay when the state is `.loading`.
-  - [?] Verify that the tap has no effect.
+  - [✅] Tap on the overlay when the state is `.success`.
+  - [✅] Verify that the view transitions back to `.none`.
+  - [✅] Tap on the overlay when the state is `.loading`.
+  - [✅] Verify that the tap has no effect.
   - [?] Inspect the view hierarchy to ensure the tag `0515` is assigned to the tap gesture view.
 - **Expected Result**:
   - Tapping dismisses the view in `.success` and `.failure` states.

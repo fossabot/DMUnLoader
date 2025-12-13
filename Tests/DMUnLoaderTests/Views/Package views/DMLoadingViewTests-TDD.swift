@@ -51,11 +51,16 @@ struct DMLoadingView_TDD<LLM: DMLoadingManager>: View {
             switch loadableState {
             case .none:
                 overlayView
-            case .failure, .loading, .success:
+            case .failure,
+                    .loading,
+                    .success:
                 overlayView
-                .scaleEffect(animateTheAppearance ? 1 : 0.9)
-                .transition(.opacity)
-                .animation(.easeInOut, value: loadingManager.loadableState)
+                    .scaleEffect(animateTheAppearance ? 1 : 0.9)
+                    .transition(.opacity)
+                    .animation(
+                        .easeInOut,
+                        value: loadingManager.loadableState
+                    )
             }
         }
         .onAppear {
@@ -63,6 +68,16 @@ struct DMLoadingView_TDD<LLM: DMLoadingManager>: View {
         }
         .animation(Animation.spring(duration: 0.2),
                    value: animateTheAppearance)
+        .onTapGesture {
+            switch loadingManager.loadableState {
+            case .success,
+                    .failure,
+                    .none:
+                loadingManager.hide()
+            case .loading:
+                break
+            }
+        }
 #if DEBUG
         .onReceive(inspection?.notice ?? EmptyPublisher().notice) { [weak inspection] in
             inspection?.visit(self, $0)
@@ -337,6 +352,30 @@ final class DMLoadingViewTests_TDD: XCTestCase {
         )
     }
     
+    // MARK: - Scenario 5: Verify Tap Gesture Behavior
+    
+    func testLoadingView_DoesRespondToTapGestures_WhenInSuccessState() throws {
+        // Given & When
+        let provider = StubDMLoadingViewProvider()
+            .eraseToAnyViewProvider()
+        let currentStateConditions: [(DMLoadableType, DMLoadableType)] = [
+            (.success(
+                "Test Success",
+                provider: provider
+            ), .none),
+            (.loading(provider: provider), .loading(provider: provider)),
+            (.failure(
+                error: DMUnLoader.DMAppError.custom("Test Error"),
+                provider: provider.eraseToAnyViewProvider(),
+                onRetry: DMButtonAction {}
+            ), .none),
+            (.none, .none)
+        ]
+        
+        // Then
+        try checktLoadingView_RespondToTapGestures_ForStates(currentStateConditions)
+    }
+    
     // MARK: - Helpers
     
     private func makeSUT<LM: DMLoadingManager>(manager loadingManager: LM) -> DMLoadingView_TDD<LM> {
@@ -403,6 +442,39 @@ final class DMLoadingViewTests_TDD: XCTestCase {
         defer { ViewHosting.expel() }
         
         wait(for: [exp], timeout: animationDuration + 0.05)
+    }
+    
+    func checktLoadingView_RespondToTapGestures_ForStates(
+        _ statesCondition: [(given: DMLoadableType, expected: DMLoadableType)],
+        file: StaticString = #filePath,
+        line: UInt = #line
+    ) throws {
+        try statesCondition.forEach { currentStateCondition in
+            // Given
+            let loadingManager = StubDMLoadingManager(
+                loadableState: currentStateCondition.given
+            )
+            
+            // When
+            let sut = makeSUT(manager: loadingManager)
+            
+            let inspectableView = try sut.inspect().zStack()
+            
+            // Then
+            XCTAssertEqual(sut.loadingManager.loadableState,
+                           currentStateCondition.given,
+                           "The loading state should be `\(currentStateCondition.given)` before the user taps the view",
+                           file: file,
+                           line: line)
+            
+            try inspectableView.callOnTapGesture()
+            
+            XCTAssertEqual(sut.loadingManager.loadableState,
+                           currentStateCondition.expected,
+                           "The loading state should be `\(currentStateCondition.expected)` after the user taps the view",
+                           file: file,
+                           line: line)
+        }
     }
     
 }
