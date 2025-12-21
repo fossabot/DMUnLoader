@@ -377,6 +377,31 @@ final class DMLoadingViewTests_TDD: XCTestCase {
         try checktLoadingView_RespondToTapGestures_ForStates(currentStateConditions)
     }
     
+    // MARK: - Scenario 6: Verify Auto-Hide Behavior
+    
+    func testAutoHideBehavior_For_Success_Failure_None_States() throws {
+        // Given
+        let secondsAutoHideDelay: Double = 0.05
+        let provider = StubDMLoadingViewProvider()
+            .eraseToAnyViewProvider()
+        let statesToCheck: [DMLoadableType] = [
+            .success(
+                "Test Success",
+                provider: provider
+            ),
+            .failure(
+                error: DMUnLoader.DMAppError.custom("Test Error"),
+                provider: provider.eraseToAnyViewProvider(),
+                onRetry: DMButtonAction {}
+            ),
+            .none
+        ]
+        
+        // When & Then
+        try checkAutoHideBehavior_For_States(statesToCheck,
+                                             secondsAutoHideDelay: secondsAutoHideDelay)
+    }
+    
     // MARK: - Helpers
     
     private func makeSUT<LM: DMLoadingManager>(manager loadingManager: LM) -> DMLoadingView_TDD<LM> {
@@ -476,6 +501,46 @@ final class DMLoadingViewTests_TDD: XCTestCase {
                            "The loading state should be `\(currentStateCondition.expected)` after the user taps the view",
                            file: file,
                            line: line)
+        }
+    }
+    
+    func checkAutoHideBehavior_For_States(_ states: [DMLoadableType],
+                                          secondsAutoHideDelay: Double,
+                                          file: StaticString = #filePath,
+                                          line: UInt = #line) throws {
+        // Given
+        try states.forEach { state in
+            let settings = StubDMLoadingManagerSettings(autoHideDelay: .seconds(secondsAutoHideDelay))
+            let loadingManager = DMLoadingManagerMain(
+                state: state,
+                settings: settings
+            )
+            
+            // When
+            let sut = makeSUT(manager: loadingManager)
+            
+            let inspection = try XCTUnwrap(
+                sut.inspection,
+                "Inspection should be available in debug mode"
+            )
+            
+            // Then
+            let exp = inspection.inspect(after: secondsAutoHideDelay + 0.01) { view in
+                let actualView = try view.actualView()
+                
+                XCTAssertEqual(actualView
+                    .loadingManager
+                    .loadableState,
+                               .none,
+                               "Loading state should be `.none` after the auto-hide delay for given state: `\(state.rawValue)`",
+                               file: file,
+                               line: line)
+            }
+            
+            ViewHosting.host(view: sut)
+            defer { ViewHosting.expel() }
+            
+            wait(for: [exp], timeout: secondsAutoHideDelay + 0.02)
         }
     }
     

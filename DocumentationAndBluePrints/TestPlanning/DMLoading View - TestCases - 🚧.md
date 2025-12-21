@@ -84,27 +84,13 @@
 
 ---
 
-### Scenario 6: Verify Animation and Appearance
-- **Description**: Check if the animations and appearance are smooth and consistent.
-- **Steps**:
-  - [?] Transition between all states (`.none`, `.loading`, `.failure`, `.success`).
-  - [?] Use snapshot testing to verify the visual appearance of each state.
-  - [?] Inspect the animation duration and scaling effect.
-- **Expected Result**:
-  - Transitions between states are smooth and visually appealing.
-  - The animation duration is approximately 0.2 seconds.
-  - The overlay scales up slightly during the animation.
-- **Status**: ? / 🚧 / ❌ / ✅
-
----
-
-### Scenario 7: Verify Auto-Hide Behavior
+### Scenario 6: Verify Auto-Hide Behavior
 - **Description**: Check if the auto-hide behavior works as expected.
 - **Steps**:
-  - [?] Configure the `settings.autoHideDelay` to 10 seconds.
-  - [?] Initialize the `DMLoadingView` with `loadableState = .success`.
-  - [?] Wait for 10 seconds and verify that the view transitions back to `.none`.
-  - [?] Repeat the test for the `.failure` state.
+  - [✅] Configure the `settings.autoHideDelay` to `0.05` seconds.
+  - [✅] Initialize the `DMLoadingView` with `loadableState = .success`.
+  - [✅] Wait for `0.06` seconds and verify that the view transitions back to `.none`.
+  - [✅] Repeat the test for the `.failure` and `.none` states.
 - **Expected Result**:
   - The view automatically transitions back to `.none` after the specified delay.
 - **Status**: ? / 🚧 / ❌ / ✅
