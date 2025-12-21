@@ -80,7 +80,9 @@ struct DMLoadingView<LLM: DMLoadingManager>: View {
             switch loadableState {
             case .none:
                 overlayView
-            case .failure, .loading, .success:
+            case .failure,
+                    .loading,
+                    .success:
                 ZStack {
                     Color.black.opacity(animateTheAppearance ? 0.2 : 0)
                         .ignoresSafeArea()

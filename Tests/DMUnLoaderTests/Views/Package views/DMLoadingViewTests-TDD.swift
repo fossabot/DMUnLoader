@@ -54,13 +54,21 @@ struct DMLoadingView_TDD<LLM: DMLoadingManager>: View {
             case .failure,
                     .loading,
                     .success:
-                overlayView
-                    .scaleEffect(animateTheAppearance ? 1 : 0.9)
-                    .transition(.opacity)
-                    .animation(
-                        .easeInOut,
-                        value: loadingManager.loadableState
-                    )
+                
+                ZStack {
+                    Color.black.opacity(animateTheAppearance ? 0.2 : 0)
+                        .ignoresSafeArea()
+                    
+                    overlayView
+                        .padding(15)
+                        .background(Color.gray.opacity(animateTheAppearance ? 0.8 : 0.1))
+                        .cornerRadius(10)
+                        .scaleEffect(animateTheAppearance ? 1 : 0.9)
+                        .padding(15)
+                }
+                .transition(.opacity)
+                .animation(.easeInOut, value: loadingManager.loadableState)
+                .tag(DMLoadingViewOwnSettings.defaultViewTag)
             }
         }
         .onAppear {
@@ -165,8 +173,7 @@ final class DMLoadingViewTests_TDD: XCTestCase {
                     layout: .device(config: .iPhone13Pro),
                     traits: .init(userInterfaceStyle: .light)
                 ),
-                named: "View-LoadingState-iPhone13Pro-light",
-                record: false
+                named: "View-LoadingState-iPhone13Pro-light"
             )
         }
         
@@ -235,8 +242,7 @@ final class DMLoadingViewTests_TDD: XCTestCase {
                     layout: .device(config: .iPhone13Pro),
                     traits: .init(userInterfaceStyle: .light)
                 ),
-                named: "View-FailureState-iPhone13Pro-light",
-                record: false
+                named: "View-FailureState-iPhone13Pro-light"
             )
         }
         
@@ -274,8 +280,7 @@ final class DMLoadingViewTests_TDD: XCTestCase {
                     .failure(
                         error: DMUnLoader.DMAppError.custom("Test Error"),
                         provider: provider.eraseToAnyViewProvider()
-                    ),
-            record: false
+                    )
         )
     }
     
@@ -309,8 +314,7 @@ final class DMLoadingViewTests_TDD: XCTestCase {
                     layout: .device(config: .iPhone13Pro),
                     traits: .init(userInterfaceStyle: .light)
                 ),
-                named: "View-SuccessState-iPhone13Pro-light",
-                record: false
+                named: "View-SuccessState-iPhone13Pro-light"
             )
         }
         
@@ -348,8 +352,7 @@ final class DMLoadingViewTests_TDD: XCTestCase {
                     .success(
                         "Test Success",
                         provider: provider.eraseToAnyViewProvider()
-                    ),
-            record: false
+                    )
         )
     }
     
@@ -415,7 +418,7 @@ final class DMLoadingViewTests_TDD: XCTestCase {
     
     private func testLoadingView_TheOverlayAnimatesSmoothly_IntoView(
         state: DMLoadableType,
-        record recording: Bool = false,
+        record recording: Bool? = nil,
         file: StaticString = #filePath,
         line: UInt = #line
     ) throws {
