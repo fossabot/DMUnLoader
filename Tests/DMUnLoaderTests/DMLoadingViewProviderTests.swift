@@ -200,7 +200,7 @@ final class DMLoadingViewProviderTests: XCTestCase {
         )
         
         let successView: MockDMSuccessViewTest = try castView(provider
-            .getSuccessView(object: MockDMLoadableTypeSuccess())
+            .getSuccessView(object: StubDMLoadableTypeSuccess())
         )
         
         XCTAssertTrue((loadingView as Any) is MockDMSuccessViewTest,

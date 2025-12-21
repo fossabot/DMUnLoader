@@ -7,7 +7,7 @@
 import SwiftUI
 @testable import DMUnLoader
 
-struct MockLoadingViewSettingsProvider: DMProgressViewSettings {
+struct StubLoadingViewSettingsProvider: DMProgressViewSettings {
     var frameGeometrySize: CGSize = CGSize(width: 200,
                                            height: 200)
     

@@ -7,7 +7,7 @@
 @testable import DMUnLoader
 import SwiftUI
 
-struct MockDMSuccessViewSettings: DMSuccessViewSettings {
+struct StubDMSuccessViewSettings: DMSuccessViewSettings {
     var spacingBetweenElements: CGFloat?
     
     var successImageProperties: SuccessImageProperties = SuccessImageProperties(
@@ -22,7 +22,7 @@ struct MockDMSuccessViewSettings: DMSuccessViewSettings {
     )
 }
 
-extension MockDMSuccessViewSettings: Hashable {
+extension StubDMSuccessViewSettings: Hashable {
     public static func == (lhs: Self, rhs: Self) -> Bool {
         lhs.hashValue == rhs.hashValue
     }

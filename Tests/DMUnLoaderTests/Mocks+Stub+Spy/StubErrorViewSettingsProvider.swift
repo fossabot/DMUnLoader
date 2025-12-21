@@ -7,7 +7,7 @@
 import SwiftUI
 @testable import DMUnLoader
 
-struct MockErrorViewSettingsProvider: DMErrorViewSettings {
+struct StubErrorViewSettingsProvider: DMErrorViewSettings {
     var errorImageSettings: ErrorImageSettings = .init(
         image: Image(systemName: "xmark.circle"),
         foregroundColor: .red,

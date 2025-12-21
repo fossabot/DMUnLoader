@@ -13,7 +13,7 @@ final class DMLoadingManagerTests: XCTestCase {
     private var cancellables: Set<AnyCancellable> = []
     
     override func tearDown() {
-       cancellables.removeAll()
+        cancellables.removeAll()
         super.tearDown()
     }
     
@@ -130,7 +130,7 @@ final class DMLoadingManagerTests: XCTestCase {
                                "loadableState should be updated to .failure with the correct error")
                 expectationFailure.fulfill()
             } else if case .none = state,
-                        expectationFailure.isFulfilled {
+                      expectationFailure.isFulfilled {
                 expectationIdle.fulfill()
             }
         }
@@ -247,7 +247,7 @@ final class DMLoadingManagerTests: XCTestCase {
             if case .success = state {
                 return
             } else if case .none = state,
-                        !expectationStateSuccessChange.isFulfilled {
+                      !expectationStateSuccessChange.isFulfilled {
                 expectationIdle.fulfill()
             }
             
@@ -265,7 +265,7 @@ final class DMLoadingManagerTests: XCTestCase {
     }
     
     // MARK: Helpers
-
+    
     @MainActor
     private func observeLoadableState(
         of sut: DMLoadingManagerMain,

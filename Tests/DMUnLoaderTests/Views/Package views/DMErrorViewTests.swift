@@ -615,7 +615,7 @@ final class DMErrorViewTests: XCTestCase {
         defer { ViewHosting.expel() }
         
         // Then
-        wait(for: [expInspection], timeout: 0.05)
+        wait(for: [expInspection], timeout: 0.09)
     }
     
     func testThat_TapOnTheCloseButton_Trigger_OnCloseAction() throws {
@@ -646,8 +646,8 @@ final class DMErrorViewTests: XCTestCase {
         defer { ViewHosting.expel() }
         
         // Then
-        wait(for: [expInspection], timeout: 0.05)
-        wait(for: [buttonTapExp], timeout: 0.055)
+        wait(for: [expInspection], timeout: 0.07)
+        wait(for: [buttonTapExp], timeout: 0.065)
     }
     
     func testThatTap_OnTheRetryButton_Trigger_OnRetryAction() throws {

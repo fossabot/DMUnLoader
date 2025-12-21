@@ -7,6 +7,6 @@
 import Foundation
 @testable import DMUnLoader
 
-struct MockDMLoadableTypeSuccess: DMLoadableTypeSuccess {
+struct StubDMLoadableTypeSuccess: DMLoadableTypeSuccess {
     var description: String = "Success!"
 }
