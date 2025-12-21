@@ -18,7 +18,7 @@ final class SchemaArgumentsTests: XCTestCase {
     
     func testIsInspectionEnabledWhenArgumentIsPresent() {
         // Arrange
-        let mockProcessInfoProvider = MockProcessInfoProvider(arguments: ["--enable-inspection"])
+        let mockProcessInfoProvider = StubProcessInfoProvider(arguments: ["--enable-inspection"])
         var schemaArguments = SchemaArguments()
         schemaArguments.currentProcessInfoProvider = mockProcessInfoProvider
         
@@ -29,7 +29,7 @@ final class SchemaArgumentsTests: XCTestCase {
     
     func testIsInspectionEnabledWhenArgumentIsMissing() {
         // Arrange
-        let mockProcessInfoProvider = MockProcessInfoProvider(arguments: [])
+        let mockProcessInfoProvider = StubProcessInfoProvider(arguments: [])
         var schemaArguments = SchemaArguments()
         schemaArguments.currentProcessInfoProvider = mockProcessInfoProvider
         
@@ -40,7 +40,7 @@ final class SchemaArgumentsTests: XCTestCase {
     
     func testIsInspectionEnabledWithCustomArguments() {
         // Arrange
-        let mockProcessInfoProvider = MockProcessInfoProvider(arguments: ["--other-argument",
+        let mockProcessInfoProvider = StubProcessInfoProvider(arguments: ["--other-argument",
                                                                           "--enable-inspection",
                                                                           "--another-argument"])
         var schemaArguments = SchemaArguments()

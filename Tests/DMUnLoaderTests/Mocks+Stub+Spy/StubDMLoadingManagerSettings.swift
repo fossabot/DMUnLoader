@@ -7,7 +7,7 @@
 import Foundation
 @testable import DMUnLoader
 
-struct MockDMLoadingManagerSettings: DMLoadingManagerSettings {
+struct StubDMLoadingManagerSettings: DMLoadingManagerSettings {
     let autoHideDelay: Duration
     
     init(autoHideDelay: Duration = .seconds(0.5)) {

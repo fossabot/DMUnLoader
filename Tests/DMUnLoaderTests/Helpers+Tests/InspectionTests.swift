@@ -76,7 +76,7 @@ final class InspectionTests: XCTestCase {
     @MainActor
     func testGetInspectionIfAvailableWhenEnabled() {
         var schemaArguments = SchemaArguments()
-        schemaArguments.currentProcessInfoProvider = MockProcessInfoProvider(arguments: ["--enable-inspection"])
+        schemaArguments.currentProcessInfoProvider = StubProcessInfoProvider(arguments: ["--enable-inspection"])
         
         let inspectionForModifier = MockViewModifier.getInspectionIfAvailable()
         let inspectionForView = Text.getInspectionIfAvailable()
@@ -90,7 +90,7 @@ final class InspectionTests: XCTestCase {
     @MainActor
     func testGetInspectionIfAvailableWhenDisabled() {
         var schemaArguments = SchemaArguments()
-        schemaArguments.currentProcessInfoProvider = MockProcessInfoProvider(arguments: ["XXX23"])
+        schemaArguments.currentProcessInfoProvider = StubProcessInfoProvider(arguments: ["XXX23"])
         
         let inspectionForModifier = MockViewModifier.getInspectionIfAvailable()
         let inspectionForView = Text.getInspectionIfAvailable()

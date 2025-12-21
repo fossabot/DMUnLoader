@@ -7,7 +7,7 @@
 import SwiftUI
 @testable import DMUnLoader
 
-struct MockDMErrorViewSettings: DMErrorViewSettings {
+struct StubDMErrorViewSettings: DMErrorViewSettings {
     var errorText: String? = "Mock Error Occurred"
     
     var actionButtonCloseSettings = ActionButtonSettings(text: "Close")
@@ -27,7 +27,7 @@ struct MockDMErrorViewSettings: DMErrorViewSettings {
     )
 }
 
-extension MockDMErrorViewSettings: Hashable {
+extension StubDMErrorViewSettings: Hashable {
     static public func == (lhs: Self, rhs: Self) -> Bool {
         lhs.hashValue == rhs.hashValue
     }

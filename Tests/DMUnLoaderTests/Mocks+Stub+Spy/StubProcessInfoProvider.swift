@@ -6,6 +6,6 @@
 
 @testable import DMUnLoader
 
-internal struct MockProcessInfoProvider: ProcessInfoProvider {
+struct StubProcessInfoProvider: ProcessInfoProvider {
     var arguments: [String]
 }

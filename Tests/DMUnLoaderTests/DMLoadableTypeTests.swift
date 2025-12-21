@@ -14,7 +14,7 @@ final class DMLoadableTypeTests: XCTestCase {
     @MainActor
     func testRawValueForLoading() {
         let loadableType = DMLoadableType.loading(
-            provider: MockDMLoadingViewProvider().eraseToAnyViewProvider()
+            provider: StubDMLoadingViewProvider().eraseToAnyViewProvider()
         )
         XCTAssertEqual(loadableType.rawValue,
                        "Loading",
@@ -28,7 +28,7 @@ final class DMLoadableTypeTests: XCTestCase {
                             userInfo: nil)
         let loadableType = DMLoadableType.failure(
             error: error,
-            provider: MockDMLoadingViewProvider().eraseToAnyViewProvider(),
+            provider: StubDMLoadingViewProvider().eraseToAnyViewProvider(),
             onRetry: DMButtonAction({})
         )
         XCTAssertEqual(loadableType.rawValue,
@@ -37,10 +37,10 @@ final class DMLoadableTypeTests: XCTestCase {
     }
     
     @MainActor func testRawValueForSuccess() {
-        let successObject = MockDMLoadableTypeSuccess(description: "Mock Success")
+        let successObject = StubDMLoadableTypeSuccess(description: "Mock Success")
         let loadableType = DMLoadableType.success(
             successObject,
-            provider: MockDMLoadingViewProvider().eraseToAnyViewProvider()
+            provider: StubDMLoadingViewProvider().eraseToAnyViewProvider()
         )
         XCTAssertEqual(loadableType.rawValue,
                        "Success: `Mock Success`",
@@ -77,7 +77,7 @@ final class DMLoadableTypeTests: XCTestCase {
                              code: 2,
                              userInfo: nil)
         
-        let provider = MockDMLoadingViewProvider().eraseToAnyViewProvider()
+        let provider = StubDMLoadingViewProvider().eraseToAnyViewProvider()
         
         let loading1 = DMLoadableType.loading(provider: provider)
         let loading2 = DMLoadableType.loading(provider: provider)
@@ -99,15 +99,15 @@ final class DMLoadableTypeTests: XCTestCase {
         )
         
         let success1 = DMLoadableType.success(
-            MockDMLoadableTypeSuccess(description: "Mock Success"),
+            StubDMLoadableTypeSuccess(description: "Mock Success"),
             provider: provider
         )
         let success2 = DMLoadableType.success(
-            MockDMLoadableTypeSuccess(description: "Mock Success"),
+            StubDMLoadableTypeSuccess(description: "Mock Success"),
             provider: provider
         )
         let success3 = DMLoadableType.success(
-            MockDMLoadableTypeSuccess(description: "Different Success"),
+            StubDMLoadableTypeSuccess(description: "Different Success"),
             provider: provider
         )
         
@@ -139,9 +139,9 @@ final class DMLoadableTypeTests: XCTestCase {
         let error = NSError(domain: "TestError",
                             code: 1,
                             userInfo: nil)
-        let successObject = MockDMLoadableTypeSuccess(description: "Mock Success")
+        let successObject = StubDMLoadableTypeSuccess(description: "Mock Success")
         
-        let provider = MockDMLoadingViewProvider().eraseToAnyViewProvider()
+        let provider = StubDMLoadingViewProvider().eraseToAnyViewProvider()
         
         let loading = DMLoadableType.loading(provider: provider)
         let failure = DMLoadableType.failure(error: error,
