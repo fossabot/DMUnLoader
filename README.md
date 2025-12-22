@@ -1,6 +1,5 @@
 # DMUnLoader (Universal Loader & Result Handler)
-
-[![CI_tests](https://github.com/nikolay-dementiev/DMUnLoader/actions/workflows/CI_tests.yml/badge.svg)](https://github.com/nikolay-dementiev/DMUnLoader/actions/workflows/CI_tests.yml)
+[![Build Status](https://app.bitrise.io/app/9e391394-db73-473f-998a-2026373de643/status.svg?token=mL8evw6RHiRtfKSiQ82zuw&branch=develop)](https://app.bitrise.io/app/9e391394-db73-473f-998a-2026373de643)
 
 ## Overview
 
