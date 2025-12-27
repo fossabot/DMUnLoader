@@ -1,6 +1,6 @@
 # Acceptance Criteria for "Progress Indicator Module"
 
-## 1. Default Initialization
+## ✅ 1. Default Initialization
 - **Scenario**: The progress indicator is initialized with default settings.
 - **Criteria**:
   - A circular progress indicator should be displayed.
@@ -10,7 +10,7 @@
 
 ---
 
-## 2. Custom Settings
+## ✅ 2. Custom Settings
 - **Scenario**: The progress indicator is initialized with custom settings.
 - **Criteria**:
   - The view should display custom text provided in the settings (e.g., `"Processing..."`).
@@ -21,15 +21,15 @@
 
 ---
 
-## 3. Localization Support
+## 3. ? Localization Support
 - **Scenario**: The progress indicator supports localized text.
 - **Criteria**:
-  - When the system language is set to Ukrainian, the view should display the localized text `"Завантаження..."`.
+  - When the system language is set to Ukrainian, the view should display the localized text `"Loading..."`.
   - The localized text should be visually aligned and properly scaled within the view.
 
 ---
 
-## 4. Dynamic Layout Behavior
+## 4. ? Dynamic Layout Behavior
 - **Scenario**: The progress indicator adapts to different geometry sizes.
 - **Criteria**:
   - For small frame sizes (e.g., `CGSize(width: 100, height: 100)`), the progress indicator and text should scale appropriately without overlapping or overflowing.
@@ -37,7 +37,7 @@
 
 ---
 
-## 5. Accessibility Features
+## 5. ? Accessibility Features
 - **Scenario**: The progress indicator supports accessibility features.
 - **Criteria**:
   - The progress indicator should be accessible via VoiceOver or similar tools.
@@ -46,7 +46,7 @@
 
 ---
 
-## 6. Visual Consistency
+## 6.✅ Visual Consistency
 - **Scenario**: The visual appearance of the progress indicator is consistent across configurations.
 - **Criteria**:
   - The view should look visually consistent when initialized with default settings, custom settings, or localized text.
