@@ -30,6 +30,7 @@ Built with **SwiftUI**, it supports both **UIKit** and **SwiftUI** environments,
 ## Table of Contents
 
 - [🎬 Demo: Loading, Success & Error States](#-demo-loading-success--error-states)
+- [🧭 Very High-Level Architecture in Picture](#🧭-very-high-level-architecture-in-picture)
 - [📥 Installation](#📥-installation)
    - [📦 Swift Package Manager](#📦-swift-package-manager)
    - [🍫 CocoaPods](#🍫-cocoapods)
@@ -74,6 +75,18 @@ Watch how `DMUnLoader` behaves in different states with `default` (left) and `cu
 <p align="left">
   <img src="./DocumentationAndBluePrints/Assets/TestProject-ScreenRecording/Error-Default+Custom-Recording.gif?raw=true" alt="Error Demo" style="max-height: 500px; aspect-ratio: 640/694; object-fit: scale-dow;">
 </p>
+
+---
+
+### 🧭 Very High-Level Architecture in Picture
+> click on the image to view it in full screen mode
+<p align="center">
+  <a href="./DocumentationAndBluePrints/Assets/plantumUML-base APP+SDK schema.svg?raw=true" target="_blank">
+    <img src="./DocumentationAndBluePrints/Assets/plantumUML-base APP+SDK schema.svg?raw=true" alt="High-Level Architecture" style="max-height: 800px; aspect-ratio: 3012 / 1870; object-fit: scale-down;">
+  </a>
+</p>
+
+---
 
 ## 📥 Installation
 
