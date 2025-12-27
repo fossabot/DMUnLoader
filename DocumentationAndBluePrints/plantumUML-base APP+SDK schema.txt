@@ -1,0 +1,109 @@
+@startuml
+skinparam rectangle {
+    BackgroundColor<<protocol>> LightBlue
+    BackgroundColor<<class>> LightGreen
+    BackgroundColor<<struct>> LightCyan
+}
+
+' --- App Entry Point ---
+rectangle "App Initialization" #LightYellow {
+    [App] --> [DMAppDelegateType]
+    [DMAppDelegateType] --> [UISceneConfiguration]
+    [UISceneConfiguration] --> [DMSceneDelegateBase<LM>]
+}
+
+' --- Scene Delegate & Window Setup ---
+rectangle "Window System (HUD)" #LightGray {
+    [DMSceneDelegateBase<LM>] --> [setupHudWindow(in:)]
+    [setupHudWindow(in:)] --> [DMPassThroughWindow]
+    [DMPassThroughWindow] --> [UIHostingController]
+    [UIHostingController] --> [DMHudSceneView<LM>]
+}
+
+' --- Core State Management ---
+rectangle "State Management & Views" #LightCyan {
+    [DMHudSceneView<LM>] --> [DMLoadingView<LLM>]
+    [DMLoadingView<LLM>] --> [loadingManager: LLM @ObservedObject]
+
+    note right of [DMLoadingView<LLM>]
+      Observes loadingManager.loadableState.
+      Switches between:
+      - .none → EmptyView
+      - .loading → provider.getLoadingView()
+      - .failure → provider.getErrorView(...)
+      - .success → provider.getSuccessView(...)
+    end note
+
+    [loadingManager: LLM] --> [DMLoadableType]
+    [DMLoadableType] --> [showLoading(provider:)]
+    [DMLoadableType] --> [showFailure(error:, provider:, onRetry:)]
+    [DMLoadableType] --> [showSuccess(message:, provider:)]
+
+    [showLoading(provider:)] --> [provider: DMLoadingViewProvider]
+
+    note right of [provider: DMLoadingViewProvider]
+      Dependency Inversion:
+      Client can provide custom views or settings via protocol.
+    end note
+}
+
+' --- Provider & Settings ---
+rectangle "Customization Layer" #LightGreen {
+    [provider: DMLoadingViewProvider] --> [getLoadingView()]
+    [provider: DMLoadingViewProvider] --> [getErrorView(...)]
+    [provider: DMLoadingViewProvider] --> [getSuccessView(...)]
+
+    [provider: DMLoadingViewProvider] --> [loadingManagerSettings: DMLoadingManagerSettings]
+    [provider: DMLoadingViewProvider] --> [loadingViewSettings: DMProgressViewSettings]
+    [provider: DMLoadingViewProvider] --> [errorViewSettings: DMErrorViewSettings]
+    [provider: DMLoadingViewProvider] --> [successViewSettings: DMSuccessViewSettings]
+
+    note right of [provider: DMLoadingViewProvider]
+      Settings are optional.
+      Defaults provided if not overridden.
+    end note
+}
+
+' --- View Rendering ---
+rectangle "Rendered Views" #LightBlue {
+    [getLoadingView()] --> [DMProgressView]
+    [getErrorView(...)] --> [DMErrorView]
+    [getSuccessView(...)] --> [DMSuccessView]
+
+    note right of [DMProgressView]
+      Renders loading state with progress indicator + text.
+      Uses settings for styling.
+    end note
+
+    note right of [DMErrorView]
+      Renders error state with icon, message, retry/close buttons.
+      Uses settings for styling.
+    end note
+
+    note right of [DMSuccessView]
+      Renders success state with icon + message.
+      Uses settings for styling.
+    end note
+}
+
+' --- Connections ---
+[App] ..> [DMRootLoadingView] : via @UIApplicationDelegateAdaptor
+[DMRootLoadingView] --> [loadingManager: LLM] : holds reference
+[DMRootLoadingView] --> [DMLoadingView<LLM>] : passes loadingManager
+
+note right of [DMRootLoadingView]
+  Entry point for SwiftUI apps.
+  Holds and provides loadingManager to child views.
+end note
+
+' --- Arrows for Flow ---
+[App] --> [DMAppDelegateType] : starts lifecycle
+[DMSceneDelegateBase<LM>] --> [setupHudWindow(in:)] : creates HUD window
+[DMPassThroughWindow] --> [UIHostingController] : hosts DMHudSceneView
+[DMHudSceneView<LM>] --> [DMLoadingView<LLM>] : renders current state
+[DMLoadingView<LLM>] --> [loadingManager: LLM] : observes state changes
+[loadingManager: LLM] --> [DMLoadableType] : triggers state transitions
+[DMLoadableType] --> [provider: DMLoadingViewProvider] : delegates view creation
+[provider: DMLoadingViewProvider] --> [DMProgressView / DMErrorView / DMSuccessView] : returns concrete views
+
+@enduml
