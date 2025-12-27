@@ -13,7 +13,6 @@ final class LoadingContentViewUIKit<
     LM: DMLoadingManager
 >: UIView {
     private let viewModel = LoadingContentViewModel<Provider,LM>()
-    private var cancellables = Set<AnyCancellable>()
     
     private let stackView = UIStackView()
     private let titleLabel = UILabel()
