@@ -6,6 +6,7 @@
 [![Platform](https://img.shields.io/badge/platform-iOS-blue)](https://developer.apple.com/ios)
 [![SPM Compatible](https://img.shields.io/badge/SPM-compatible-orange?style=flat-square)](https://img.shields.io/badge/Swift_Package_Manager-compatible-orange?style=flat-square)
 [![CocoaPods Compatible](https://img.shields.io/cocoapods/v/DMUnLoader.svg?style=flat-square)](https://img.shields.io/cocoapods/v/DMUnLoader.svg)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fnikolay-dementiev%2FDMUnLoader.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fnikolay-dementiev%2FDMUnLoader?ref=badge_shield)
 
 <p align="center">
   <img src="./DocumentationAndBluePrints/Assets/DMUnloade_mainImage.png?raw=true" alt="DMAction-SDK-logo" style="max-height: 400px; aspect-ratio: 16/9; object-fit: scale-dow;">
@@ -367,6 +368,9 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 
 ---
+
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fnikolay-dementiev%2FDMUnLoader.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fnikolay-dementiev%2FDMUnLoader?ref=badge_large)
 
 ### 🤝 Contributing
 Contributions are welcome! Please feel free to submit a Pull Request or open an issue for any bugs or feature requests.
